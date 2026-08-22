@@ -1,0 +1,22 @@
+# Roadmap 與規劃文件(不進版控)
+ROADMAP.md
+docs/phase-*.md
+
+# 生成產物與測試結果
+output/
+test-results/
+
+# 機密
+.env
+
+# Python
+__pycache__/
+.venv/
+*.pyc
+
+# Node
+node_modules/
+web/dist/
+
+# 系統
+.DS_Store
