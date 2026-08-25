@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import ModelViewer from './components/ModelViewer.vue'
 
 // 把 GLB 放到 web/public/models/ 後在這裡列出
-const models = ref<string[]>(['/models/model_raw.glb'])
+const models = ref<string[]>(['/models/model.glb', '/models/model_raw.glb'])
 const current = ref(models.value[0])
 </script>
 
