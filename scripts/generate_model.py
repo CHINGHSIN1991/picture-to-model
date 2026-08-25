@@ -9,6 +9,7 @@
 import argparse
 import hashlib
 import json
+import shutil
 import sys
 import time
 import uuid
@@ -106,6 +107,42 @@ def download(url: str, dest: Path) -> None:
     dest.write_bytes(r.content)
 
 
+def generate(image: Path, pbr: bool = True) -> Path:
+    """圖片 → Tripo → output/<job_id>/(model_raw.glb + source + metadata)。回傳 job dir。"""
+    job_id = uuid.uuid4().hex[:12]
+    out_dir = Path("output") / job_id
+    t0 = time.time()
+
+    print(f"[{job_id}] 上傳 {image} ...")
+    token = upload_image(image)
+    print(f"[{job_id}] 建立任務 ...")
+    task_id = create_task(image, token, pbr=pbr)
+    print(f"[{job_id}] task_id={task_id},輪詢中 ...")
+    result = poll_task(task_id)
+
+    output = result.get("output", {})
+    field, model_url = pick_model_url(output)
+    dest = out_dir / "model_raw.glb"
+    print(f"[{job_id}] 下載 {field} → {dest}")
+    download(model_url, dest)
+    shutil.copy(image, out_dir / f"source{image.suffix.lower()}")
+
+    meta = {
+        "job_id": job_id,
+        "source_image": str(image),
+        "source_sha256": hashlib.sha256(image.read_bytes()).hexdigest(),
+        "provider": "tripo",
+        "task_id": task_id,
+        "model_field": field,
+        "output_keys": list(output.keys()),
+        "elapsed_sec": round(time.time() - t0, 1),
+        "glb_bytes": dest.stat().st_size,
+    }
+    (out_dir / "metadata.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2))
+    print(f"[{job_id}] 完成 ({meta['elapsed_sec']}s, {meta['glb_bytes']/1e6:.1f} MB) → {out_dir}/")
+    return out_dir
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("image", type=Path, nargs="?")
@@ -121,36 +158,7 @@ def main() -> None:
     if not args.image.exists():
         sys.exit(f"找不到圖片: {args.image}")
 
-    job_id = uuid.uuid4().hex[:12]
-    out_dir = Path("output") / job_id
-    t0 = time.time()
-
-    print(f"[{job_id}] 上傳 {args.image} ...")
-    token = upload_image(args.image)
-    print(f"[{job_id}] 建立任務 ...")
-    task_id = create_task(args.image, token, pbr=not args.no_pbr)
-    print(f"[{job_id}] task_id={task_id},輪詢中 ...")
-    result = poll_task(task_id)
-
-    output = result.get("output", {})
-    field, model_url = pick_model_url(output)
-    dest = out_dir / "model_raw.glb"
-    print(f"[{job_id}] 下載 {field} → {dest}")
-    download(model_url, dest)
-
-    meta = {
-        "job_id": job_id,
-        "source_image": str(args.image),
-        "source_sha256": hashlib.sha256(args.image.read_bytes()).hexdigest(),
-        "provider": "tripo",
-        "task_id": task_id,
-        "model_field": field,
-        "output_keys": list(output.keys()),
-        "elapsed_sec": round(time.time() - t0, 1),
-        "glb_bytes": dest.stat().st_size,
-    }
-    (out_dir / "metadata.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2))
-    print(f"[{job_id}] 完成 ({meta['elapsed_sec']}s, {meta['glb_bytes']/1e6:.1f} MB) → {out_dir}/")
+    generate(args.image, pbr=not args.no_pbr)
 
 
 if __name__ == "__main__":

@@ -5,6 +5,46 @@
 
 ---
 
+## 2026-08-25 — Phase 2 Step 2-4 / 2-5 / 2-6:程式化攝影棚渲染 + 單一指令 pipeline
+
+### 程式碼更新
+
+| 檔案 | 內容 |
+|---|---|
+| `scripts/blender/setup_lighting.py` | 新增。程式化三點打光(Key 75°/45° 400W、Fill −30°/20° 130W、Rim 200°/40° 250W,Area Light)+ HDRI 環境光(`assets/studio_small_08_1k.hdr`,強度 0.4;檔案不在時退均勻灰)。 |
+| `scripts/blender/setup_camera.py` | 新增。自動取景:固定球座標(方位角 30°、仰角 18°、50mm),距離依 bounding box 與 FOV 計算(留白係數 1.4),保證完整入鏡。 |
+| `scripts/blender/render.py` | 新增。Cycles 渲染:Metal GPU(失敗退 CPU)、128 samples + denoising、透明底片 + shadow catcher 地板(白底商品圖帶自然接觸陰影)、輸出帶 alpha 的 PNG,統計寫 metadata `render` 欄位。 |
+| `scripts/render_model.py` | 新增(venv 端)。呼叫 render.py 後以 Pillow 合成白底,轉出 `preview.webp`(1600px)與 `thumbnail.webp`(400px),刪中間 PNG。 |
+| `scripts/pipeline.py` | 新增。單一指令串接 generate → cleanup → material → render,各階段狀態/耗時寫 metadata `stages`,fail fast;`--skip-generate --job-dir` 可重跑後段省 API 額度。 |
+| `scripts/generate_model.py` | 重構:抽出可 import 的 `generate()`;補拷貝 `source.<ext>` 進 job dir(規格要求,先前缺漏)。 |
+| `assets/studio_small_08_1k.hdr` | 新增。Poly Haven studio HDRI(CC0)。 |
+| `pyproject.toml` | 新增相依 `pillow`(WebP 轉檔)。 |
+
+與文件規劃的差異:
+
+- **不建手動 `studio.blend`**,改為全程式化場景(可版本控制、免 GUI);之後若要手調再補
+- 縮圖不用 Eevee 另渲,直接由 Cycles 1600px 縮放(品質更好、省一次渲染)
+- 不另寫 `export_glb.py`:cleanup / setup_material 已各自負責匯出,無「場景最終狀態」需要再匯的情境
+
+### 實測結果
+
+| Job | 渲染耗時(Metal GPU) | preview.webp | thumbnail.webp |
+|---|---|---|---|
+| vintage-radio(160724017c66) | 134.9s | 1600px | 400px |
+| fishbowl(940b1dd831ac) | 40.9s | 79 KB | 8 KB |
+
+- 兩張商品圖風格一致:白底、柔和接觸陰影、同構圖角度,肉眼確認達商品縮圖水準
+- `pipeline.py --skip-generate` 全程 **48.4s**(cleanup 5.3 + material 1.4 + render 41.7),stages 正確記錄
+- 完整輸出結構:`model_raw/high/model.glb + preview.webp + thumbnail.webp + metadata.json`(新 job 另有 `source.<ext>`)
+
+### 待辦 / 下一步
+
+- [ ] 用新圖片跑一次完整 pipeline(含 generate)驗證 source 拷貝與全流程
+- [ ] coral-mound(organic)素材驗證
+- [ ] Phase 2 驗收清單逐項確認 → 進 Phase 3(PBR 貼圖生成)
+
+---
+
 ## 2026-08-25 — cleanup 修正:非水密網格的內部面誤刪防護 + TRELLIS.2 實測
 
 ### 程式碼更新
