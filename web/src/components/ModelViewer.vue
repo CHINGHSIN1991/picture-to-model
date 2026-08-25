@@ -1,14 +1,40 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
-import { computed } from 'vue'
-import { Box3, Vector3 } from 'three'
+import { computed, ref, watch } from 'vue'
+import { Box3, Vector3, type Mesh } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import type { CameraSync } from './cameraSync'
 
-const props = defineProps<{ url: string }>()
+const props = defineProps<{
+  url: string
+  // 比較模式:傳入共享相機狀態與 pane 代號,雙邊視角同步
+  sync?: CameraSync
+  paneId?: string
+}>()
+const emit = defineEmits<{ loaded: [stats: { triangles: number; bytes: number | null }] }>()
 
 const gltf = await new GLTFLoader().loadAsync(props.url)
 const model = gltf.scene
+
+// 統計三角形數與檔案大小,給比較頁顯示
+let triangles = 0
+model.traverse((o) => {
+  const mesh = o as Mesh
+  if (mesh.isMesh && mesh.geometry) {
+    const g = mesh.geometry
+    triangles += Math.floor((g.index ? g.index.count : g.attributes.position.count) / 3)
+  }
+})
+let bytes: number | null = null
+try {
+  const res = await fetch(props.url, { method: 'HEAD' })
+  const len = res.headers.get('content-length')
+  bytes = len ? Number(len) : null
+} catch {
+  // 拿不到檔案大小就不顯示
+}
+emit('loaded', { triangles, bytes })
 
 const cameraPos = new Vector3(2.2, 1.4, 2.2)
 const origin = new Vector3(0, 0, 0)
@@ -27,12 +53,40 @@ const normalized = computed(() => {
   model.scale.setScalar(scale)
   return model
 })
+
+// --- 相機同步(僅比較模式) ---
+const controlsRef = ref<{ instance?: { object: any; target: any; update: () => void } } | null>(null)
+
+function onControlsChange() {
+  const c = controlsRef.value?.instance
+  if (!props.sync || !props.paneId || !c) return
+  if (props.sync.active !== props.paneId) return // 只有滑鼠所在的 pane 發布
+  props.sync.pos = [c.object.position.x, c.object.position.y, c.object.position.z]
+  props.sync.target = [c.target.x, c.target.y, c.target.z]
+}
+
+watch(
+  () => (props.sync ? [...props.sync.pos, ...props.sync.target].join(',') : ''),
+  () => {
+    const c = controlsRef.value?.instance
+    if (!props.sync || !c || props.sync.active === props.paneId) return
+    c.object.position.set(...props.sync.pos)
+    c.target.set(...props.sync.target)
+    c.update()
+  },
+)
 </script>
 
 <template>
   <TresCanvas clear-color="#1a1a2e" shadows>
     <TresPerspectiveCamera :position="cameraPos" :look-at="origin" />
-    <OrbitControls enable-damping :min-distance="1" :max-distance="8" />
+    <OrbitControls
+      ref="controlsRef"
+      enable-damping
+      :min-distance="1"
+      :max-distance="8"
+      @change="onControlsChange"
+    />
     <TresAmbientLight :intensity="0.5" />
     <TresDirectionalLight :position="keyLightPos" :intensity="1.4" cast-shadow />
     <TresDirectionalLight :position="fillLightPos" :intensity="0.4" />

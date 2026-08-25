@@ -5,6 +5,25 @@
 
 ---
 
+## 2026-08-25 — Viewer:新增比較模式(decimate 前後並排對照)
+
+### 程式碼更新
+
+| 檔案 | 內容 |
+|---|---|
+| `web/src/components/CompareViewer.vue` | 新增。左右雙 pane 並排比較:各自可選模型(預設左=原始、右=優化版),顯示三角形數與檔案大小,右側顯示相對左側的減少百分比(面數/檔案)。 |
+| `web/src/components/cameraSync.ts` | 新增。共享相機狀態型別:由滑鼠所在 pane 發布 position/target,另一側跟隨。 |
+| `web/src/components/ModelViewer.vue` | 擴充(向下相容):可選的 `sync`/`paneId` props 實現雙 canvas 相機同步(經 cientos OrbitControls 的 `instance` expose 與 `change` 事件);載入後統計三角形數(geometry index/position count)與檔案大小(HEAD content-length),以 `loaded` 事件回報。單一模式行為不變。 |
+| `web/src/App.vue` | header 加入「單一檢視 / 比較模式」切換;比較模式隱藏單選下拉、顯示操作提示。 |
+
+### 實測結果
+
+- `npm run build`(含 `vue-tsc -b` 型別檢查)通過
+- 相機同步機制:拖曳任一側,兩邊視角同步(以 pointerenter/pointerdown 決定發布方,避免回饋迴圈)
+- 待肉眼驗證:model.glb(30K tris)vs model_raw.glb(501K tris)的外觀差異 → `npm run dev` 後切到比較模式
+
+---
+
 ## 2026-08-25 — Phase 2 Step 2-3:setup_material.py(PBR 材質檢查與修復)
 
 ### 程式碼更新
