@@ -5,6 +5,36 @@
 
 ---
 
+## 2026-08-25 — Phase 2 Step 2-3:setup_material.py(PBR 材質檢查與修復)
+
+### 程式碼更新
+
+| 檔案 | 內容 |
+|---|---|
+| `scripts/blender/setup_material.py` | 新增。材質修復腳本:(1) 修 Image Texture 的 color space——連到 Base Color / Emission 用 sRGB,其餘一律 Non-Color;(2) 從 Material Output 反向走訪,移除沒有貢獻到輸出的孤兒節點;(3) 無材質的 mesh 補中性灰 Principled BSDF(#8A8A8A、Roughness 0.5)避免渲染全黑。統計寫進 `metadata.json` 的 `material` 欄位。支援 `--job-dir`(就地修復 model_high.glb + model.glb)或 `--input/--output` 單檔模式。 |
+
+使用方式:
+
+```bash
+uv run scripts/run_blender.py setup_material -- --job-dir output/<job_id>
+```
+
+### 實測結果
+
+- 對 `output/160724017c66` 執行:兩檔各 1 個材質,**0 個需要修復**(1.0s)——Tripo 輸出的節點結構已完全符合 glTF PBR 標準(BaseColor→Base Color、ORM→Separate Color→Metallic/Roughness、Normal→Normal Map),color space 也正確
+- 三條修復路徑以測試案例驗證:
+  - 無材質 cube → 正確補上 fallback 灰材質 ✅
+  - 場景內單元測試(colorspace 設錯 ×2 + 孤兒節點 ×1)→ 全部斷言通過 ✅
+- **前次記錄的 glTF 匯出警告已查明**:`More than one shader node tex image` 是 Blender 5.2 匯出器對「Metallic 與 Roughness 經 Separate Color 分接同一張 ORM 貼圖」的**誤報**(同一節點被計兩次),資料本身正確、無法也不需從資料端修,可忽略
+- 注意:colorspace 修復在「匯入 GLB → 匯出」流程中理論上不會觸發(Blender glTF 匯入器會自動設對),它的價值在 Phase 3 自行烘焙/替換貼圖時作為安全網
+
+### 待辦 / 下一步
+
+- [ ] Step 2-4:手動建 `assets/studio.blend` 攝影棚場景(需 GUI 操作)
+- [ ] Step 2-5+:setup_camera / setup_lighting / render 自動渲染商品圖
+
+---
+
 ## 2026-08-25 — 本地生成方案評估:安裝 trellis-mac(TRELLIS.2 on Apple Silicon)
 
 > 動機:除了 Tripo API,評估本地模型生成的可行性(免 API 費用、資料不出機器)。
