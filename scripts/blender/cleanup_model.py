@@ -22,6 +22,9 @@ import bpy
 sys.path.insert(0, str(Path(__file__).parent))
 from _util import export_glb, import_glb, reset_scene, script_args, select_only, triangle_count
 
+# 內部面選中比例超過此值視為 select_interior_faces 誤判(非水密網格),跳過刪除
+MAX_INTERIOR_RATIO = 0.5
+
 
 def parse_args() -> argparse.Namespace:
     ap = argparse.ArgumentParser(description=__doc__)
@@ -81,9 +84,20 @@ def repair_mesh(obj: bpy.types.Object, keep_interior: bool) -> dict:
         bpy.ops.mesh.select_all(action="DESELECT")
         bpy.ops.mesh.select_mode(type="FACE")
         bpy.ops.mesh.select_interior_faces()
-        bpy.ops.mesh.delete(type="FACE")
+        # 非水密網格(如 TRELLIS 輸出)會讓 select_interior_faces 把大半
+        # 表面誤判成內部面。選中比例過高視為誤判,跳過刪除保住模型。
         bpy.ops.object.mode_set(mode="OBJECT")
-        interior_removed = faces_before - len(obj.data.polygons)
+        selected = sum(1 for p in obj.data.polygons if p.select)
+        if 0 < selected <= faces_before * MAX_INTERIOR_RATIO:
+            bpy.ops.object.mode_set(mode="EDIT")
+            bpy.ops.mesh.delete(type="FACE")
+            bpy.ops.object.mode_set(mode="OBJECT")
+            interior_removed = faces_before - len(obj.data.polygons)
+        elif selected:
+            print(
+                f"[cleanup] 警告: 內部面選中 {selected}/{faces_before} "
+                f"(> {MAX_INTERIOR_RATIO:.0%}),疑似非水密網格誤判,跳過刪除"
+            )
     else:
         bpy.ops.object.mode_set(mode="OBJECT")
     return {

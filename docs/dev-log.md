@@ -5,6 +5,56 @@
 
 ---
 
+## 2026-08-25 — cleanup 修正:非水密網格的內部面誤刪防護 + TRELLIS.2 實測
+
+### 程式碼更新
+
+| 檔案 | 內容 |
+|---|---|
+| `scripts/blender/cleanup_model.py` | `repair_mesh()` 刪除內部面前先計算選中比例:超過 `MAX_INTERIOR_RATIO`(50%)視為 `select_interior_faces` 對非水密網格的誤判,跳過刪除並記警告。 |
+
+**觸發案例**:TRELLIS.2 的輸出網格不是水密的(上游刻意停用 hole filling),`select_interior_faces` 把 196,738 / 199,953 個面誤判為內部面——修正前模型被刪到只剩 916 tris,修正後完整保留。回歸測試:Tripo 兩個 job(水密網格)行為不變(內部面移除 170 / 198 個)。
+
+### TRELLIS.2 本地生成實測(vintage-radio,front.png,pipeline=512)
+
+| 項目 | TRELLIS.2 本地(M4 24GB) | Tripo API |
+|---|---|---|
+| 生成耗時 | **451.7s** + 貼圖烘焙 167s ≈ **10.3 分** | **112.1s** |
+| 原始輸出 | 1,824,936 tris → 內部簡化 ~200K tris、8.85 MB(KDTree 烘焙 1024 貼圖) | 501,102 tris、15.1 MB |
+| cleanup 後 Web 版 | 36,649 tris、6.9 MB(decimate ratio 0.1518) | 30,000 tris、1.6 MB |
+| 材質 | basecolor(KDTree 烘焙,無 Metal 加速) | 完整 PBR(basecolor + ORM + normal) |
+
+- Web 版 36,649 tris 超過 30K 目標:Decimate modifier 的 ratio 按面數比例估算,對三角形分布不均的網格會有偏差,可接受;要精準就得迭代式 decimate(暫不做)
+- 成果已放入 viewer(`trellis_radio.glb`),可與 Tripo 版(`model.glb`)比較模式對照
+- 初步結論:**Tripo 品質與速度目前領先**(PBR 完整、水密網格、快 5 倍);TRELLIS.2 本地的優勢是免費、資料不出機器,若裝 Xcode Metal Toolchain 烘焙品質/速度可再提升
+
+---
+
+## 2026-08-25 — 測試:fishbowl(reflective 素材)全 pipeline 驗證
+
+### 測試內容
+
+以 `test-assets/reflective/fishbowl/front.png` 走完整流程:Tripo 生成 → cleanup → 材質檢查 → viewer(job `940b1dd831ac`)。目的:驗證 cleanup 對玻璃/反射類模型的邊界情況。
+
+### 實測結果
+
+| 階段 | 數據 |
+|---|---|
+| Tripo 生成 | **104.9s**、15.1 MB(501,284 tris) |
+| cleanup | 高模 501,086 tris / Web 版 **30,000 tris**(ratio 0.0599)、**1.54 MB**(-90%),合併重複頂點 6,089、移除內部面 **198**,耗時 6.4s |
+| setup_material | 1 材質、0 需修復(Tripo 輸出同樣符合 glTF PBR 標準) |
+
+- 與 vintage-radio(hard-surface)數據幾乎同量級,pipeline 對不同類型素材行為一致
+- **重要發現:Tripo 把玻璃烘成不透明表面**——GLB 內沒有 `alphaMode` / `KHR_materials_transmission`,反射與內容物全烘進 basecolor 貼圖。反射/透明類商品要呈現真實玻璃感,需在後製階段處理(Phase 3 可評估:偵測玻璃區域補 transmission 材質,或接受烘焙結果)
+- 已複製到 `web/public/models/fishbowl{,_raw}.glb` 並加入 viewer 模型清單,可用比較模式肉眼確認內部面移除(198 個)沒有破壞雙層玻璃壁
+
+### 待辦 / 下一步
+
+- [ ] 比較模式肉眼檢查 fishbowl 玻璃壁完整性與 decimate 品質
+- [ ] 剩餘素材:coral-mound(organic)驗證
+
+---
+
 ## 2026-08-25 — Viewer:新增比較模式(decimate 前後並排對照)
 
 ### 程式碼更新
@@ -87,8 +137,10 @@ python generate.py <image.png> --output <name>   # 選項:--pipeline-type 512|10
 ### 實測結果
 
 - 測試輸入:`test-assets/hard-surface/vintage-radio/front.png`(與 Tripo job `160724017c66` 同一張,方便對照)
-- 首次執行需下載約 15GB 權重(TRELLIS.2-4B + dinov3 + RMBG-2.0)
-- ⏳ **生成進行中,結果待補**(參考值:M4 Pro 約 5 分鐘/張,本機 M4 預期更久)
+- 首次執行下載約 16GB 權重(TRELLIS.2-4B + dinov3 + RMBG-2.0)
+- 生成 **451.7s** + KDTree 貼圖烘焙 **167s**(無 Metal 加速的 fallback 路徑)≈ 10.3 分鐘
+- 輸出:1,824,936 tris → 內部簡化 ~200K tris,`vintage-radio.glb` 8.85 MB(1024 貼圖)
+- 詳細數據與 Tripo 對照見上方「TRELLIS.2 實測」條目
 
 ### 待辦 / 下一步
 
