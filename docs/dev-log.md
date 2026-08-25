@@ -5,6 +5,50 @@
 
 ---
 
+## 2026-08-25 — 本地生成方案評估:安裝 trellis-mac(TRELLIS.2 on Apple Silicon)
+
+> 動機:除了 Tripo API,評估本地模型生成的可行性(免 API 費用、資料不出機器)。
+> 選用 [shivampkumar/trellis-mac](https://github.com/shivampkumar/trellis-mac):Microsoft TRELLIS.2 的 Apple Silicon 移植版。
+> 官方 TRELLIS.2 需 NVIDIA GPU(24GB VRAM、CUDA 12.4、僅 Linux),Mac 無法直接使用。
+
+### 安裝環境
+
+- 安裝位置:`~/Develop/trellis-mac`(獨立 repo,不在本專案內)
+- 硬體:Apple M4、24GB 統一記憶體(官方建議的最低門檻)
+- 軟體:Python 3.11.16(uv venv)、PyTorch 2.13.0(**MPS 可用**)
+
+### 安裝過程與問題排解
+
+| 步驟 | 結果 |
+|---|---|
+| `setup.sh`(clone 相依 repo + TRELLIS.2、建 venv、裝套件、套 MPS patch) | ✅ 完成 |
+| Metal 加速後端 ×4(mtlbvh / mtldiffrast / mtlmesh / mtlgemm) | ❌ 編譯失敗:需要 `metal` 離線編譯器,本機只有 Command Line Tools 沒有完整 Xcode。自動 fallback 到 torch / 純 Python 路徑,**功能不受影響**,僅 texture 烘焙較慢、曲面貼圖品質稍差 |
+| `o_voxel`(texture baking 後處理,Apple fork) | ⚠️ 初次失敗:缺 Eigen 標頭。修復:`brew install eigen` 後以 `CPATH=/opt/homebrew/include/eigen3` 重裝 → ✅ 成功 |
+| HuggingFace 授權 | `hf auth login`(Read token)。兩個 gated model 需在網站申請:`briaai/RMBG-2.0`(同意即通過)、`facebook/dinov3-vitl16-pretrain-lvd1689m`(Meta 表單審核,當日通過) |
+
+若之後想開啟 Metal 加速:App Store 裝 Xcode → `xcodebuild -downloadComponent MetalToolchain` → 重跑 `setup.sh`。
+
+### 使用方式
+
+```bash
+cd ~/Develop/trellis-mac && source .venv/bin/activate
+python generate.py <image.png> --output <name>   # 選項:--pipeline-type 512|1024|1024_cascade、--texture-size、--no-texture、--seed
+```
+
+### 實測結果
+
+- 測試輸入:`test-assets/hard-surface/vintage-radio/front.png`(與 Tripo job `160724017c66` 同一張,方便對照)
+- 首次執行需下載約 15GB 權重(TRELLIS.2-4B + dinov3 + RMBG-2.0)
+- ⏳ **生成進行中,結果待補**(參考值:M4 Pro 約 5 分鐘/張,本機 M4 預期更久)
+
+### 待辦 / 下一步
+
+- [ ] 補上實測數據(耗時、面數、GLB 大小),與 Tripo 版本(112.1s、501K tris、15.1MB)比較品質
+- [ ] 確認 TRELLIS.2 輸出能否直接接進現有 Blender cleanup pipeline
+- [ ] 評估是否把本地生成整合進 `scripts/generate_model.py`(`--provider trellis`)
+
+---
+
 ## 2026-08-25 — Phase 2 Step 2-1 / 2-2:Blender headless 環境 + 自動 cleanup
 
 ### 程式碼更新
