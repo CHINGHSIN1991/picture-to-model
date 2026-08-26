@@ -12,9 +12,9 @@ import {
   type Material,
 } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
 import type { CameraSync } from './cameraSync'
 import SceneEnvironment from './SceneEnvironment.vue'
+import { HDRI_INTENSITY, loadHdri } from './useHdri'
 
 const props = defineProps<{
   url: string
@@ -29,13 +29,9 @@ const props = defineProps<{
 }>()
 const emit = defineEmits<{ loaded: [stats: { triangles: number; bytes: number | null }] }>()
 
-// 與 Blender 相同的 HDRI(setup_lighting.py 的 DEFAULT_HDRI,強度 0.4)
-const HDRI_URL = '/hdri/studio_small_08_1k.hdr'
-const HDRI_INTENSITY = 0.4
-
 const [gltf, hdriTexture] = await Promise.all([
   new GLTFLoader().loadAsync(props.url),
-  new RGBELoader().loadAsync(HDRI_URL),
+  loadHdri(),
 ])
 const model = gltf.scene
 
@@ -179,6 +175,7 @@ watch(
     />
     <!-- 與 Blender 同一張 HDRI 作 IBL:取代環境光,反射與整體照明一致 -->
     <SceneEnvironment
+      v-if="hdriTexture"
       :texture="hdriTexture"
       :intensity="HDRI_INTENSITY"
       :background="studio ? '#ffffff' : undefined"
