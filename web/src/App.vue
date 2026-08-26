@@ -3,24 +3,18 @@ import { ref } from 'vue'
 import ModelViewer from './components/ModelViewer.vue'
 import CompareViewer from './components/CompareViewer.vue'
 import ConsistencyViewer from './components/ConsistencyViewer.vue'
+import EditorView from './components/EditorView.vue'
+import { MODELS } from './modelList'
 
-// 把 GLB 放到 web/public/models/ 後在這裡列出
-const models = ref<string[]>([
-  '/models/model.glb',
-  '/models/model_raw.glb',
-  '/models/radio_baked.glb',
-  '/models/fishbowl.glb',
-  '/models/fishbowl_raw.glb',
-  '/models/coral.glb',
-  '/models/coral_raw.glb',
-  '/models/trellis_radio.glb',
-])
+const models = ref<string[]>(MODELS)
 const current = ref(models.value[0])
-// ?mode=compare / ?mode=consistency 可直接深連結到對應模式
-type Mode = 'single' | 'compare' | 'consistency'
+// ?mode=compare / consistency / editor 可直接深連結到對應模式
+type Mode = 'single' | 'compare' | 'consistency' | 'editor'
 const initialMode = new URLSearchParams(location.search).get('mode')
 const mode = ref<Mode>(
-  initialMode === 'compare' || initialMode === 'consistency' ? initialMode : 'single',
+  initialMode === 'compare' || initialMode === 'consistency' || initialMode === 'editor'
+    ? initialMode
+    : 'single',
 )
 </script>
 
@@ -32,12 +26,14 @@ const mode = ref<Mode>(
         <button :class="{ active: mode === 'single' }" @click="mode = 'single'">單一檢視</button>
         <button :class="{ active: mode === 'compare' }" @click="mode = 'compare'">比較模式</button>
         <button :class="{ active: mode === 'consistency' }" @click="mode = 'consistency'">一致性驗證</button>
+        <button :class="{ active: mode === 'editor' }" @click="mode = 'editor'">編輯器</button>
       </nav>
       <select v-if="mode === 'single'" v-model="current">
         <option v-for="m in models" :key="m" :value="m">{{ m.split('/').pop() }}</option>
       </select>
       <span v-else-if="mode === 'compare'" class="hint">拖曳任一側旋轉,兩邊視角同步</span>
-      <span v-else class="hint">Blender 渲染圖 vs live viewer,校正色彩一致性</span>
+      <span v-else-if="mode === 'consistency'" class="hint">Blender 渲染圖 vs live viewer,校正色彩一致性</span>
+      <span v-else class="hint">Scene Editor(4B 前端 MVP)— 滑桿即時生效,只寫 scene.json</span>
     </header>
     <main>
       <Suspense v-if="mode === 'single'">
@@ -47,7 +43,8 @@ const mode = ref<Mode>(
         </template>
       </Suspense>
       <CompareViewer v-else-if="mode === 'compare'" :models="models" />
-      <ConsistencyViewer v-else />
+      <ConsistencyViewer v-else-if="mode === 'consistency'" />
+      <EditorView v-else />
     </main>
   </div>
 </template>

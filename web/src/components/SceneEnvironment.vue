@@ -11,6 +11,8 @@ const props = defineProps<{
   intensity?: number
   // 純色背景(一致性驗證用白底);不設則沿用 canvas clear color
   background?: string
+  // 直接以 HDRI 當背景(editor 的 background.type = environment)
+  envAsBackground?: boolean
 }>()
 
 const { scene } = useTresContext()
@@ -19,7 +21,11 @@ watchEffect(() => {
   props.texture.mapping = EquirectangularReflectionMapping
   scene.value.environment = props.texture
   scene.value.environmentIntensity = props.intensity ?? 1
-  if (props.background) scene.value.background = new Color(props.background)
+  scene.value.background = props.envAsBackground
+    ? props.texture
+    : props.background
+      ? new Color(props.background)
+      : null
 })
 </script>
 

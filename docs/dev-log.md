@@ -5,6 +5,38 @@
 
 ---
 
+## 2026-08-26 — Phase 4B 前置:Scene Editor 前端 MVP(三欄編輯器)
+
+> 依 4B UI mockup(三欄 Figma 式)先做**不依賴後端**的前端層;Render API / DB / Embed 屬 Phase 4 後續。
+
+### 程式碼更新
+
+| 檔案 | 內容 |
+|---|---|
+| `web/src/editor/sceneStore.ts` | 新增。Scene JSON v0(docs/scene-schema.md)的單一真相來源:模組層 reactive(MVP 先不引 Pinia)、debounce 300ms 寫 localStorage、`downloadSceneJson()` / `resetScene()`;`editorUi` 另放選取 / tab / 材質名等不進 scene.json 的 UI 狀態。 |
+| `web/src/components/EditorView.vue` | 新增。三欄版面:頂欄(專案名 + Render / Export GLB / scene.json / Embed)、左欄 Scene 樹(model + 三燈 + HDRI + Camera,選取即切 Inspector tab)、中央 Viewport(狀態列 + Front/Side/Iso preset + Wireframe)、右欄 Inspector 四 tab(Material / Light / Camera / BG),滑桿全數對映 Scene Schema 欄位。 |
+| `web/src/components/EditorViewport.vue` | 新增。編輯器 Viewport:燈光(瓦數 × 校正係數 8.5/400 換算 three.js 強度)、相機(az/el/focal/padding → 位置與 FOV)、背景(color / transparent / environment)、materials_override 全部 watch store 即幀生效;transmission/ior 以 lazy 升級 MeshPhysicalMaterial 實現(GLB 不動、可還原);`exportGlb()` 用 three GLTFExporter 在 client 端把 override 合成進 GLB 下載。 |
+| `web/src/modelList.ts` | 新增。App 與 editor 共用的模型清單。 |
+| `web/src/App.vue` | 加入「編輯器」模式(`?mode=editor`)。 |
+
+### 實測結果(headless Chrome,含 ANGLE Metal 真 GPU)
+
+- 三欄版面與 mockup 一致;radio 預設場景正常;fishbowl 切換後把 **Transmission 拉到 1.0 → 玻璃感即時生效**(4B 的 fishbowl 玻璃解法,scene.json `materials_override` 記錄、GLB 不動)
+- scene.json localStorage 持久化與「已儲存」指示正常;Export GLB 實測輸出 `model_edited.glb`
+- **修掉兩個實作坑**:
+  1. scoped CSS 選不到子元件的 TresCanvas 容器 → canvas 高度暴走 15660px,以自己 scope 的 `.canvas-host` wrapper 解
+  2. `MeshStandardMaterial.prototype.copy` 到 MeshPhysicalMaterial 時會把 `defines` 蓋掉(丟失 `PHYSICAL`)→ fragment shader 編譯失敗、mesh 消失(真 GPU 同樣重現),copy 後補回 defines 解
+- Render 按鈕 MVP 行為:複製等價 CLI 指令(camera/render 參數面);Embed 停用待 4A public URL
+
+### 待辦 / 下一步
+
+- [ ] Undo / Redo(command pattern,4B 配套)
+- [ ] HDRI 旋轉滑桿(Blender 端 `azimuth_offset` 已支援,editor 尚未曝露)
+- [ ] Export 改走 gltf-transform(Draco 壓縮,4B 後端)
+- [ ] scene.json → Render API(4A/4B 後端)
+
+---
+
 ## 2026-08-26 — Phase 3 Step 3-5:Web 端一致性驗證 + 修正 render.py 取景 FOV bug
 
 ### 程式碼更新
