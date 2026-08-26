@@ -10,6 +10,7 @@ const left = ref(props.models.find((m) => m.includes('raw')) ?? props.models[0])
 const right = ref(props.models.find((m) => !m.includes('raw')) ?? props.models[0])
 
 const sync = reactive(createCameraSync())
+const wireframe = ref(false)
 
 interface Stats {
   triangles: number
@@ -45,6 +46,10 @@ function fmtPct(p: number) {
         右比左:面數 {{ fmtPct(diff.tris) }}<template v-if="diff.size != null">、檔案 {{ fmtPct(diff.size) }}</template>
       </span>
       <span v-else class="diff placeholder">載入比較數據中…</span>
+      <label class="wire-toggle">
+        <input v-model="wireframe" type="checkbox" />
+        結構線模式
+      </label>
     </div>
 
     <!-- 各 pane 的模型選擇與統計 -->
@@ -66,13 +71,13 @@ function fmtPct(p: number) {
     <div class="compare">
       <section class="pane" @pointerenter="sync.active = 'left'" @pointerdown="sync.active = 'left'">
         <Suspense>
-          <ModelViewer :key="left" :url="left" :sync="sync" pane-id="left" @loaded="(s) => (stats.left = s)" />
+          <ModelViewer :key="left" :url="left" :sync="sync" pane-id="left" :wireframe="wireframe" @loaded="(s) => (stats.left = s)" />
           <template #fallback><p class="loading">載入模型中…</p></template>
         </Suspense>
       </section>
       <section class="pane" @pointerenter="sync.active = 'right'" @pointerdown="sync.active = 'right'">
         <Suspense>
-          <ModelViewer :key="right" :url="right" :sync="sync" pane-id="right" @loaded="(s) => (stats.right = s)" />
+          <ModelViewer :key="right" :url="right" :sync="sync" pane-id="right" :wireframe="wireframe" @loaded="(s) => (stats.right = s)" />
           <template #fallback><p class="loading">載入模型中…</p></template>
         </Suspense>
       </section>
@@ -87,11 +92,28 @@ function fmtPct(p: number) {
   height: 100%;
 }
 .diff-bar {
+  position: relative;
   padding: 0.35rem 0.75rem;
   text-align: center;
   background: #101020;
   border-bottom: 1px solid #26263a;
   font-size: 0.85rem;
+}
+.wire-toggle {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #9a9ab8;
+  font-size: 0.8rem;
+  cursor: pointer;
+  user-select: none;
+}
+.wire-toggle input {
+  accent-color: #4fd1c5;
 }
 .compare-bar {
   display: grid;

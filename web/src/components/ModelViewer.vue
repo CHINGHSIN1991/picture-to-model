@@ -2,7 +2,14 @@
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import { computed, ref, watch } from 'vue'
-import { Box3, Vector3, type Mesh } from 'three'
+import {
+  Box3,
+  Mesh,
+  MeshBasicMaterial,
+  MeshStandardMaterial,
+  Vector3,
+  type Material,
+} from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import type { CameraSync } from './cameraSync'
 
@@ -11,6 +18,8 @@ const props = defineProps<{
   // 比較模式:傳入共享相機狀態與 pane 代號,雙邊視角同步
   sync?: CameraSync
   paneId?: string
+  // 結構線模式:拿掉材質、顯示三角形線框
+  wireframe?: boolean
 }>()
 const emit = defineEmits<{ loaded: [stats: { triangles: number; bytes: number | null }] }>()
 
@@ -53,6 +62,41 @@ const normalized = computed(() => {
   model.scale.setScalar(scale)
   return model
 })
+
+// --- 結構線模式:素色底 + 三角形線框疊加(共用 geometry,不複製記憶體) ---
+const baseMat = new MeshStandardMaterial({
+  color: 0x9aa3b2,
+  roughness: 0.9,
+  polygonOffset: true, // 底面稍微後退,避免與線框 z-fighting
+  polygonOffsetFactor: 1,
+  polygonOffsetUnits: 1,
+})
+const wireMat = new MeshBasicMaterial({ color: 0x4fd1c5, wireframe: true })
+const originalMats = new Map<Mesh, Material | Material[]>()
+const overlays: Mesh[] = []
+
+function setWireframe(on: boolean) {
+  if (on && originalMats.size === 0) {
+    const meshes: Mesh[] = []
+    model.traverse((o) => {
+      if ((o as Mesh).isMesh && !o.userData.wireOverlay) meshes.push(o as Mesh)
+    })
+    for (const mesh of meshes) {
+      originalMats.set(mesh, mesh.material)
+      mesh.material = baseMat
+      const overlay = new Mesh(mesh.geometry, wireMat)
+      overlay.userData.wireOverlay = true
+      mesh.add(overlay)
+      overlays.push(overlay)
+    }
+  } else if (!on && originalMats.size > 0) {
+    for (const [mesh, mat] of originalMats) mesh.material = mat
+    for (const overlay of overlays) overlay.removeFromParent()
+    originalMats.clear()
+    overlays.length = 0
+  }
+}
+watch(() => props.wireframe, (on) => setWireframe(!!on), { immediate: true })
 
 // --- 相機同步(僅比較模式) ---
 const controlsRef = ref<{ instance?: { object: any; target: any; update: () => void } } | null>(null)
