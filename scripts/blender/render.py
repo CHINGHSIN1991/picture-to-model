@@ -46,7 +46,8 @@ def parse_args() -> argparse.Namespace:
 
     if args.job_dir:
         args.input = args.input or args.job_dir / "model_high.glb"
-        args.output = args.output or args.job_dir / "preview.png"
+        # scene.json 渲染是 poster(配角),檔名與官方 preview 分開
+        args.output = args.output or args.job_dir / ("poster.png" if args.scene_json else "preview.png")
     if not (args.input and args.output):
         ap.error("需要 --job-dir,或同時給 --input / --output")
     if not args.input.exists():
@@ -156,7 +157,8 @@ def main() -> None:
     if args.job_dir:
         meta_path = args.job_dir / "metadata.json"
         meta = json.loads(meta_path.read_text()) if meta_path.exists() else {}
-        meta["render"] = stats
+        # poster(scene.json)渲染不覆蓋官方 render 統計
+        meta["poster_render" if args.scene_json else "render"] = stats
         meta_path.write_text(json.dumps(meta, ensure_ascii=False, indent=2))
     print(f"[render] 完成 ({stats['elapsed_sec']}s, {device}): {args.output}")
 

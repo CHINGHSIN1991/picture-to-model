@@ -1,0 +1,55 @@
+{
+  "version": 0,
+  "model_url": "web/940b1dd831ac/model.glb",
+  "environment": {
+    "hdri": "studio_small_08_1k",
+    "intensity": 0.4,
+    "background": {
+      "type": "color",
+      "value": "#FFFFFF"
+    }
+  },
+  "lights": [
+    {
+      "id": "key",
+      "type": "area",
+      "azimuth": 75,
+      "elevation": 45,
+      "power": 400
+    },
+    {
+      "id": "fill",
+      "type": "area",
+      "azimuth": -30,
+      "elevation": 20,
+      "power": 130
+    },
+    {
+      "id": "rim",
+      "type": "area",
+      "azimuth": 200,
+      "elevation": 40,
+      "power": 250
+    }
+  ],
+  "camera": {
+    "azimuth": 30,
+    "elevation": 18,
+    "focal_mm": 50,
+    "padding": 1.4
+  },
+  "materials_override": {
+    "tripo_material_863af39c-49f0-44cd-8779-c61c96b755bd": {
+      "transmission": 1.0,
+      "ior": 1.45,
+      "roughness": 0.05
+    }
+  },
+  "render": {
+    "engine": "cycles",
+    "samples": 128,
+    "resolution": 1600,
+    "tone_mapping": "agx",
+    "transparent": true
+  }
+}

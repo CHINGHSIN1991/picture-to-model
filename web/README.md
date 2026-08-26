@@ -16,16 +16,25 @@ npm run build    # vue-tsc 型別檢查 + 產出 dist/
 | 比較模式 | `/?mode=compare` | 左右並排 + 相機同步 + wireframe(decimate 前後對照) |
 | 一致性驗證 | `/?mode=consistency` | Blender 渲染圖 vs live viewer 同角度並排(docs/render-consistency.md) |
 | 編輯器 | `/?mode=editor` | Phase 4B Scene Editor:燈光 / 材質 / 相機 / 背景滑桿,只寫 scene.json |
+| 🎯 嵌入頁 | `/?mode=embed&model=<GLB>&scene=<scene.json>&poster=<webp>` | 主產出:無 chrome、poster 載入佔位,iframe 嵌任意網站(scene / poster 可省略) |
 
 ## 靜態資產(public/)
 
 | 目錄 | 版控 | 說明 |
 |---|---|---|
-| `public/hdri/` | ✅ | studio HDRI(與 Blender 端 `assets/` 同一張,IBL 用) |
+| `public/hdri/` | ✅ | studio HDRI(與 Blender 端 `assets/` 同一張,IBL 用);另有 `_512` 降檔版給 embed(只做 IBL 時載,省 1.1MB) |
 | `public/renders/` | ✅ | 一致性驗證頁的 Blender 渲染圖(來源 `output/<job_id>/preview.webp`) |
 | `public/models/` | ❌ gitignore | GLB 較大且可由 pipeline 重新生成,**需自行複製**: |
 
 ```bash
 cp ../output/<job_id>/model.glb public/models/<名字>.glb
 # 然後在 src/modelList.ts 加一行;一致性驗證頁的配對在 ConsistencyViewer.vue 的 pairs
+```
+
+### GLB 瘦身(embed / 部署前建議)
+
+```bash
+npm run optimize:glb -- public/models/<名字>.glb public/models/<名字>.glb
+# meshopt + 貼圖 WebP,實測 −54%~−89%;viewer 已掛 MeshoptDecoder(useGlb.ts),壓縮與否都能載
+# 注意:script 已鎖 --simplify false(面數歸 Blender 管)與 --palette false(材質名是 scene.json override 的 key)
 ```

@@ -5,6 +5,68 @@
 
 ---
 
+## 2026-08-26 — Embed 重量瘦身:GLB meshopt + WebP、HDRI 512 降檔(3.3MB → 1.33MB)
+
+> 上一條的待辦「embed 重量瘦身」。方案定案:**meshopt 取代原規劃的 Draco**——
+> Draco 解碼器要另外託管 WASM 檔,meshopt 的 decoder 隨 three 內建(`three/examples/jsm/libs/meshopt_decoder.module.js`),
+> 靜態託管少一組檔案;壓縮率在本專案的模型上已足夠。
+
+### 程式碼更新
+
+| 檔案 | 內容 |
+|---|---|
+| `web/package.json` | devDependency `@gltf-transform/cli`;npm script **`optimize:glb`** = `gltf-transform optimize --compress meshopt --texture-compress webp --simplify false --palette false`(關 simplify:面數由 Blender decimate 管;關 palette:材質**名稱是 `materials_override` 的 key**,不能被合併改名)。 |
+| `web/src/components/useGlb.ts` | 新增。共用 GLB loader,掛 `MeshoptDecoder`;三個載入點(ModelViewer / EditorViewport / EmbedScene)全部改走它——壓縮與未壓縮 GLB 都吃。 |
+| `web/src/components/useHdri.ts` | 快取改以 URL 為 key;新增 `HDRI_URL_EMBED`(512×256 降檔版)。 |
+| `web/src/components/EmbedScene.vue` | HDRI 解析度依 scene.json 決定:只做 IBL 用 512 版(PMREM 立方貼圖僅 ~256px,理論無感);背景 `type=environment`(HDRI 上畫面)才載 1k。scene fetch 先行、HDRI 與 GLB 並行載入。 |
+| `web/public/hdri/studio_small_08_512.hdr` | 新增(380KB;OpenCV INTER_AREA 從 1k 縮)。1k 版保留給 editor / 一致性頁(亮度校正基準不動)。 |
+
+### 實測結果
+
+- **fishbowl.glb 1.54MB → 704KB(−54%)**:mesh 714KB 走 meshopt+quantization、三張 2048² JPEG 轉 WebP;`gltf-transform inspect` 確認材質名 `tripo_material_…` 保留(scene.json override 的 key)
+- 其餘 demo GLB(本地檔):coral 2.11→1.08MB、model 1.66→0.77MB、**radio_baked 4.42→0.50MB(−89%)**、trellis_radio 6.9→1.57MB
+- **A/B 像素比對**(headless Chrome 同角度截圖):壓縮前後 mean abs diff 1.03/255、非白面積完全一致 33.3%(差異 = WebP 有損 + 玻璃折射放大的量化雜訊,目視無感);HDRI 1k vs 512 mean abs diff **0.104**(0.27% 像素 >10)
+- **Embed 一組 payload:GLB 704KB + hdr 389KB + scene 1KB + poster 233KB ≈ 1.33MB**(原 3.3MB,−60%)
+- 單一檢視(壓縮後 model.glb)渲染正常、無 console 錯誤;`npm run build` 通過
+
+### 待辦 / 下一步
+
+- [ ] 貼圖 KTX2/Basis(GPU 記憶體 22MB/張 → 可再降;選配)
+- [ ] pipeline 尾端自動跑 optimize(現為手動 `npm run optimize:glb -- in.glb out.glb`;4A worker 待辦)
+
+---
+
+## 2026-08-26 — 🎯 Embed 主產出落地:嵌入頁 + scene.json 載入 + poster 獨立產出
+
+> 依目標校正(主產出 = 嵌入網站的互動模型)實作 P0/P1 缺口;iframe 實嵌驗證通過。
+
+### 程式碼更新
+
+| 檔案 | 內容 |
+|---|---|
+| `web/src/editor/sceneRig.ts` | 新增。scene.json → three.js 的**共用套用模組**(editor Viewport 與 Embed 頁共用):`spherical` / `focalToFov` / `normalizeModel` / `lightRigs` / `cameraRig` / `createMaterialRig`(含 Standard→Physical 升級的 defines 修補)。 |
+| `web/src/components/EmbedViewer.vue` + `EmbedScene.vue` | 新增。**嵌入頁**:`?mode=embed&model=<GLB>&scene=<scene.json>&poster=<webp>`——無 app chrome、poster 當載入佔位(載完淡出)、fetch scene.json 經 `mergeScene` 補預設後以 sceneRig 套用;無 scene 參數時用 pipeline 預設攝影棚。 |
+| `web/src/components/EditorViewport.vue` | 重構:改用 sceneRig(行為不變,transmission 滑桿煙霧測試通過)。 |
+| `web/src/components/EditorView.vue` | 頂欄:「scene.json ↑」匯入(檔案 → mergeScene → 套進 store,可 undo);**Embed 按鈕啟用**(複製 iframe 嵌入碼,URL 佔位待使用者替換託管位址);Render → 「Render poster」;clipboard 失敗 fallback console。 |
+| `web/src/editor/sceneStore.ts` | 抽出 `mergeScene()`(外部 scene.json 解析 + 巢狀補預設),load / 匯入 / Embed 共用。 |
+| `scripts/render_model.py` + `scripts/blender/render.py` | **poster 獨立產出**:`--scene-json` 時輸出 `poster.webp`(不出縮圖)、metadata 寫 `poster_render`——官方 `preview.webp` / `render` 統計不再被 scene 渲染覆蓋。 |
+| `web/public/scenes/fishbowl-glass.scene.json`、`renders/fishbowl-poster.webp` | 新增。embed demo 素材(玻璃 fishbowl 場景 + 對應 poster)。 |
+
+### 實測結果(headless Chrome)
+
+- **嵌入頁直開**:fishbowl 玻璃(scene.json transmission)正確渲染、白底無 chrome、poster 先顯示後淡出——poster 與 live 場景幾乎無縫(同一份 scene.json 參數)
+- **iframe 實嵌**:host 頁面 `<iframe src="…?mode=embed&…">` 內正常互動渲染——**「嵌進任意網站」的最短驗證通過**,無 console 錯誤
+- poster 流程:`--scene-json` 渲染 8.0s(scene 的 32 samples/600px 生效)→ `poster.webp`;`preview.webp` 時間戳未動、metadata `render` 與 `poster_render` 分開
+- 編輯器重構後煙霧測試:transmission 即時生效 ✅、Embed 按鈕 toast ✅、`npm run build` 通過
+
+### 待辦 / 下一步
+
+- [ ] 實際部署一次靜態託管(如 GitHub Pages / Cloudflare Pages)驗證跨網域嵌入
+- [x] embed 重量瘦身:GLB meshopt + WebP、hdr 512 降檔(見上一條;Draco 改採 meshopt)
+- [ ] 4A:public URL + 嵌入碼產生器(把手動放檔案自動化)
+
+---
+
 ## 2026-08-26 — Phase 4B 配套:Undo/Redo + HDRI 旋轉 + web/public 資產版控
 
 ### 程式碼更新

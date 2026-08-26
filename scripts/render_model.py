@@ -23,28 +23,34 @@ THUMBNAIL_SIZE = 400
 WEBP_QUALITY = 90
 
 
-def png_to_webp(png_path: Path, job_dir: Path, background: str = "#FFFFFF") -> dict:
-    """透明 PNG → 合成背景色的 preview.webp + thumbnail.webp,回傳統計。"""
+def png_to_webp(
+    png_path: Path,
+    job_dir: Path,
+    background: str = "#FFFFFF",
+    name: str = "preview",
+    with_thumbnail: bool = True,
+) -> dict:
+    """透明 PNG → 合成背景色的 <name>.webp(可選 thumbnail.webp),回傳統計。"""
     img = Image.open(png_path).convert("RGBA")
     v = background.lstrip("#")
     bg_rgb = tuple(int(v[i : i + 2], 16) for i in (0, 2, 4))
-    white = Image.new("RGB", img.size, bg_rgb)
-    white.paste(img, mask=img.getchannel("A"))
+    composed = Image.new("RGB", img.size, bg_rgb)
+    composed.paste(img, mask=img.getchannel("A"))
 
-    preview = job_dir / "preview.webp"
-    white.save(preview, quality=WEBP_QUALITY)
+    webp = job_dir / f"{name}.webp"
+    composed.save(webp, quality=WEBP_QUALITY)
+    stats = {f"{name}_webp_bytes": webp.stat().st_size}
 
-    thumb = white.copy()
-    thumb.thumbnail((THUMBNAIL_SIZE, THUMBNAIL_SIZE), Image.LANCZOS)
-    thumbnail = job_dir / "thumbnail.webp"
-    thumb.save(thumbnail, quality=WEBP_QUALITY - 5)
+    if with_thumbnail:
+        thumb = composed.copy()
+        thumb.thumbnail((THUMBNAIL_SIZE, THUMBNAIL_SIZE), Image.LANCZOS)
+        thumbnail = job_dir / "thumbnail.webp"
+        thumb.save(thumbnail, quality=WEBP_QUALITY - 5)
+        stats["thumbnail_webp_bytes"] = thumbnail.stat().st_size
+        stats["thumbnail_px"] = THUMBNAIL_SIZE
 
     png_path.unlink()  # 中間檔,轉完即刪
-    return {
-        "preview_webp_bytes": preview.stat().st_size,
-        "thumbnail_webp_bytes": thumbnail.stat().st_size,
-        "thumbnail_px": THUMBNAIL_SIZE,
-    }
+    return stats
 
 
 def render_job(
@@ -78,19 +84,21 @@ def render_job(
     if rc != 0:
         raise RuntimeError(f"Blender render 失敗 (exit code {rc})")
 
-    png = job_dir / "preview.png"
+    # scene.json 渲染是 poster(Embed 載入佔位 / og:image),與官方 preview 分開、不出縮圖
+    name = "poster" if scene_json else "preview"
+    meta_key = "poster_render" if scene_json else "render"
+    png = job_dir / f"{name}.png"
     if not png.exists():
         raise RuntimeError(f"render.py 沒有產出 {png}")
-    stats = png_to_webp(png, job_dir, background)
+    stats = png_to_webp(png, job_dir, background, name=name, with_thumbnail=not scene_json)
 
     meta_path = job_dir / "metadata.json"
     meta = json.loads(meta_path.read_text()) if meta_path.exists() else {}
-    meta.setdefault("render", {}).update(stats)
-    meta["render"]["total_elapsed_sec"] = round(time.time() - t0, 1)
+    meta.setdefault(meta_key, {}).update(stats)
+    meta[meta_key]["total_elapsed_sec"] = round(time.time() - t0, 1)
     meta_path.write_text(json.dumps(meta, ensure_ascii=False, indent=2))
-    print(f"[render_model] 完成 ({meta['render']['total_elapsed_sec']}s) → "
-          f"{job_dir / 'preview.webp'}, {job_dir / 'thumbnail.webp'}")
-    return meta["render"]
+    print(f"[render_model] 完成 ({meta[meta_key]['total_elapsed_sec']}s) → {job_dir / f'{name}.webp'}")
+    return meta[meta_key]
 
 
 def main() -> None:

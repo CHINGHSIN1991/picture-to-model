@@ -8,6 +8,7 @@ import {
   scene,
   editorUi,
   history,
+  mergeScene,
   overrideFor,
   resetScene,
   downloadSceneJson,
@@ -76,11 +77,41 @@ function applyPreset(p: (typeof presets)[number]) {
 }
 
 // --- 頂欄動作 ---
-async function copyRenderCmd() {
-  // Render API 屬 4B 後端;CLI 已可完整消費 scene.json(camera/lights/render/materials_override)
+async function copyText(text: string, okMsg: string) {
+  try {
+    await navigator.clipboard.writeText(text)
+    showToast(okMsg)
+  } catch {
+    console.info(text) // clipboard 被拒(權限 / 非安全環境)時輸出到 console
+    showToast('無法寫入剪貼簿,內容已輸出到 console')
+  }
+}
+
+function copyRenderCmd() {
+  // poster 渲染(配角):CLI 已可完整消費 scene.json,產出 poster.webp 不覆蓋官方 preview
   const cmd = `uv run scripts/render_model.py output/<job_id> --scene-json <下載的 scene.json 路徑>`
-  await navigator.clipboard.writeText(cmd)
-  showToast('已複製 Render CLI:下載 scene.json 後帶入 --scene-json 即可 Cycles 渲染')
+  copyText(cmd, '已複製 poster 渲染 CLI:下載 scene.json 後帶入 --scene-json(產出 poster.webp)')
+}
+
+// 🎯 Embed(主產出):GLB / hdri / scene.json / poster 全為靜態檔,靜態託管即可嵌
+function copyEmbedCode() {
+  const src = `${location.origin}/?mode=embed&model=${encodeURIComponent(scene.model_url)}&scene=<scene.json 的 URL>&poster=<poster.webp 的 URL>`
+  const code = `<iframe src="${src}" width="800" height="600" style="border:0" loading="lazy" title="3D model"></iframe>`
+  copyText(code, '已複製 iframe 嵌入碼——把 GLB / hdri / scene.json / poster 放上靜態託管後替換 URL')
+}
+
+// 匯入 scene.json(跨機器 / 跨 job 帶回編輯;經 mergeScene 補預設欄位)
+const importInput = ref<HTMLInputElement | null>(null)
+async function onImportScene(e: Event) {
+  const file = (e.target as HTMLInputElement).files?.[0]
+  if (!file) return
+  try {
+    Object.assign(scene, mergeScene(JSON.parse(await file.text())))
+    showToast(`已匯入 ${file.name}`)
+  } catch (err) {
+    showToast(`匯入失敗:${err instanceof Error ? err.message : err}`)
+  }
+  ;(e.target as HTMLInputElement).value = ''
 }
 async function exportGlb() {
   await viewportRef.value?.exportGlb()
@@ -107,10 +138,12 @@ function switchModel(url: string) {
       </nav>
       <span v-if="toast" class="toast">{{ toast }}</span>
       <div class="actions">
-        <button @click="copyRenderCmd">Render</button>
+        <button @click="copyRenderCmd">Render poster</button>
         <button @click="exportGlb">Export GLB</button>
-        <button @click="downloadSceneJson">scene.json</button>
-        <button disabled title="需要 public URL(Phase 4A 後端)">Embed</button>
+        <button @click="downloadSceneJson">scene.json ↓</button>
+        <button @click="importInput?.click()">scene.json ↑</button>
+        <input ref="importInput" type="file" accept="application/json,.json" hidden @change="onImportScene" />
+        <button title="複製 iframe 嵌入碼(靜態託管即可嵌,4A 之後補 public URL 產生器)" @click="copyEmbedCode">Embed</button>
       </div>
     </header>
 

@@ -1,7 +1,8 @@
 # Scene Schema v0(scene.json)
 
 > 回到主文件:[ROADMAP.md](../ROADMAP.md)
-> 定位:Phase 3 與 Phase 4 之間的地基;4B Scene Editor、Render API、Export 的共同語言。
+> 定位:Phase 3 與 Phase 4 之間的地基;4B Scene Editor、Embed、poster 渲染的共同語言。
+> 🎯 目標(2026-08-26 校正):**主產出是嵌入網站的互動模型**;Cycles 渲染降為 poster / og:image 配角。
 > 依據:spec 三方比對(`docs/spec-delta.md`)——GPT 與 Gemini 兩份外部 spec 獨立收斂於「Scene 狀態以 JSON 與 GLB 分離」。
 > 原則:**欄位直接從現有實作萃取,不新造概念**;每個欄位都能對映到一支既有腳本的參數。
 
@@ -10,7 +11,7 @@
 ## 為什麼要分離 scene.json 與 GLB
 
 - **變更頻率差三個數量級**:幾何與貼圖內容由 AI 生成,貴而慢(~155s/次、扣 API 額度),一次定案;光照與材質參數由 GPU 每幀重算,隨時免費。把兩者綁在同一個檔案裡,等於每次調滑桿都要動 15MB 的資產。
-- **兩個消費者、一份真相**:瀏覽器即時預覽(Three.js)讀它,高品質渲染(Blender Cycles)也讀它——Web / Blender 一致性從「事後校正」變成「共用參數來源」。
+- **兩個消費者、一份真相**:主消費者是網站內的互動 viewer / Embed(Three.js),配角是 poster 渲染(Blender Cycles)——Web / Blender 一致性從「事後校正」變成「共用參數來源」,且因為瀏覽器畫面就是產品本身,校正瀏覽器 = 校正產品。
 - **非破壞性**:`materials_override` 只記差異,GLB 原始材質不動;移除 override 即還原。
 
 ---
@@ -62,7 +63,7 @@
 | `lights[]` | `setup_lighting.py` 三點打光常數 | Scene 樹 + Light tab | build_lighting() |
 | `camera.*` | `setup_camera.py` CLI 參數 | Camera tab(preset / FOV / auto-frame) | frame_camera() |
 | `materials_override` | glTF PBR 因子(factor × 貼圖取樣) | Material tab 滑桿 | setup_material 延伸(套 override 後匯出) |
-| `render.*` | `render.py` CLI 參數 | Render 按鈕的進階選項 | render.py |
+| `render.*` | `render.py` CLI 參數 | poster 按鈕的進階選項 | render.py(--scene-json) |
 
 ---
 
@@ -74,10 +75,14 @@ Inspector 滑桿 ──► editor store(單一真相來源;MVP 為 reactive,4A �
                     └─► 持久化:scene.json(debounce 寫 localStorage;之後存 scenes 表 JSONB)✅ 已實作
 scene.json ────────► Export:gltf-transform 把 materials_override 合成進 GLB(秒級)
             │        (MVP 暫以 three GLTFExporter 於 client 端合成)
-            └──────► Render API:POST /api/renders {job_id, scene_overrides}
-                       → scene.json → setup_lighting / setup_camera / render.py → Cycles(~40s)
-                       ✅ CLI 參數面已打通:`render_model.py --scene-json`(apply_scene.py 套
-                          materials_override;fishbowl transmission 實測渲出真玻璃,48.8s)
+            ├──────► poster 渲染(選配):--scene-json → apply_scene.py → Cycles(48.8s)
+            │          ✅ CLI 已通(fishbowl transmission 實測渲出真玻璃);產出 = Embed 的
+            │          poster(載入佔位)與 og:image,不覆蓋官方 preview.webp
+            └──────► 🎯 Embed(主產出):GLB + hdr + scene.json + poster 全為靜態檔
+                       → iframe / <model-viewer poster=…> 嵌進任意網站
+                       靜態託管今天即可嵌;4A 只是把「手動放檔案」自動化(產生器 + public URL)
+                       ✅ 已實作:`?mode=embed&model=&scene=&poster=`(sceneRig.ts 與 editor 共用
+                          套用邏輯;poster 佔位淡出;iframe 實嵌宿主頁驗證通過)
 ```
 
 ## 哪些操作需要 AI(分層速查)
@@ -86,7 +91,7 @@ scene.json ────────► Export:gltf-transform 把 materials_overr
 |---|---|---|---|
 | 調光源 / HDRI / 背景 / 材質因子(含 transmission) | scene.json | ✗ | 即時 |
 | Export 合成 GLB | gltf-transform | ✗ | 秒級 |
-| 高品質商品圖(新光照重渲) | Cycles job | ✗ | ~40s |
+| poster 縮圖(選配;載入佔位 + og:image) | Cycles job | ✗ | ~48.8s |
 | 改目標面數 | cleanup 重跑(model_raw 紅利) | ✗ | ~6s |
 | 改形狀 / 背面 / 部件 | 重新生成 | ✓ | ~110s |
 | 改貼圖「內容」(風格 / 去烘死光影) | texture gen / delighting(P2) | ✓ | — |

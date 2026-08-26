@@ -4,22 +4,28 @@ import ModelViewer from './components/ModelViewer.vue'
 import CompareViewer from './components/CompareViewer.vue'
 import ConsistencyViewer from './components/ConsistencyViewer.vue'
 import EditorView from './components/EditorView.vue'
+import EmbedViewer from './components/EmbedViewer.vue'
 import { MODELS } from './modelList'
 
 const models = ref<string[]>(MODELS)
 const current = ref(models.value[0])
-// ?mode=compare / consistency / editor 可直接深連結到對應模式
-type Mode = 'single' | 'compare' | 'consistency' | 'editor'
+// ?mode=compare / consistency / editor 可深連結;embed 為無 chrome 的嵌入頁
+type Mode = 'single' | 'compare' | 'consistency' | 'editor' | 'embed'
 const initialMode = new URLSearchParams(location.search).get('mode')
 const mode = ref<Mode>(
-  initialMode === 'compare' || initialMode === 'consistency' || initialMode === 'editor'
+  initialMode === 'compare' ||
+    initialMode === 'consistency' ||
+    initialMode === 'editor' ||
+    initialMode === 'embed'
     ? initialMode
     : 'single',
 )
 </script>
 
 <template>
-  <div class="viewer-page">
+  <!-- 🎯 Embed:主產出的嵌入頁,不帶任何 app chrome -->
+  <EmbedViewer v-if="mode === 'embed'" />
+  <div v-else class="viewer-page">
     <header>
       <h1>Picture to Model — Viewer</h1>
       <nav class="mode-switch">

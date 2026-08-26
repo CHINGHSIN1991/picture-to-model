@@ -11,7 +11,7 @@ import {
   Vector3,
   type Material,
 } from 'three'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { loadGlb } from './useGlb'
 import type { CameraSync } from './cameraSync'
 import SceneEnvironment from './SceneEnvironment.vue'
 import { HDRI_INTENSITY, loadHdri } from './useHdri'
@@ -30,7 +30,7 @@ const props = defineProps<{
 const emit = defineEmits<{ loaded: [stats: { triangles: number; bytes: number | null }] }>()
 
 const [gltf, hdriTexture] = await Promise.all([
-  new GLTFLoader().loadAsync(props.url),
+  loadGlb(props.url),
   loadHdri(),
 ])
 const model = gltf.scene

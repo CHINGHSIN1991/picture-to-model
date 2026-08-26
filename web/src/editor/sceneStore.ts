@@ -65,22 +65,26 @@ export function defaultScene(modelUrl = '/models/model.glb'): SceneJson {
 
 const STORAGE_KEY = 'p2m-scene-v0'
 
+/** 解析外部 scene.json:未知欄位保留、缺欄位補預設(schema 向前相容原則);
+ *  巢狀物件各補一層,舊資料才不會缺新欄位(如 environment.rotation)。
+ *  version 不符時丟錯,由呼叫端決定 fallback。 */
+export function mergeScene(parsed: Partial<SceneJson>): SceneJson {
+  if (parsed?.version !== 0) throw new Error(`不支援的 scene.json version: ${parsed?.version}`)
+  const d = defaultScene()
+  return {
+    ...d,
+    ...parsed,
+    environment: { ...d.environment, ...parsed.environment },
+    camera: { ...d.camera, ...parsed.camera },
+    render: { ...d.render, ...parsed.render },
+  }
+}
+
 function load(): SceneJson | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return null
-    const parsed = JSON.parse(raw)
-    if (parsed?.version !== 0) return null
-    // 未知欄位保留、缺欄位補預設(schema 的向前相容原則);
-    // 巢狀物件也要各補一層,否則舊資料會缺新欄位(如 environment.rotation)
-    const d = defaultScene()
-    return {
-      ...d,
-      ...parsed,
-      environment: { ...d.environment, ...parsed.environment },
-      camera: { ...d.camera, ...parsed.camera },
-      render: { ...d.render, ...parsed.render },
-    }
+    return mergeScene(JSON.parse(raw))
   } catch {
     return null
   }
