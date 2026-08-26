@@ -42,12 +42,21 @@ def _add_area_light(name: str, azimuth: float, elevation: float, energy: float, 
     return obj
 
 
-def build_lighting(hdri_path: Path | None = None, hdri_strength: float = 0.4) -> dict:
-    """三點打光 + HDRI 環境光。回傳統計(寫 metadata 用)。"""
+def build_lighting(
+    hdri_path: Path | None = None,
+    hdri_strength: float = 0.4,
+    azimuth_offset: float = 0.0,
+) -> dict:
+    """三點打光 + HDRI 環境光。回傳統計(寫 metadata 用)。
+
+    azimuth_offset: 整組光源(含 HDRI)繞 Z 軸旋轉的角度。
+    固定相機、旋轉打光渲染多張,可檢驗貼圖是否為真 PBR
+    (高光跟著光走)或烤死的光影(高光黏在表面)。
+    """
     # 相機預設在方位角 30°(見 setup_camera),Key 放相機同側偏外
-    _add_area_light("KeyLight", azimuth=75, elevation=45, energy=400, size=2.0)
-    _add_area_light("FillLight", azimuth=-30, elevation=20, energy=130, size=3.0)
-    _add_area_light("RimLight", azimuth=200, elevation=40, energy=250, size=2.0)
+    _add_area_light("KeyLight", azimuth=75 + azimuth_offset, elevation=45, energy=400, size=2.0)
+    _add_area_light("FillLight", azimuth=-30 + azimuth_offset, elevation=20, energy=130, size=3.0)
+    _add_area_light("RimLight", azimuth=200 + azimuth_offset, elevation=40, energy=250, size=2.0)
 
     world = bpy.data.worlds.new("StudioWorld")
     bpy.context.scene.world = world
@@ -58,6 +67,12 @@ def build_lighting(hdri_path: Path | None = None, hdri_strength: float = 0.4) ->
     if hdri and Path(hdri).exists():
         env = world.node_tree.nodes.new("ShaderNodeTexEnvironment")
         env.image = bpy.data.images.load(str(hdri))
+        if azimuth_offset:  # HDRI 跟著整組光源一起轉
+            coord = world.node_tree.nodes.new("ShaderNodeTexCoord")
+            mapping = world.node_tree.nodes.new("ShaderNodeMapping")
+            mapping.inputs["Rotation"].default_value[2] = math.radians(azimuth_offset)
+            world.node_tree.links.new(coord.outputs["Generated"], mapping.inputs["Vector"])
+            world.node_tree.links.new(mapping.outputs["Vector"], env.inputs["Vector"])
         world.node_tree.links.new(env.outputs["Color"], bg.inputs["Color"])
         bg.inputs["Strength"].default_value = hdri_strength
         used_hdri = True

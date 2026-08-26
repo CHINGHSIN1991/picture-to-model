@@ -33,6 +33,8 @@ def parse_args() -> argparse.Namespace:
     ap.add_argument("--samples", type=int, default=128)
     ap.add_argument("--azimuth", type=float, default=30.0)
     ap.add_argument("--elevation", type=float, default=18.0)
+    ap.add_argument("--light-rotation", type=float, default=0.0,
+                    help="整組光源(含 HDRI)繞 Z 軸旋轉角度,PBR 品質評估用")
     args = ap.parse_args(script_args())
 
     if args.job_dir:
@@ -80,7 +82,7 @@ def main() -> None:
 
     lo, _hi = world_bounds(meshes)
     add_shadow_catcher(floor_z=lo.z)
-    light_stats = build_lighting()
+    light_stats = build_lighting(azimuth_offset=args.light_rotation)
     frame_camera(meshes, azimuth=args.azimuth, elevation=args.elevation)
 
     scene = bpy.context.scene
