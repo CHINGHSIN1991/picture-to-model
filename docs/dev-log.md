@@ -5,6 +5,40 @@
 
 ---
 
+## 2026-08-26 — Phase 2 完整驗證(coral-mound)+ Phase 3 Step 3-1:標準化貼圖結構
+
+### Phase 2 完整 pipeline 驗證(job `b0b8fdff66a5`)
+
+以 `test-assets/organic/coral-mound/front.png` 跑**含 generate 的完整 pipeline**,一條指令全程無 GUI:
+
+| 階段 | 數據 |
+|---|---|
+| generate(Tripo) | 107.5s、16.2 MB(502,558 tris),`source.png` 正確拷貝 ✅ |
+| cleanup | 30,000 tris、2.1 MB,合併重複頂點 32,836(organic 類明顯偏多)、內部面 290 |
+| material | 0 需修復 |
+| render(Metal) | 40.4s,商品圖風格與前兩類一致 |
+| **總計** | **155.1s**(圖片 → Web 模型 + 商品圖) |
+
+三類測試素材(hard-surface / reflective / organic)全數通過,Phase 2 驗收清單達成,已加入 viewer(`coral{,_raw}.glb`)。
+
+### Phase 3 Step 3-1:標準化 PBR 貼圖輸出結構
+
+| 檔案 | 內容 |
+|---|---|
+| `scripts/blender/export_textures.py` | 新增。依貼圖節點連到 Principled 的輸入分類(Base Color→basecolor、Normal→normal、Metallic/Roughness→orm),從 GLB 存出 PNG 到 `textures/`。 |
+| `scripts/extract_textures.py` | 新增(venv 端)。呼叫上者後以 Pillow 把 ORM 拆成 `ao/roughness/metallic.png`(glTF 慣例 R=AO、G=Roughness、B=Metallic),寫 metadata `textures` 欄位。 |
+| `scripts/validate_textures.py` | 新增。檢查:必要貼圖齊全、解析度為 2 的次方、normal map 平均色接近 (128,128,255)。結果寫 metadata `textures.validation`。 |
+| `scripts/pipeline.py` | material 與 render 之間插入 `textures` 階段(抽取 + 驗證,驗證失敗 fail fast)。 |
+
+實測(vintage-radio 與 coral-mound):各抽出 5 檔標準結構(basecolor/normal/roughness/metallic/ao,2048×2048),驗證全數 OK,約 3s/job。
+
+### 待辦 / 下一步
+
+- [ ] Step 3-2:評估 AI texture 品質(轉動光照看高光是否「跟著光走」,已有攝影棚渲染可用)
+- [ ] Step 3-3:UV 處理自動化
+
+---
+
 ## 2026-08-25 — Phase 2 Step 2-4 / 2-5 / 2-6:程式化攝影棚渲染 + 單一指令 pipeline
 
 ### 程式碼更新

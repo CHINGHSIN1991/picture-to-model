@@ -14,9 +14,11 @@ import sys
 import time
 from pathlib import Path
 
+from extract_textures import extract_textures
 from generate_model import generate
 from render_model import render_job
 from run_blender import run as run_blender
+from validate_textures import validate
 
 
 def update_stages(job_dir: Path, stage: dict) -> None:
@@ -73,8 +75,15 @@ def main() -> None:
         update_stages(job_dir, {"name": "generate", "status": "ok",
                                 "elapsed_sec": round(time.time() - t0, 1)})
 
+    def textures_stage() -> None:
+        extract_textures(job_dir)
+        result = validate(job_dir)
+        if not result["ok"]:
+            raise RuntimeError("; ".join(result["errors"]))
+
     run_stage(job_dir, "cleanup", blender_stage("cleanup_model", job_dir))
     run_stage(job_dir, "material", blender_stage("setup_material", job_dir))
+    run_stage(job_dir, "textures", textures_stage)
     run_stage(job_dir, "render",
               lambda: render_job(job_dir, samples=args.samples, resolution=args.resolution))
 

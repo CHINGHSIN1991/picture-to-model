@@ -9,6 +9,8 @@ const models = ref<string[]>([
   '/models/model_raw.glb',
   '/models/fishbowl.glb',
   '/models/fishbowl_raw.glb',
+  '/models/coral.glb',
+  '/models/coral_raw.glb',
   '/models/trellis_radio.glb',
 ])
 const current = ref(models.value[0])
