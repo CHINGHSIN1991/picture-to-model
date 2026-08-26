@@ -37,6 +37,24 @@
 
 ---
 
+## 2026-08-26 — 修復:HDRI 載入失敗會讓 viewer 永遠卡在「載入模型中」(commit `42db7af`)
+
+### 程式碼更新
+
+| 檔案 | 內容 |
+|---|---|
+| `web/src/components/useHdri.ts` | 新增。HDRI 的 URL / 強度常數與載入邏輯抽出:(1) **模組層快取 promise**——比較模式雙 pane 與模型切換共用同一張,1.5MB 的 `.hdr` 整個 app 生命週期只抓一次;(2) 載入失敗 `.catch()` 回傳 `null` 並留 console 警告。 |
+| `web/src/components/ModelViewer.vue` | 移除內嵌 RGBELoader,改 import `useHdri`;`<SceneEnvironment>` 加 `v-if="hdriTexture"`——拿不到 HDRI 時略過 IBL、退回純方向光(不會全黑)。 |
+
+**動機**:viewer 以 `Promise.all` 同時載入模型與 HDRI,HDRI 一旦載入失敗(檔案不在、網路錯誤),async setup reject → Suspense **永遠停在「載入模型中…」**且所有模型都開不了。failure mode 從「整頁阻斷」改為「可感知的降級」。
+
+### 實測結果
+
+- `npm run build`(vue-tsc)通過;headless Chrome 實測三模式正常、console 無錯誤
+- 排查起點是使用者回報「都是模型載入中」——實際成因是舊分頁的 dev server 連線已斷(硬重新整理即解),但排查過程暴露了這個真實隱患,一併修掉
+
+---
+
 ## 2026-08-26 — Phase 3 Step 3-5:Web 端一致性驗證 + 修正 render.py 取景 FOV bug
 
 ### 程式碼更新
