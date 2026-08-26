@@ -42,8 +42,14 @@ def frame_camera(
     lo, hi = world_bounds(targets)
     center = (lo + hi) / 2
     max_dim = max(hi - lo)
-    # 以較窄的視角軸為準(正方形輸出時兩軸相同)
-    fov = min(data.angle_x, data.angle_y)
+    # 以較窄的視角軸為準。注意不能用 data.angle_x / angle_y——那是由
+    # sensor 實體尺寸(36×24mm)算的,與渲染長寬比無關;實際 FOV 要用
+    # data.angle(沿 sensor_fit 軸)配合 scene 的輸出解析度換算。
+    # 因此渲染解析度必須在呼叫本函式前設定。
+    res = bpy.context.scene.render
+    aspect = (res.resolution_x * res.pixel_aspect_x) / (res.resolution_y * res.pixel_aspect_y)
+    fov_fit = data.angle  # sensor_fit AUTO:沿較長邊
+    fov = 2 * math.atan(math.tan(fov_fit / 2) * min(aspect, 1 / aspect))
     distance = (max_dim / 2) / math.tan(fov / 2) * margin
 
     cam.location = center + Vector(spherical(azimuth, elevation, distance))

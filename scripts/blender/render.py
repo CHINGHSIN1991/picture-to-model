@@ -80,19 +80,22 @@ def main() -> None:
     if not meshes:
         sys.exit(f"GLB 內沒有 mesh: {args.input}")
 
+    scene = bpy.context.scene
+    # 解析度必須在 frame_camera 之前設定:相機 FOV(angle_x/angle_y)依
+    # 渲染長寬比計算,用預設 1920×1080 取景會把距離推遠(等效留白 ~2.5 而非 1.4)
+    scene.render.resolution_x = args.resolution
+    scene.render.resolution_y = args.resolution
+
     lo, _hi = world_bounds(meshes)
     add_shadow_catcher(floor_z=lo.z)
     light_stats = build_lighting(azimuth_offset=args.light_rotation)
     frame_camera(meshes, azimuth=args.azimuth, elevation=args.elevation)
 
-    scene = bpy.context.scene
     scene.render.engine = "CYCLES"
     device = enable_gpu()
     scene.cycles.samples = args.samples
     scene.cycles.use_denoising = True
     scene.render.film_transparent = True  # 透明背景,WebP 階段再合成白底
-    scene.render.resolution_x = args.resolution
-    scene.render.resolution_y = args.resolution
     scene.render.image_settings.file_format = "PNG"
     scene.render.image_settings.color_mode = "RGBA"
     args.output.parent.mkdir(parents=True, exist_ok=True)

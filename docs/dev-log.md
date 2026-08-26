@@ -5,6 +5,30 @@
 
 ---
 
+## 2026-08-26 — Phase 3 Step 3-5:Web 端一致性驗證 + 修正 render.py 取景 FOV bug
+
+### 程式碼更新
+
+| 檔案 | 內容 |
+|---|---|
+| `web/src/components/SceneEnvironment.vue` | 新增。把與 Blender 同一張 HDRI(`web/public/hdri/studio_small_08_1k.hdr`)掛上 `scene.environment`(three.js 對等距長方貼圖自動轉 PMREM),`environmentIntensity 0.4` 對映 Blender World Strength;可選 `background` 純色(一致性頁白底)。 |
+| `web/src/components/ModelViewer.vue` | (1) 全模式:HDRI IBL 取代 AmbientLight、TresCanvas 設 `ACESFilmicToneMapping`;(2) 新增 `studio` prop(攝影棚模式):白底、相機 30°/18°/FOV 39.6°(=50mm)/留白 1.4、三點打光角度同 `setup_lighting.py`(強度比例 = Blender 瓦數 400:130:250,整體係數定量校正後為 8.5/2.7/5.2)。`spherical()` 為 Blender Z-up → three.js Y-up 的座標轉換等價式。 |
+| `web/src/components/ConsistencyViewer.vue` | 新增。一致性驗證頁:左 `preview.webp`(複製到 `web/public/renders/`)、右攝影棚模式 live viewer,三類素材下拉切換、重置視角按鈕。 |
+| `web/src/App.vue` | 加入「一致性驗證」模式;支援 `?mode=compare / consistency` 深連結。 |
+| `scripts/blender/render.py` | 🐛 解析度移到 `frame_camera()` **之前**設定(取景需要正確的輸出長寬比)。 |
+| `scripts/blender/setup_camera.py` | 🐛 **取景 FOV bug 修正**:原本 `fov = min(data.angle_x, data.angle_y)`——但 `angle_y` 由 sensor 實體尺寸(36×24mm)計算、與渲染長寬比無關,方形輸出時誤用 27° 而非實際的 39.6°,等效留白 ~2.1 而非規劃的 1.4(商品圖物件偏小、像素利用率低)。改為 `data.angle` 配合輸出長寬比換算窄軸 FOV(橫直向通用)。 |
+| 文件 | 新增 `docs/render-consistency.md`:viewer ↔ Blender 參數對映表、座標轉換公式、已知差異(AgX vs ACES、Area vs Directional、接觸陰影)、校正旋鈕清單。 |
+
+### 實測結果
+
+- `npm run build`(vue-tsc)通過;headless Chrome(puppeteer-core)實截三模式,console 無錯誤
+- **一致性頁抓到取景 bug**:並排立刻看出 live viewer(照規格 1.4 留白)物件比 preview.webp 大——追查發現是 Blender 端 FOV 算錯,viewer 反而是對的。修正後三個 job 重渲 preview/thumbnail(radio 物件寬度佔比 0.598 → **0.805**,商品圖像素利用率明顯提升;重渲 ~44s/張,Metal)
+- **定量亮度校正**:以並排截圖量測物件區域平均亮度,燈光係數迭代三輪(2.0/0.65/1.25 → 8.5/2.7/5.2),radio 兩端 mean **177.7 vs 178.3** 一致(median 173 vs 185,右側中間調略暗屬 Directional vs Area 光源差)
+- radio / fishbowl 目視:basecolor 色相、明度、大小、角度四項對齊;AgX vs ACES 高光滾降差異可見、可接受
+- 殘餘差異(已記錄於 render-consistency.md):接觸陰影(viewer 無 shadow catcher)、光源軟硬
+
+---
+
 ## 2026-08-26 — Phase 3 Step 3-4:高模 → 低模貼圖烘焙(bake_textures.py)
 
 ### 程式碼更新

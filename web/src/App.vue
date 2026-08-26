@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import ModelViewer from './components/ModelViewer.vue'
 import CompareViewer from './components/CompareViewer.vue'
+import ConsistencyViewer from './components/ConsistencyViewer.vue'
 
 // 把 GLB 放到 web/public/models/ 後在這裡列出
 const models = ref<string[]>([
@@ -15,7 +16,12 @@ const models = ref<string[]>([
   '/models/trellis_radio.glb',
 ])
 const current = ref(models.value[0])
-const mode = ref<'single' | 'compare'>('single')
+// ?mode=compare / ?mode=consistency 可直接深連結到對應模式
+type Mode = 'single' | 'compare' | 'consistency'
+const initialMode = new URLSearchParams(location.search).get('mode')
+const mode = ref<Mode>(
+  initialMode === 'compare' || initialMode === 'consistency' ? initialMode : 'single',
+)
 </script>
 
 <template>
@@ -25,11 +31,13 @@ const mode = ref<'single' | 'compare'>('single')
       <nav class="mode-switch">
         <button :class="{ active: mode === 'single' }" @click="mode = 'single'">單一檢視</button>
         <button :class="{ active: mode === 'compare' }" @click="mode = 'compare'">比較模式</button>
+        <button :class="{ active: mode === 'consistency' }" @click="mode = 'consistency'">一致性驗證</button>
       </nav>
       <select v-if="mode === 'single'" v-model="current">
         <option v-for="m in models" :key="m" :value="m">{{ m.split('/').pop() }}</option>
       </select>
-      <span v-else class="hint">拖曳任一側旋轉,兩邊視角同步</span>
+      <span v-else-if="mode === 'compare'" class="hint">拖曳任一側旋轉,兩邊視角同步</span>
+      <span v-else class="hint">Blender 渲染圖 vs live viewer,校正色彩一致性</span>
     </header>
     <main>
       <Suspense v-if="mode === 'single'">
@@ -38,7 +46,8 @@ const mode = ref<'single' | 'compare'>('single')
           <p class="loading">載入模型中…</p>
         </template>
       </Suspense>
-      <CompareViewer v-else :models="models" />
+      <CompareViewer v-else-if="mode === 'compare'" :models="models" />
+      <ConsistencyViewer v-else />
     </main>
   </div>
 </template>
