@@ -5,6 +5,34 @@
 
 ---
 
+## 2026-08-26 — Phase 3 Step 3-3:UV 處理自動化(品質檢測 + 重新 unwrap)
+
+### 程式碼更新
+
+| 檔案 | 內容 |
+|---|---|
+| `scripts/blender/cleanup_model.py` | (1) 新增 `uv_quality()`:以 bmesh 計算每面「UV 面積 / 3D 面積」的加權變異係數(texel density 均勻度)與 UV 總覆蓋率,decimate 後永遠量測、寫入 metadata `cleanup.uv`,`density_cv > 1.0` 標記警告;(2) 新增 `--reunwrap` 旗標:decimate 後 `smart_project`(66°)+ `pack_islands` 重建乾淨 UV。 |
+
+**設計決策**:文件建議 decimate 後直接重新 unwrap,但這會讓既有貼圖立刻失效(舊貼圖對不上新 UV),必須搭配 Step 3-4 的 bake 才成立。因此 `--reunwrap` 預設**關閉**——一般 pipeline 保留 decimate 自動維護的原 UV(貼圖照常可用),bake 流程才開啟。
+
+### 實測結果(vintage-radio)
+
+| 模式 | texel density CV(越低越均勻) | UV 覆蓋率 |
+|---|---|---|
+| 原 UV(decimate 保留) | 0.395 | 0.686 |
+| `--reunwrap` 後 | **0.056** | 0.669 |
+
+- 原 UV 品質尚可(未達警告門檻),貼圖直接沿用沒問題
+- 重新 unwrap 後 texel density 幾乎完全均勻,驗證了給 bake 用的 UV 產線可行
+- UV 覆蓋率 >1 可偵測重疊/複用(精確的重疊檢測成本高,以覆蓋率作 proxy)
+
+### 待辦 / 下一步
+
+- [ ] Step 3-4:`bake_textures.py`(高模 → 低模新 UV 的 normal / AO / diffuse bake)
+- [ ] bake 後 A/B 比較(viewer 已有比較模式可用)
+
+---
+
 ## 2026-08-26 — Phase 3 Step 3-2:AI 貼圖 PBR 品質評估(旋轉打光)
 
 ### 程式碼更新

@@ -34,6 +34,9 @@ def parse_args() -> argparse.Namespace:
     ap.add_argument("--output-web", type=Path, help="Web 版輸出(預設 <job-dir>/model.glb)")
     ap.add_argument("--target-tris", type=int, default=30000, help="Web 版目標三角形數")
     ap.add_argument("--keep-interior", action="store_true", help="不刪除內部面(除錯用)")
+    ap.add_argument("--reunwrap", action="store_true",
+                    help="decimate 後重新 unwrap(smart_project + pack_islands)。"
+                         "會使既有貼圖失效,僅供後續 bake 流程使用")
     args = ap.parse_args(script_args())
 
     if args.job_dir:
@@ -120,6 +123,64 @@ def decimate(obj: bpy.types.Object, target_tris: int) -> float:
     return ratio
 
 
+def reunwrap(obj: bpy.types.Object) -> None:
+    """重新 unwrap(給 bake 用的乾淨 UV):smart_project 66° + pack_islands。"""
+    select_only([obj])
+    bpy.ops.object.mode_set(mode="EDIT")
+    bpy.ops.mesh.select_all(action="SELECT")
+    bpy.ops.uv.smart_project(angle_limit=1.15, island_margin=0.003)
+    bpy.ops.uv.pack_islands(margin=0.003)
+    bpy.ops.object.mode_set(mode="OBJECT")
+
+
+# texel density 的變異係數(std/mean)超過此值視為 UV 品質異常
+UV_DENSITY_CV_WARN = 1.0
+
+
+def uv_quality(obj: bpy.types.Object) -> dict | None:
+    """UV 品質量測:每面「UV 面積 / 3D 面積」的均勻度(texel density)。
+
+    回傳 density_cv(變異係數,0=完全均勻)與 uv_coverage(UV 總面積,
+    1.0 = 佔滿 0~1 空間;>1 表示有重疊或重複利用)。無 UV 回傳 None。
+    """
+    import bmesh
+
+    bm = bmesh.new()
+    bm.from_mesh(obj.data)
+    uv_layer = bm.loops.layers.uv.active
+    if uv_layer is None:
+        bm.free()
+        return None
+
+    ratios: list[tuple[float, float]] = []  # (UV/3D 面積比, 3D 面積權重)
+    uv_total = 0.0
+    for face in bm.faces:
+        area3d = face.calc_area()
+        uvs = [loop[uv_layer].uv for loop in face.loops]
+        area_uv = 0.5 * abs(sum(
+            uvs[i].x * uvs[(i + 1) % len(uvs)].y - uvs[(i + 1) % len(uvs)].x * uvs[i].y
+            for i in range(len(uvs))
+        ))
+        uv_total += area_uv
+        if area3d > 1e-12:
+            ratios.append((area_uv / area3d, area3d))
+    bm.free()
+    if not ratios:
+        return None
+
+    weight_sum = sum(w for _, w in ratios)
+    mean = sum(r * w for r, w in ratios) / weight_sum
+    if mean <= 0:
+        return {"density_cv": None, "uv_coverage": round(uv_total, 4), "warning": True}
+    var = sum(w * (r - mean) ** 2 for r, w in ratios) / weight_sum
+    cv = (var ** 0.5) / mean
+    return {
+        "density_cv": round(cv, 3),
+        "uv_coverage": round(uv_total, 4),
+        "warning": cv > UV_DENSITY_CV_WARN,
+    }
+
+
 def write_metadata(job_dir: Path | None, stats: dict) -> None:
     if not job_dir:
         return
@@ -151,6 +212,12 @@ def main() -> None:
 
     ratio = decimate(obj, args.target_tris)
     tris_web = triangle_count(obj)
+    if args.reunwrap:
+        reunwrap(obj)
+        print("[cleanup] 已重新 unwrap(既有貼圖將對不上新 UV,需後續 bake)")
+    uv_stats = uv_quality(obj)
+    if uv_stats and uv_stats["warning"]:
+        print(f"[cleanup] 警告: UV 品質異常 (density_cv={uv_stats['density_cv']})")
     args.output_web.parent.mkdir(parents=True, exist_ok=True)
     export_glb(str(args.output_web))
     print(f"[cleanup] Web 版 {tris_web} tris (ratio={ratio:.4f}) → {args.output_web}")
@@ -163,6 +230,8 @@ def main() -> None:
         "target_tris": args.target_tris,
         "decimate_ratio": round(ratio, 4),
         **repair_stats,
+        "reunwrapped": args.reunwrap,
+        "uv": uv_stats,
         "high_glb_bytes": args.output_high.stat().st_size,
         "web_glb_bytes": args.output_web.stat().st_size,
         "elapsed_sec": round(time.time() - t0, 1),
