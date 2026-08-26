@@ -23,10 +23,12 @@ THUMBNAIL_SIZE = 400
 WEBP_QUALITY = 90
 
 
-def png_to_webp(png_path: Path, job_dir: Path) -> dict:
-    """透明 PNG → 白底 preview.webp + thumbnail.webp,回傳統計。"""
+def png_to_webp(png_path: Path, job_dir: Path, background: str = "#FFFFFF") -> dict:
+    """透明 PNG → 合成背景色的 preview.webp + thumbnail.webp,回傳統計。"""
     img = Image.open(png_path).convert("RGBA")
-    white = Image.new("RGB", img.size, (255, 255, 255))
+    v = background.lstrip("#")
+    bg_rgb = tuple(int(v[i : i + 2], 16) for i in (0, 2, 4))
+    white = Image.new("RGB", img.size, bg_rgb)
     white.paste(img, mask=img.getchannel("A"))
 
     preview = job_dir / "preview.webp"
@@ -51,26 +53,35 @@ def render_job(
     resolution: int = 1600,
     azimuth: float = 30.0,
     elevation: float = 18.0,
+    scene_json: Path | None = None,
 ) -> dict:
-    """渲染一個 job 並轉 WebP,回傳統計。Blender 失敗時 raise RuntimeError。"""
+    """渲染一個 job 並轉 WebP,回傳統計。Blender 失敗時 raise RuntimeError。
+
+    scene_json:編輯器輸出的 scene.json——camera / lights / render /
+    materials_override 交給 render.py 套用,背景色在本層合成。
+    """
     t0 = time.time()
-    rc = run(
-        "render",
-        [
-            "--job-dir", str(job_dir),
-            "--samples", str(samples),
-            "--resolution", str(resolution),
-            "--azimuth", str(azimuth),
-            "--elevation", str(elevation),
-        ],
-    )
+    blender_args = [
+        "--job-dir", str(job_dir),
+        "--samples", str(samples),
+        "--resolution", str(resolution),
+        "--azimuth", str(azimuth),
+        "--elevation", str(elevation),
+    ]
+    background = "#FFFFFF"
+    if scene_json:
+        blender_args += ["--scene-json", str(scene_json)]
+        bg = json.loads(Path(scene_json).read_text()).get("environment", {}).get("background", {})
+        if bg.get("type") == "color" and bg.get("value"):
+            background = bg["value"]
+    rc = run("render", blender_args)
     if rc != 0:
         raise RuntimeError(f"Blender render 失敗 (exit code {rc})")
 
     png = job_dir / "preview.png"
     if not png.exists():
         raise RuntimeError(f"render.py 沒有產出 {png}")
-    stats = png_to_webp(png, job_dir)
+    stats = png_to_webp(png, job_dir, background)
 
     meta_path = job_dir / "metadata.json"
     meta = json.loads(meta_path.read_text()) if meta_path.exists() else {}
@@ -89,10 +100,13 @@ def main() -> None:
     ap.add_argument("--resolution", type=int, default=1600)
     ap.add_argument("--azimuth", type=float, default=30.0)
     ap.add_argument("--elevation", type=float, default=18.0)
+    ap.add_argument("--scene-json", type=Path,
+                    help="編輯器輸出的 scene.json(camera/lights/render/materials_override 優先)")
     args = ap.parse_args()
 
     try:
-        render_job(args.job_dir, args.samples, args.resolution, args.azimuth, args.elevation)
+        render_job(args.job_dir, args.samples, args.resolution, args.azimuth, args.elevation,
+                   scene_json=args.scene_json)
     except RuntimeError as exc:
         sys.exit(str(exc))
 

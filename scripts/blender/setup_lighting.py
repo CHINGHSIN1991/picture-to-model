@@ -42,21 +42,40 @@ def _add_area_light(name: str, azimuth: float, elevation: float, energy: float, 
     return obj
 
 
+# 三點打光預設值(= scene.json schema 的 lights 預設;size 依角色固定)
+DEFAULT_LIGHTS = [
+    {"id": "key", "azimuth": 75, "elevation": 45, "power": 400},
+    {"id": "fill", "azimuth": -30, "elevation": 20, "power": 130},
+    {"id": "rim", "azimuth": 200, "elevation": 40, "power": 250},
+]
+_LIGHT_SIZE = {"key": 2.0, "fill": 3.0, "rim": 2.0}
+
+
 def build_lighting(
     hdri_path: Path | None = None,
     hdri_strength: float = 0.4,
     azimuth_offset: float = 0.0,
+    lights: list[dict] | None = None,
 ) -> dict:
     """三點打光 + HDRI 環境光。回傳統計(寫 metadata 用)。
 
     azimuth_offset: 整組光源(含 HDRI)繞 Z 軸旋轉的角度。
     固定相機、旋轉打光渲染多張,可檢驗貼圖是否為真 PBR
     (高光跟著光走)或烤死的光影(高光黏在表面)。
+    lights: scene.json 的 lights[](id/azimuth/elevation/power),None 用預設三點打光。
     """
     # 相機預設在方位角 30°(見 setup_camera),Key 放相機同側偏外
-    _add_area_light("KeyLight", azimuth=75 + azimuth_offset, elevation=45, energy=400, size=2.0)
-    _add_area_light("FillLight", azimuth=-30 + azimuth_offset, elevation=20, energy=130, size=3.0)
-    _add_area_light("RimLight", azimuth=200 + azimuth_offset, elevation=40, energy=250, size=2.0)
+    light_names = []
+    for l in lights if lights is not None else DEFAULT_LIGHTS:
+        name = f"{l['id'].capitalize()}Light"
+        _add_area_light(
+            name,
+            azimuth=l["azimuth"] + azimuth_offset,
+            elevation=l["elevation"],
+            energy=l["power"],
+            size=_LIGHT_SIZE.get(l["id"], 2.0),
+        )
+        light_names.append(name)
 
     world = bpy.data.worlds.new("StudioWorld")
     bpy.context.scene.world = world
@@ -80,4 +99,4 @@ def build_lighting(
         bg.inputs["Color"].default_value = (0.9, 0.9, 0.9, 1.0)
         bg.inputs["Strength"].default_value = hdri_strength
         print(f"[lighting] 找不到 HDRI({hdri}),改用均勻灰色環境光")
-    return {"lights": ["KeyLight", "FillLight", "RimLight"], "hdri": Path(hdri).name if used_hdri else None}
+    return {"lights": light_names, "hdri": Path(hdri).name if used_hdri else None}

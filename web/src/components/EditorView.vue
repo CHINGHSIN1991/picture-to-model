@@ -62,12 +62,10 @@ function applyPreset(p: (typeof presets)[number]) {
 
 // --- 頂欄動作 ---
 async function copyRenderCmd() {
-  // Render API 屬 4B 後端;MVP 先產出等價 CLI(scene.json 的 camera/render 參數面)
-  const c = scene.camera
-  const r = scene.render
-  const cmd = `uv run scripts/render_model.py output/<job_id> --azimuth ${c.azimuth} --elevation ${c.elevation} --samples ${r.samples} --resolution ${r.resolution}`
+  // Render API 屬 4B 後端;CLI 已可完整消費 scene.json(camera/lights/render/materials_override)
+  const cmd = `uv run scripts/render_model.py output/<job_id> --scene-json <下載的 scene.json 路徑>`
   await navigator.clipboard.writeText(cmd)
-  showToast('已複製 Render CLI 指令(Render API 屬 Phase 4 後端)')
+  showToast('已複製 Render CLI:下載 scene.json 後帶入 --scene-json 即可 Cycles 渲染')
 }
 async function exportGlb() {
   await viewportRef.value?.exportGlb()

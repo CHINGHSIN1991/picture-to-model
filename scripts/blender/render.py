@@ -20,6 +20,7 @@ import bpy
 
 sys.path.insert(0, str(Path(__file__).parent))
 from _util import import_glb, reset_scene, script_args
+from apply_scene import apply_material_overrides, load_scene
 from setup_camera import frame_camera, world_bounds
 from setup_lighting import build_lighting
 
@@ -35,7 +36,13 @@ def parse_args() -> argparse.Namespace:
     ap.add_argument("--elevation", type=float, default=18.0)
     ap.add_argument("--light-rotation", type=float, default=0.0,
                     help="整組光源(含 HDRI)繞 Z 軸旋轉角度,PBR 品質評估用")
+    ap.add_argument("--scene-json", type=Path,
+                    help="編輯器輸出的 scene.json(docs/scene-schema.md);"
+                         "提供時其 camera/lights/render/materials_override 優先於對應 CLI 參數")
     args = ap.parse_args(script_args())
+
+    if args.scene_json and not args.scene_json.exists():
+        ap.error(f"找不到 scene.json: {args.scene_json}")
 
     if args.job_dir:
         args.input = args.input or args.job_dir / "model_high.glb"
@@ -75,10 +82,32 @@ def main() -> None:
     args = parse_args()
     t0 = time.time()
 
+    # scene.json 提供時,其參數面優先(Render API 的資料形狀,見 docs/scene-schema.md)
+    scene_json = load_scene(args.scene_json) if args.scene_json else None
+    focal_mm, padding = 50.0, 1.4
+    lights = None
+    hdri_strength = 0.4
+    if scene_json:
+        cam = scene_json.get("camera", {})
+        args.azimuth = cam.get("azimuth", args.azimuth)
+        args.elevation = cam.get("elevation", args.elevation)
+        focal_mm = cam.get("focal_mm", focal_mm)
+        padding = cam.get("padding", padding)
+        rnd = scene_json.get("render", {})
+        args.samples = rnd.get("samples", args.samples)
+        args.resolution = rnd.get("resolution", args.resolution)
+        env = scene_json.get("environment", {})
+        hdri_strength = env.get("intensity", hdri_strength)
+        lights = scene_json.get("lights")
+
     reset_scene()
     meshes = import_glb(str(args.input))
     if not meshes:
         sys.exit(f"GLB 內沒有 mesh: {args.input}")
+
+    override_stats = (
+        apply_material_overrides(scene_json.get("materials_override")) if scene_json else {}
+    )
 
     scene = bpy.context.scene
     # 解析度必須在 frame_camera 之前設定:相機 FOV(angle_x/angle_y)依
@@ -88,8 +117,12 @@ def main() -> None:
 
     lo, _hi = world_bounds(meshes)
     add_shadow_catcher(floor_z=lo.z)
-    light_stats = build_lighting(azimuth_offset=args.light_rotation)
-    frame_camera(meshes, azimuth=args.azimuth, elevation=args.elevation)
+    light_stats = build_lighting(
+        hdri_strength=hdri_strength, azimuth_offset=args.light_rotation, lights=lights
+    )
+    frame_camera(
+        meshes, azimuth=args.azimuth, elevation=args.elevation, margin=padding, lens_mm=focal_mm
+    )
 
     scene.render.engine = "CYCLES"
     device = enable_gpu()
@@ -111,6 +144,8 @@ def main() -> None:
         "azimuth": args.azimuth,
         "elevation": args.elevation,
         **light_stats,
+        **override_stats,
+        "scene_json": str(args.scene_json) if args.scene_json else None,
         "elapsed_sec": round(time.time() - t0, 1),
     }
     if args.job_dir:

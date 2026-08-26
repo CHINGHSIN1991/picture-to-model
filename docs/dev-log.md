@@ -5,6 +5,38 @@
 
 ---
 
+## 2026-08-26 — Phase 4B:scene.json → Blender 渲染閉環(--scene-json)
+
+> scene-schema 資料流的下半段:編輯器調的燈光 / 相機 / 材質(含 transmission 玻璃),
+> 用同一份 scene.json 直接餵給 Cycles 渲染——即未來 Render API 的參數面,先以 CLI 打通。
+
+### 程式碼更新
+
+| 檔案 | 內容 |
+|---|---|
+| `scripts/blender/apply_scene.py` | 新增。`load_scene()`(驗 version)+ `apply_material_overrides()`:transmission→Principled `Transmission Weight`、ior→`IOR`、emissive→`Emission Color`+Strength;base_color_tint / roughness / metallic 依 glTF「factor × 貼圖」語意——輸入沒接貼圖直接設值,有接貼圖插 Multiply 節點(Math / Mix.RGBA)。sRGB hex → linear 轉換。統計(applied / missing)寫 metadata。 |
+| `scripts/blender/render.py` | 新增 `--scene-json`:camera(azimuth/elevation/focal_mm/padding)、render(samples/resolution)、environment.intensity、lights[]、materials_override 全部由 scene.json 提供並優先於對應 CLI 參數。 |
+| `scripts/blender/setup_lighting.py` | `build_lighting()` 新增 `lights` 參數(scene.json 的 lights[],id/azimuth/elevation/power),預設值抽成 `DEFAULT_LIGHTS`;size 依角色固定(key 2.0 / fill 3.0 / rim 2.0)。 |
+| `scripts/render_model.py` | 傳遞 `--scene-json`;背景合成色改讀 scene.environment.background(type=color 用其色值,其餘維持白底)。 |
+| `web/src/components/EditorView.vue` | Render 按鈕的 CLI 指令改為 `--scene-json` 形式。 |
+
+**踩坑備註**:Blender `ShaderNodeMix` 的 A/B/Result 依 data_type 有多組同名 socket,`inputs["A"]` 會拿到 float 那組——RGBA 必須用固定索引(inputs[6]/[7]、outputs[2])。
+
+### 實測結果(fishbowl,job `940b1dd831ac`)
+
+- scene.json:`materials_override` 對 Tripo 材質設 transmission 1.0 / ior 1.45 / roughness 0.05
+- `uv run scripts/render_model.py output/940b1dd831ac --scene-json .../scene.json` → **48.8s(Metal)**,metadata 記錄 `materials_overridden` 與 scene_json 路徑
+- **Phase 2 記錄的「Tripo 玻璃烘成不透明」問題,首次渲出真玻璃**:可透視、折射、頂部光澤,shadow catcher 陰影正常——瀏覽器(three.js MeshPhysicalMaterial)與 Cycles 兩端同一份 scene.json 語意一致
+- 玻璃版另存 `preview_scene.webp`,官方 `preview.webp` 保持原樣(scene override 渲染不覆蓋 pipeline 產物)
+
+### 待辦 / 下一步
+
+- [ ] editor「下載 scene.json」→ 放進 job 目錄的流程說明(或 4A 後端直接收 scene overrides)
+- [ ] export_glb 端也吃 materials_override(gltf-transform 或 bpy 匯出前套用),Embed 用
+- [ ] 背景 type=environment 時 Blender 端關 film_transparent、渲 HDRI 背景
+
+---
+
 ## 2026-08-26 — Phase 4B 前置:Scene Editor 前端 MVP(三欄編輯器)
 
 > 依 4B UI mockup(三欄 Figma 式)先做**不依賴後端**的前端層;Render API / DB / Embed 屬 Phase 4 後續。
