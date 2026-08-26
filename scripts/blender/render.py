@@ -87,6 +87,7 @@ def main() -> None:
     focal_mm, padding = 50.0, 1.4
     lights = None
     hdri_strength = 0.4
+    hdri_rotation = 0.0
     if scene_json:
         cam = scene_json.get("camera", {})
         args.azimuth = cam.get("azimuth", args.azimuth)
@@ -98,6 +99,7 @@ def main() -> None:
         args.resolution = rnd.get("resolution", args.resolution)
         env = scene_json.get("environment", {})
         hdri_strength = env.get("intensity", hdri_strength)
+        hdri_rotation = env.get("rotation", hdri_rotation)
         lights = scene_json.get("lights")
 
     reset_scene()
@@ -118,7 +120,10 @@ def main() -> None:
     lo, _hi = world_bounds(meshes)
     add_shadow_catcher(floor_z=lo.z)
     light_stats = build_lighting(
-        hdri_strength=hdri_strength, azimuth_offset=args.light_rotation, lights=lights
+        hdri_strength=hdri_strength,
+        azimuth_offset=args.light_rotation,
+        lights=lights,
+        hdri_rotation=hdri_rotation,
     )
     frame_camera(
         meshes, azimuth=args.azimuth, elevation=args.elevation, margin=padding, lens_mm=focal_mm

@@ -1,15 +1,18 @@
 <script setup lang="ts">
 // Phase 4B Scene Editor(前端 MVP):三欄 Figma 式,滑桿全數對映 Scene Schema。
 // 值只寫入 scene.json(localStorage),GLB 不動;Render / Embed 的後端屬 4A/4B 後續。
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import EditorViewport from './EditorViewport.vue'
 import { MODELS } from '../modelList'
 import {
   scene,
   editorUi,
+  history,
   overrideFor,
   resetScene,
   downloadSceneJson,
+  undo,
+  redo,
   type SceneLight,
 } from '../editor/sceneStore'
 
@@ -24,6 +27,18 @@ function showToast(msg: string) {
 }
 
 const modelName = computed(() => scene.model_url.split('/').pop()?.replace('.glb', '') ?? '')
+
+// --- Undo / Redo:⌘/Ctrl+Z、Shift+⌘/Ctrl+Z ---
+const canUndo = computed(() => history.index > 0)
+const canRedo = computed(() => history.index < history.stack.length - 1)
+function onKeydown(e: KeyboardEvent) {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z') {
+    e.preventDefault()
+    e.shiftKey ? redo() : undo()
+  }
+}
+onMounted(() => window.addEventListener('keydown', onKeydown))
+onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 
 // --- Scene 樹選取 → Inspector tab ---
 function select(sel: typeof editorUi.selection) {
@@ -86,6 +101,10 @@ function switchModel(url: string) {
     <!-- 頂欄 -->
     <header class="topbar">
       <span class="project">◆ picture-to-model — {{ modelName }} Scene</span>
+      <nav class="undo-redo">
+        <button :disabled="!canUndo" title="復原(⌘Z)" @click="undo()">↶</button>
+        <button :disabled="!canRedo" title="重做(⇧⌘Z)" @click="redo()">↷</button>
+      </nav>
       <span v-if="toast" class="toast">{{ toast }}</span>
       <div class="actions">
         <button @click="copyRenderCmd">Render</button>
@@ -230,6 +249,11 @@ function switchModel(url: string) {
             <input v-model.number="scene.environment.intensity" type="range" min="0" max="2" step="0.05" />
             <code>{{ scene.environment.intensity.toFixed(2) }}</code>
           </label>
+          <label class="row slider">
+            <span>HDRI 旋轉</span>
+            <input v-model.number="scene.environment.rotation" type="range" min="0" max="360" step="1" />
+            <code>{{ scene.environment.rotation }}°</code>
+          </label>
         </div>
 
         <!-- Camera -->
@@ -300,6 +324,23 @@ function switchModel(url: string) {
 .toast {
   color: #7ee0a3;
   font-size: 0.8rem;
+}
+.undo-redo {
+  display: flex;
+  gap: 0.25rem;
+}
+.undo-redo button {
+  background: #1f1f36;
+  color: #ccc;
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.undo-redo button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
 }
 .actions {
   margin-left: auto;

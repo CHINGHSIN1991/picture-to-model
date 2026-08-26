@@ -56,6 +56,7 @@ def build_lighting(
     hdri_strength: float = 0.4,
     azimuth_offset: float = 0.0,
     lights: list[dict] | None = None,
+    hdri_rotation: float = 0.0,
 ) -> dict:
     """三點打光 + HDRI 環境光。回傳統計(寫 metadata 用)。
 
@@ -63,6 +64,8 @@ def build_lighting(
     固定相機、旋轉打光渲染多張,可檢驗貼圖是否為真 PBR
     (高光跟著光走)或烤死的光影(高光黏在表面)。
     lights: scene.json 的 lights[](id/azimuth/elevation/power),None 用預設三點打光。
+    hdri_rotation: scene.json 的 environment.rotation——只轉 HDRI、不動燈
+    (與 azimuth_offset 疊加)。
     """
     # 相機預設在方位角 30°(見 setup_camera),Key 放相機同側偏外
     light_names = []
@@ -86,10 +89,11 @@ def build_lighting(
     if hdri and Path(hdri).exists():
         env = world.node_tree.nodes.new("ShaderNodeTexEnvironment")
         env.image = bpy.data.images.load(str(hdri))
-        if azimuth_offset:  # HDRI 跟著整組光源一起轉
+        env_rotation = azimuth_offset + hdri_rotation  # 評估用整組旋轉 + 編輯器 HDRI 旋轉
+        if env_rotation:
             coord = world.node_tree.nodes.new("ShaderNodeTexCoord")
             mapping = world.node_tree.nodes.new("ShaderNodeMapping")
-            mapping.inputs["Rotation"].default_value[2] = math.radians(azimuth_offset)
+            mapping.inputs["Rotation"].default_value[2] = math.radians(env_rotation)
             world.node_tree.links.new(coord.outputs["Generated"], mapping.inputs["Vector"])
             world.node_tree.links.new(mapping.outputs["Vector"], env.inputs["Vector"])
         world.node_tree.links.new(env.outputs["Color"], bg.inputs["Color"])

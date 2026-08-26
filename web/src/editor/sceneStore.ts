@@ -1,7 +1,7 @@
 // Phase 4B Scene Editor 的單一真相來源(對映 docs/scene-schema.md v0)。
 // MVP 先用模組層 reactive(零相依);4A 整合多專案時再換 Pinia。
 // 持久化:debounce 寫 localStorage(之後換 scenes 表 JSONB)。
-import { reactive, watch } from 'vue'
+import { nextTick, reactive, watch } from 'vue'
 
 export interface SceneLight {
   id: 'key' | 'fill' | 'rim'
@@ -26,6 +26,7 @@ export interface SceneJson {
   environment: {
     hdri: string
     intensity: number
+    rotation: number // HDRI 繞垂直軸旋轉角度(度);additive 欄位,舊 scene.json 缺省視為 0
     background: { type: 'color' | 'transparent' | 'environment'; value: string }
   }
   lights: SceneLight[]
@@ -48,6 +49,7 @@ export function defaultScene(modelUrl = '/models/model.glb'): SceneJson {
     environment: {
       hdri: 'studio_small_08_1k',
       intensity: 0.4,
+      rotation: 0,
       background: { type: 'color', value: '#FFFFFF' },
     },
     lights: [
@@ -69,8 +71,16 @@ function load(): SceneJson | null {
     if (!raw) return null
     const parsed = JSON.parse(raw)
     if (parsed?.version !== 0) return null
-    // 未知欄位保留、缺欄位補預設(schema 的向前相容原則)
-    return { ...defaultScene(), ...parsed }
+    // 未知欄位保留、缺欄位補預設(schema 的向前相容原則);
+    // 巢狀物件也要各補一層,否則舊資料會缺新欄位(如 environment.rotation)
+    const d = defaultScene()
+    return {
+      ...d,
+      ...parsed,
+      environment: { ...d.environment, ...parsed.environment },
+      camera: { ...d.camera, ...parsed.camera },
+      render: { ...d.render, ...parsed.render },
+    }
   } catch {
     return null
   }
@@ -89,7 +99,43 @@ export const editorUi = reactive({
   stats: { triangles: 0, bytes: null as number | null },
 })
 
+// --- Undo / Redo:快照堆疊(以 350ms debounce 把連續拖曳合成一步) ---
+// 4B 配套原規劃 command pattern;MVP 用 JSON 快照——scene.json 本來就小
+// (< 2KB),快照比逐欄位 command 簡單且天然涵蓋所有欄位。
+const HISTORY_CAP = 50
+export const history = reactive({ stack: [JSON.stringify(scene)], index: 0 })
+let applying = false // 套用快照造成的變更不再入棧
+
+function pushSnapshot() {
+  const snap = JSON.stringify(scene)
+  if (snap === history.stack[history.index]) return
+  history.stack.splice(history.index + 1) // 丟棄 redo 分支
+  history.stack.push(snap)
+  if (history.stack.length > HISTORY_CAP) history.stack.shift()
+  history.index = history.stack.length - 1
+}
+
+function applySnapshot(json: string) {
+  applying = true
+  Object.assign(scene, JSON.parse(json))
+  nextTick(() => {
+    applying = false
+  })
+}
+
+export function undo() {
+  // 先把 debounce 中的編輯入棧,undo 才會撤銷「最後一步」而不是跳過它
+  clearTimeout(historyTimer)
+  pushSnapshot()
+  if (history.index > 0) applySnapshot(history.stack[--history.index])
+}
+
+export function redo() {
+  if (history.index < history.stack.length - 1) applySnapshot(history.stack[++history.index])
+}
+
 let saveTimer: ReturnType<typeof setTimeout> | undefined
+let historyTimer: ReturnType<typeof setTimeout> | undefined
 watch(
   scene,
   () => {
@@ -99,6 +145,9 @@ watch(
       localStorage.setItem(STORAGE_KEY, JSON.stringify(scene))
       editorUi.saved = true
     }, 300)
+    if (applying) return
+    clearTimeout(historyTimer)
+    historyTimer = setTimeout(pushSnapshot, 350)
   },
   { deep: true },
 )

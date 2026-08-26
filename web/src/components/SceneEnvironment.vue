@@ -13,6 +13,9 @@ const props = defineProps<{
   background?: string
   // 直接以 HDRI 當背景(editor 的 background.type = environment)
   envAsBackground?: boolean
+  // HDRI 繞垂直軸旋轉(度)。對映 Blender 端 Mapping 節點的 Z 旋轉;
+  // 兩端旋轉方向的正負號一致性待目視校驗(studio HDRI 各向性低,影響小)
+  rotation?: number
 }>()
 
 const { scene } = useTresContext()
@@ -21,6 +24,9 @@ watchEffect(() => {
   props.texture.mapping = EquirectangularReflectionMapping
   scene.value.environment = props.texture
   scene.value.environmentIntensity = props.intensity ?? 1
+  const rad = ((props.rotation ?? 0) * Math.PI) / 180
+  scene.value.environmentRotation.set(0, rad, 0)
+  scene.value.backgroundRotation.set(0, rad, 0)
   scene.value.background = props.envAsBackground
     ? props.texture
     : props.background

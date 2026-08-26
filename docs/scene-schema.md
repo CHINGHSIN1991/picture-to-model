@@ -25,6 +25,7 @@
   "environment": {
     "hdri": "studio_small_08_1k",                    // 對映 assets/*.hdr(目前一組,之後擴充 preset 庫)
     "intensity": 0.4,                                // = setup_lighting.py 現值
+    "rotation": 0,                                   // HDRI 繞垂直軸旋轉(度);additive 欄位(2026-08-26),缺省 = 0
     "background": { "type": "color", "value": "#FFFFFF" }   // color | transparent | environment
   },
 

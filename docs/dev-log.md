@@ -5,6 +5,44 @@
 
 ---
 
+## 2026-08-26 — Phase 4B 配套:Undo/Redo + HDRI 旋轉 + web/public 資產版控
+
+### 程式碼更新
+
+| 檔案 | 內容 |
+|---|---|
+| `web/src/editor/sceneStore.ts` | (1) **Undo/Redo**:JSON 快照堆疊(cap 50),350ms debounce 把連續拖曳合成一步;undo 先 flush 未入棧的編輯,套用快照時以 `applying` 旗標避免重複入棧。原規劃 command pattern,改用快照——scene.json < 2KB,快照更簡單且天然涵蓋所有欄位。(2) **schema additive 欄位 `environment.rotation`**(HDRI 繞垂直軸,度);localStorage 載入改巢狀補預設,舊資料不缺新欄位。 |
+| `web/src/components/EditorView.vue` | 頂欄 ↶/↷ 按鈕(依 history 狀態 disable)+ ⌘/Ctrl+Z、⇧⌘Z 快捷鍵;Light tab 加「HDRI 旋轉」滑桿(0–360°)。 |
+| `web/src/components/SceneEnvironment.vue` | 新增 `rotation` prop → `scene.environmentRotation` / `backgroundRotation`(three r162+)。 |
+| `scripts/blender/setup_lighting.py` | `build_lighting()` 新增 `hdri_rotation`(只轉 HDRI、不動燈,與評估用的 `azimuth_offset` 疊加於同一 Mapping 節點)。 |
+| `scripts/blender/render.py` | `--scene-json` 讀 `environment.rotation` 傳給 build_lighting。 |
+| `.gitignore` / `web/README.md` / `web/public/` | 資產版控定案:`hdri/`(IBL 必需,1.5MB)與 `renders/`(一致性頁)**進版控**;`models/` 加入 gitignore(大、可由 pipeline 重生),README 改寫為專案說明含複製指引。 |
+
+**已知未定**:HDRI 旋轉在 three(`environmentRotation.y`)與 Blender(Mapping 節點 Z)兩端的正負號一致性待目視校驗——studio HDRI 各向性低、影響小,已在程式註解標記。
+
+### 註釋:.hdr 檔是什麼、資產版控為什麼這樣分
+
+- **`.hdr` = HDRI 環境貼圖**(High Dynamic Range Image):360° 全景圖,像素存「光的實際強度」而非 0~255 顏色——亮部(燈箱、窗)值可遠大於 1.0,因此可直接**當光源**用,不只是背景圖。本專案用 Poly Haven 的 `studio_small_08_1k.hdr`(CC0,1k)。
+- **同一張檔案在兩端當同一組環境光**,這是 Step 3-5 色彩一致性的關鍵:
+  - Blender 端:`setup_lighting.py` 掛 World 節點(強度 0.4),檔案在 `assets/`;
+  - Web 端:`useHdri.ts` 載入 `web/public/hdri/` 的拷貝,掛 `scene.environment` 做 IBL——所有 PBR 材質自動獲得反射與環境照明。
+- **為什麼非要它**:金屬 / 光滑表面的質感來自「反射環境」——radio 旋鈕、fishbowl 玻璃反射的都是這張 HDRI 裡的攝影棚燈箱;只有方向光時金屬會呈現死板塑膠感。編輯器 Light tab 的「HDRI 強度 / 旋轉」調的就是這張圖。少了檔案時 viewer 走降級路徑(純方向光,不會全黑,見 `42db7af`)。
+- **版控取捨**:`hdri/`(1.5MB、功能必需、不會變)與 `renders/`(~370KB、一致性頁基準圖)進版控——clone 下來 viewer 即可用;`models/` 的 GLB 每顆 1.5~15MB、可由 pipeline 隨時重生,進 gitignore、README 留複製指引。`models/` 從未被 commit 過(`git log --all` 驗證),不存在誤推歷史。
+
+### 實測結果(headless Chrome)
+
+- 清 localStorage → Light tab 把 HDRI 旋轉拉到 180° → **Ctrl+Z 回 0 → ⇧Ctrl+Z 回 180°**,↶/↷ 按鈕 disable 狀態正確,無 page error
+- 旋轉 180° 時模型反射位置可見改變(environmentRotation 生效)
+- `npm run build`(vue-tsc)通過
+
+### 待辦 / 下一步
+
+- [ ] export_glb 端也吃 materials_override(gltf-transform,4B 後端)
+- [ ] 背景 type=environment 時 Blender 端關 film_transparent
+- [ ] 4A:上傳 → 佇列 → worker 的後端(pipeline stages 已 ready)
+
+---
+
 ## 2026-08-26 — Phase 4B:scene.json → Blender 渲染閉環(commit `8eb3dff`)
 
 > scene-schema 資料流的下半段:編輯器調的燈光 / 相機 / 材質(含 transmission 玻璃),

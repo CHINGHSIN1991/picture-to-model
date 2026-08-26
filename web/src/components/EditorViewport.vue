@@ -193,6 +193,7 @@ const sceneBackground = computed(() => {
       v-if="hdriTexture"
       :texture="hdriTexture"
       :intensity="sceneJson.environment.intensity ?? HDRI_INTENSITY"
+      :rotation="sceneJson.environment.rotation ?? 0"
       :background="sceneBackground === 'environment' ? undefined : sceneBackground"
       :env-as-background="sceneBackground === 'environment'"
     />

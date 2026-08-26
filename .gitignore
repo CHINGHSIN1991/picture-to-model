@@ -5,6 +5,7 @@ docs/phase-*.md
 # 生成產物與測試結果
 output/
 test-results/
+web/public/models/
 
 # 機密
 .env
