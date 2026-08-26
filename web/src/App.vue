@@ -7,6 +7,7 @@ import CompareViewer from './components/CompareViewer.vue'
 const models = ref<string[]>([
   '/models/model.glb',
   '/models/model_raw.glb',
+  '/models/radio_baked.glb',
   '/models/fishbowl.glb',
   '/models/fishbowl_raw.glb',
   '/models/coral.glb',

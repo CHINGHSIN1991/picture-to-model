@@ -5,6 +5,35 @@
 
 ---
 
+## 2026-08-26 — Phase 3 Step 3-4:高模 → 低模貼圖烘焙(bake_textures.py)
+
+### 程式碼更新
+
+| 檔案 | 內容 |
+|---|---|
+| `scripts/blender/bake_textures.py` | 新增。同場景匯入高模(帶 provider 貼圖)與 Web 低模 → 低模重新 unwrap(復用 Step 3-3 的 `reunwrap`)→ Cycles selected-to-active 烘焙 **normal / AO / diffuse(pass_filter=COLOR,不含光影)/ roughness** 四張(1024px,32 samples,cage_extrusion 0.02)→ 貼圖接回 Principled → 匯出 `model_baked.glb`。貼圖另存 `textures/baked_*.png`,統計寫 metadata `bake` 欄位。Metal GPU(復用 render 的 enable_gpu)。 |
+| `web/src/App.vue` | viewer 加入 `radio_baked.glb` 供 A/B 比較。 |
+
+已知限制(記錄於腳本 docstring):
+
+- **metallic 無原生 bake type**,先固定 0(之後需要時以 EMIT 技巧補)——金屬件在 baked 版會失去金屬感
+- **AO 只存檔不接線**(glTF occlusion 佈線需特殊節點群組,Web 端效益低)
+
+### 實測結果(vintage-radio)
+
+- 四張全烤 + 匯出共 **7.7s**(Metal GPU;normal/AO/diffuse/roughness 各約 1~2s)
+- 渲染比對:與 provider 貼圖版幾乎無差異——無接縫、無黑斑(cage 0.02 適當),頂部格柵 normal 細節保留
+- `model_baked.glb` 4.4 MB vs 原 `model.glb` 1.6 MB(四張未壓縮 1024 PNG;之後可轉 JPEG/壓縮再省)
+- 意義:**貼圖產線與 provider 解耦**——之後不論貼圖來自 delighting、AI 生成或手動修圖,都能烤回統一的低模 UV
+
+### 待辦 / 下一步
+
+- [ ] viewer 比較模式 A/B:`model.glb` vs `radio_baked.glb`
+- [ ] baked 貼圖的壓縮策略(JPEG basecolor / 較低解析度 roughness)
+- [ ] Step 3-5:Web 端材質與色彩一致性驗證
+
+---
+
 ## 2026-08-26 — Phase 3 Step 3-3:UV 處理自動化(品質檢測 + 重新 unwrap)
 
 ### 程式碼更新
