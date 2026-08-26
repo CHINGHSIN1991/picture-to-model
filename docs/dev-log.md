@@ -5,7 +5,7 @@
 
 ---
 
-## 2026-08-26 — Phase 4B:scene.json → Blender 渲染閉環(--scene-json)
+## 2026-08-26 — Phase 4B:scene.json → Blender 渲染閉環(commit `8eb3dff`)
 
 > scene-schema 資料流的下半段:編輯器調的燈光 / 相機 / 材質(含 transmission 玻璃),
 > 用同一份 scene.json 直接餵給 Cycles 渲染——即未來 Render API 的參數面,先以 CLI 打通。
@@ -37,7 +37,7 @@
 
 ---
 
-## 2026-08-26 — Phase 4B 前置:Scene Editor 前端 MVP(三欄編輯器)
+## 2026-08-26 — Phase 4B 前置:Scene Editor 前端 MVP(三欄編輯器,commit `d420b85`)
 
 > 依 4B UI mockup(三欄 Figma 式)先做**不依賴後端**的前端層;Render API / DB / Embed 屬 Phase 4 後續。
 
@@ -87,7 +87,7 @@
 
 ---
 
-## 2026-08-26 — Phase 3 Step 3-5:Web 端一致性驗證 + 修正 render.py 取景 FOV bug
+## 2026-08-26 — Phase 3 Step 3-5:Web 端一致性驗證 + 修正 render.py 取景 FOV bug(commit `de569ed`)
 
 ### 程式碼更新
 
