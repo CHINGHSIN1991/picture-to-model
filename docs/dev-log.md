@@ -5,6 +5,30 @@
 
 ---
 
+## 2026-08-26 — Phase 3 Step 3-2:AI 貼圖 PBR 品質評估(旋轉打光)
+
+### 程式碼更新
+
+| 檔案 | 內容 |
+|---|---|
+| `scripts/blender/setup_lighting.py` | `build_lighting()` 新增 `azimuth_offset`:整組光源(三盞 Area Light + HDRI,HDRI 經 Mapping 節點轉 Z 軸)一起旋轉。 |
+| `scripts/blender/render.py` | 新增 `--light-rotation` 參數,傳給 build_lighting。 |
+| `scripts/eval_textures.py` | 新增(venv 端)。固定相機、光照轉 0°/120°/240° 各渲一張(64 samples / 800px),輸出 `eval/light_<deg>.webp`。 |
+
+### 實測結果(vintage-radio + fishbowl,共 6 張)
+
+- **兩者的陰影與表面高光都正確隨光旋轉**——Tripo 的 ORM/normal 是真 PBR,不是畫上去的光影
+- vintage-radio:金屬旋鈕、喇叭網高光跟著光走;basecolor 僅輕微斑駁明暗(近似做舊質感,可接受)
+- fishbowl:球面即時鏡面反射正確,**但玻璃「窗」的白色反光條紋烤死在 basecolor**(三個角度完全不動),加上無 transmission,反光類是目前品質短板
+- 結論寫入 `docs/evaluation.md` 附錄 A:第一版貼圖採 **Tripo API PBR 輸出**;反光/透明類 fallback → delighting 或 Blender bake(Step 3-4)+ 後製 transmission
+
+### 待辦 / 下一步
+
+- [ ] Step 3-3:UV 處理自動化(檢測拉伸/重疊/texel density)
+- [ ] Step 3-4:Blender bake(高模 → 低模貼圖烘焙)
+
+---
+
 ## 2026-08-26 — Phase 2 完整驗證(coral-mound)+ Phase 3 Step 3-1:標準化貼圖結構
 
 ### Phase 2 完整 pipeline 驗證(job `b0b8fdff66a5`)
