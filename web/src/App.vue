@@ -5,16 +5,18 @@ import CompareViewer from './components/CompareViewer.vue'
 import ConsistencyViewer from './components/ConsistencyViewer.vue'
 import EditorView from './components/EditorView.vue'
 import EmbedViewer from './components/EmbedViewer.vue'
+import StrategyViewer from './components/StrategyViewer.vue'
 import { MODELS } from './modelList'
 
 const models = ref<string[]>(MODELS)
 const current = ref(models.value[0])
-// ?mode=compare / consistency / editor 可深連結;embed 為無 chrome 的嵌入頁
-type Mode = 'single' | 'compare' | 'consistency' | 'editor' | 'embed'
+// ?mode=compare / consistency / strategy / editor 可深連結;embed 為無 chrome 的嵌入頁
+type Mode = 'single' | 'compare' | 'consistency' | 'strategy' | 'editor' | 'embed'
 const initialMode = new URLSearchParams(location.search).get('mode')
 const mode = ref<Mode>(
   initialMode === 'compare' ||
     initialMode === 'consistency' ||
+    initialMode === 'strategy' ||
     initialMode === 'editor' ||
     initialMode === 'embed'
     ? initialMode
@@ -32,6 +34,7 @@ const mode = ref<Mode>(
         <button :class="{ active: mode === 'single' }" @click="mode = 'single'">單一檢視</button>
         <button :class="{ active: mode === 'compare' }" @click="mode = 'compare'">比較模式</button>
         <button :class="{ active: mode === 'consistency' }" @click="mode = 'consistency'">一致性驗證</button>
+        <button :class="{ active: mode === 'strategy' }" @click="mode = 'strategy'">減面策略</button>
         <button :class="{ active: mode === 'editor' }" @click="mode = 'editor'">編輯器</button>
       </nav>
       <select v-if="mode === 'single'" v-model="current">
@@ -39,6 +42,7 @@ const mode = ref<Mode>(
       </select>
       <span v-else-if="mode === 'compare'" class="hint">拖曳任一側旋轉,兩邊視角同步</span>
       <span v-else-if="mode === 'consistency'" class="hint">Blender 渲染圖 vs live viewer,校正色彩一致性</span>
+      <span v-else-if="mode === 'strategy'" class="hint">同一高模、不同 decimate 策略,左原始右變體視角同步</span>
       <span v-else class="hint">Scene Editor(4B 前端 MVP)— 滑桿即時生效,只寫 scene.json</span>
     </header>
     <main>
@@ -50,6 +54,7 @@ const mode = ref<Mode>(
       </Suspense>
       <CompareViewer v-else-if="mode === 'compare'" :models="models" />
       <ConsistencyViewer v-else-if="mode === 'consistency'" />
+      <StrategyViewer v-else-if="mode === 'strategy'" />
       <EditorView v-else />
     </main>
   </div>

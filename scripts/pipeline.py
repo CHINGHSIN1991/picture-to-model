@@ -43,9 +43,9 @@ def run_stage(job_dir: Path, name: str, fn) -> None:
                             "elapsed_sec": round(time.time() - t0, 1)})
 
 
-def blender_stage(script: str, job_dir: Path):
+def blender_stage(script: str, job_dir: Path, extra_args: list[str] | None = None):
     def _run():
-        rc = run_blender(script, ["--job-dir", str(job_dir)])
+        rc = run_blender(script, ["--job-dir", str(job_dir), *(extra_args or [])])
         if rc != 0:
             raise RuntimeError(f"{script} exit code {rc}")
     return _run
@@ -59,6 +59,12 @@ def main() -> None:
     ap.add_argument("--no-pbr", action="store_true")
     ap.add_argument("--samples", type=int, default=128)
     ap.add_argument("--resolution", type=int, default=1600)
+    ap.add_argument("--strategy", choices=("collapse", "planar", "unsubdiv"),
+                    help="cleanup 的減面策略(預設 collapse)")
+    ap.add_argument("--variants", type=str,
+                    help="cleanup 額外輸出的減面策略變體,逗號分隔(如 collapse,planar)")
+    ap.add_argument("--variant-tris", type=str,
+                    help="collapse 變體的目標面數清單,逗號分隔(如 10000,30000,60000)")
     args = ap.parse_args()
 
     t0 = time.time()
@@ -81,7 +87,14 @@ def main() -> None:
         if not result["ok"]:
             raise RuntimeError("; ".join(result["errors"]))
 
-    run_stage(job_dir, "cleanup", blender_stage("cleanup_model", job_dir))
+    cleanup_args: list[str] = []
+    if args.strategy:
+        cleanup_args += ["--strategy", args.strategy]
+    if args.variants:
+        cleanup_args += ["--variants", args.variants]
+    if args.variant_tris:
+        cleanup_args += ["--variant-tris", args.variant_tris]
+    run_stage(job_dir, "cleanup", blender_stage("cleanup_model", job_dir, cleanup_args))
     run_stage(job_dir, "material", blender_stage("setup_material", job_dir))
     run_stage(job_dir, "textures", textures_stage)
     run_stage(job_dir, "render",

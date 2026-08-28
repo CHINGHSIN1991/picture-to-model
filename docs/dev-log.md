@@ -5,6 +5,39 @@
 
 ---
 
+## 2026-08-28 — 減面策略比較:cleanup 多策略/多面數變體 + viewer「減面策略」模式
+
+> Phase 5 retopology/LOD 的前置探索:同一份修整後高模,套不同 decimate 策略
+> 與目標面數各出一檔,viewer 左右同步比較拓撲差異,量化各策略的適用範圍。
+
+### 程式碼更新
+
+| 檔案 | 內容 |
+|---|---|
+| `scripts/blender/cleanup_model.py` | `decimate()` 泛化為 `apply_decimate()`:**collapse**(邊塌縮,面數可控)/ **planar**(DISSOLVE 平面合併,`--planar-angle` 預設 5°)/ **unsubdiv**(反細分,`--unsubdiv-iterations` 預設 2)。主輸出由 `--strategy` 選(預設 collapse,向後相容)。`--variants` 批次輸出:每個變體從「修整後、未減面」的同一份網格快照(`obj.data.copy()`)出發,輸出 `<web 檔名>__<slug>.glb`;`--variant-tris` 讓 collapse 每個目標面數各出一檔(slug 如 `collapse-10k`)。變體統計(label、params、前後面數、bytes)寫進 metadata `cleanup.variants`,並以 web 檔名為 key 合併進 `--variants-manifest`(預設 `<web 輸出目錄>/variants.json`)。 |
+| `scripts/pipeline.py` | `blender_stage` 支援額外引數;新增 `--strategy` / `--variants` / `--variant-tris` 透傳給 cleanup 階段。 |
+| `web/src/components/StrategyViewer.vue` | 新增「減面策略」模式(`?mode=strategy`):讀 `/models/variants.json`,多 base 下拉 + 變體切換按鈕(顯示 label,tooltip 說明策略特性),左原始右變體、視角同步(沿用 cameraSync),顯示面數/檔案大小與相對原始的減幅;預設開結構線。manifest 缺檔時顯示產生指令。 |
+| `web/src/App.vue` | mode 加入 `strategy`,header 加「減面策略」按鈕。 |
+
+### 實測結果(vintage-radio,`model_raw.glb` 501,102 tris)
+
+- 高模修整後 500,932 tris;Blender 5.2.0 headless 總耗時 **1652s**(planar dissolve 佔大宗)
+- **collapse 30k**:→ 30,000 tris(−94.0%),1.6MB — 面數精準命中,通用預設
+- **planar 5°**:→ 37,698 tris(−92.5%),1.7MB — hard-surface 保稜線效果好
+- **unsubdiv ×2**:→ 500,850 tris(−0.02%),15.1MB — **幾乎無效**:AI 生成為不規則三角網格、非規則 quad,正好量化此策略的適用限制
+- 已部署 https://picture-to-model.pages.dev/?mode=strategy(Cloudflare Pages)
+
+### 追加實測:fishbowl / coral(`--variant-tris 10000,30000,60000`,各 5 變體)
+
+- **collapse 10k/30k/60k** 兩模型皆精準命中目標面數(來源各 ~501k / ~502k tris)
+- **planar 5° 的策略適用性對比**:fishbowl(reflective/hard)→ 58,222 tris(−88.4%);
+  **coral(organic)→ 406,942 tris(僅 −19.0%)** — organic 網格幾乎沒有共面區域可合併,
+  驗證 planar 只適合 hard-surface
+- unsubdiv 兩模型同樣無效(−0.05% / −0.06%)
+- manifest 三個 base(model / fishbowl / coral)合併正常,viewer 下拉切換模型可用
+
+---
+
 ## 2026-08-26 — Embed 重量瘦身:GLB meshopt + WebP、HDRI 512 降檔(3.3MB → 1.33MB)
 
 > 上一條的待辦「embed 重量瘦身」。方案定案:**meshopt 取代原規劃的 Draco**——

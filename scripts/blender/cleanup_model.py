@@ -5,14 +5,20 @@
     uv run scripts/run_blender.py cleanup_model -- --job-dir output/<job_id>
     uv run scripts/run_blender.py cleanup_model -- \
         --input in.glb --output-high high.glb --output-web web.glb --target-tris 30000
+    # 多策略變體:另外輸出 web__collapse.glb / web__planar.glb / … + variants.json
+    uv run scripts/run_blender.py cleanup_model -- \
+        --input in.glb --output-high high.glb --output-web web.glb \
+        --variants collapse,planar,unsubdiv
 
 流程:匯入 → 合併 mesh → 正規化(置中 + 單位大小)→ 修整(重複頂點 /
-法線 / 內部面)→ 匯出高模 → Decimate → 匯出 Web 版。
+法線 / 內部面)→ 匯出高模 → Decimate(--strategy)→ 匯出 Web 版
+→(選用)各減面策略變體 + variants.json manifest。
 統計數字寫進 --job-dir 的 metadata.json(cleanup 欄位)。
 """
 
 import argparse
 import json
+import math
 import sys
 import time
 from pathlib import Path
@@ -25,6 +31,8 @@ from _util import export_glb, import_glb, reset_scene, script_args, select_only,
 # 內部面選中比例超過此值視為 select_interior_faces 誤判(非水密網格),跳過刪除
 MAX_INTERIOR_RATIO = 0.5
 
+STRATEGIES = ("collapse", "planar", "unsubdiv")
+
 
 def parse_args() -> argparse.Namespace:
     ap = argparse.ArgumentParser(description=__doc__)
@@ -33,6 +41,21 @@ def parse_args() -> argparse.Namespace:
     ap.add_argument("--output-high", type=Path, help="高模輸出(預設 <job-dir>/model_high.glb)")
     ap.add_argument("--output-web", type=Path, help="Web 版輸出(預設 <job-dir>/model.glb)")
     ap.add_argument("--target-tris", type=int, default=30000, help="Web 版目標三角形數")
+    ap.add_argument("--strategy", choices=STRATEGIES, default="collapse",
+                    help="Web 版減面策略(預設 collapse)")
+    ap.add_argument("--planar-angle", type=float, default=5.0,
+                    help="planar 策略的平面角度容差(度)")
+    ap.add_argument("--unsubdiv-iterations", type=int, default=2,
+                    help="unsubdiv 策略的反細分次數(2 = 還原一層 subdivision)")
+    ap.add_argument("--variants", type=str, default="",
+                    help="逗號分隔的策略清單(如 collapse,planar,unsubdiv),"
+                         "每個策略從修整後高模各自減面,輸出 <web 檔名>__<策略>.glb")
+    ap.add_argument("--variant-tris", type=str, default="",
+                    help="逗號分隔的目標面數清單(如 10000,30000,60000),"
+                         "collapse 變體每個目標各出一檔 <web 檔名>__collapse-<N>k.glb")
+    ap.add_argument("--variants-manifest", type=Path,
+                    help="變體 manifest JSON 路徑(預設 <web 輸出目錄>/variants.json),"
+                         "以 web 檔名為 key 合併更新,供 viewer 的減面策略模式讀取")
     ap.add_argument("--keep-interior", action="store_true", help="不刪除內部面(除錯用)")
     ap.add_argument("--reunwrap", action="store_true",
                     help="decimate 後重新 unwrap(smart_project + pack_islands)。"
@@ -47,6 +70,17 @@ def parse_args() -> argparse.Namespace:
         ap.error("需要 --job-dir,或同時給 --input / --output-high / --output-web")
     if not args.input.exists():
         ap.error(f"找不到輸入檔: {args.input}")
+
+    args.variants = [s.strip() for s in args.variants.split(",") if s.strip()]
+    unknown = [s for s in args.variants if s not in STRATEGIES]
+    if unknown:
+        ap.error(f"未知的減面策略: {', '.join(unknown)}(可用: {', '.join(STRATEGIES)})")
+    try:
+        args.variant_tris = [int(s) for s in args.variant_tris.split(",") if s.strip()]
+    except ValueError:
+        ap.error(f"--variant-tris 需為逗號分隔的整數: {args.variant_tris}")
+    if args.variants and not args.variants_manifest:
+        args.variants_manifest = args.output_web.parent / "variants.json"
     return args
 
 
@@ -109,18 +143,103 @@ def repair_mesh(obj: bpy.types.Object, keep_interior: bool) -> dict:
     }
 
 
-def decimate(obj: bpy.types.Object, target_tris: int) -> float:
-    """Collapse decimate 到目標三角形數,回傳實際 ratio。"""
-    current = triangle_count(obj)
-    ratio = min(1.0, target_tris / max(current, 1))
-    if ratio >= 1.0:
-        return 1.0
-    select_only([obj])
-    mod = obj.modifiers.new("decimate", "DECIMATE")
-    mod.decimate_type = "COLLAPSE"
-    mod.ratio = ratio
-    bpy.ops.object.modifier_apply(modifier=mod.name)
-    return ratio
+def apply_decimate(obj: bpy.types.Object, strategy: str, args: argparse.Namespace,
+                   target_tris: int | None = None) -> dict:
+    """套用一種減面策略,回傳 {strategy, params, tris_before, tris_after}。
+
+    collapse:邊塌縮到目標三角形數(target_tris 可覆寫),保 UV,面數可控。
+    planar:合併夾角小於容差的共面區域,適合 hard-surface,面數不可直接控。
+    unsubdiv:反細分,只對規則 quad 網格有效(如 remesh 過的模型)。
+    """
+    before = triangle_count(obj)
+    mod = None
+    if strategy == "collapse":
+        target = target_tris or args.target_tris
+        ratio = min(1.0, target / max(before, 1))
+        params = {"target_tris": target, "ratio": round(ratio, 4)}
+        if ratio < 1.0:
+            mod = obj.modifiers.new("decimate", "DECIMATE")
+            mod.decimate_type = "COLLAPSE"
+            mod.ratio = ratio
+    elif strategy == "planar":
+        params = {"angle_limit_deg": args.planar_angle}
+        mod = obj.modifiers.new("decimate", "DECIMATE")
+        mod.decimate_type = "DISSOLVE"
+        mod.angle_limit = math.radians(args.planar_angle)
+    elif strategy == "unsubdiv":
+        params = {"iterations": args.unsubdiv_iterations}
+        mod = obj.modifiers.new("decimate", "DECIMATE")
+        mod.decimate_type = "UNSUBDIV"
+        mod.iterations = args.unsubdiv_iterations
+    else:
+        raise ValueError(f"未知策略: {strategy}")
+    if mod is not None:
+        select_only([obj])
+        bpy.ops.object.modifier_apply(modifier=mod.name)
+    return {
+        "strategy": strategy,
+        "params": params,
+        "tris_before": before,
+        "tris_after": triangle_count(obj),
+    }
+
+
+def fmt_tris(n: int) -> str:
+    return f"{n // 1000}k" if n % 1000 == 0 else str(n)
+
+
+def variant_jobs(args: argparse.Namespace) -> list[dict]:
+    """展開變體工作清單:collapse 依 --variant-tris 每個目標一檔,其餘策略各一檔。
+
+    slug 進檔名(<web 檔名>__<slug>.glb),label 給 viewer 的切換按鈕顯示。
+    """
+    jobs: list[dict] = []
+    for strategy in args.variants:
+        if strategy == "collapse":
+            targets = args.variant_tris or [args.target_tris]
+            multi = len(targets) > 1
+            for t in targets:
+                jobs.append({"strategy": strategy, "target_tris": t,
+                             "slug": f"collapse-{fmt_tris(t)}" if multi else "collapse",
+                             "label": f"collapse {fmt_tris(t)}"})
+        elif strategy == "planar":
+            jobs.append({"strategy": strategy, "target_tris": None, "slug": "planar",
+                         "label": f"planar {args.planar_angle:g}°"})
+        else:
+            jobs.append({"strategy": strategy, "target_tris": None, "slug": "unsubdiv",
+                         "label": f"unsubdiv ×{args.unsubdiv_iterations}"})
+    return jobs
+
+
+def export_variants(obj: bpy.types.Object, base_mesh: bpy.types.Mesh,
+                    args: argparse.Namespace) -> list[dict]:
+    """每個變體從修整後高模(base_mesh)各自減面並匯出獨立 GLB。"""
+    variants: list[dict] = []
+    for job in variant_jobs(args):
+        obj.data = base_mesh.copy()
+        v = apply_decimate(obj, job["strategy"], args, target_tris=job["target_tris"])
+        v["label"] = job["label"]
+        path = args.output_web.with_name(f"{args.output_web.stem}__{job['slug']}.glb")
+        export_glb(str(path))
+        v["file"] = path.name
+        v["bytes"] = path.stat().st_size
+        variants.append(v)
+        print(f"[cleanup] 變體 {job['label']}: {v['tris_before']} → {v['tris_after']} tris → {path}")
+    return variants
+
+
+def update_variants_manifest(args: argparse.Namespace, variants: list[dict]) -> None:
+    """以 web 檔名為 key 合併寫入 manifest,viewer 的減面策略模式讀這份。"""
+    path = args.variants_manifest
+    manifest = json.loads(path.read_text()) if path.exists() else {}
+    manifest[args.output_web.stem] = {
+        "source": args.input.name,
+        "target_tris": args.target_tris,
+        "variants": variants,
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2))
+    print(f"[cleanup] manifest 已更新 → {path}")
 
 
 def reunwrap(obj: bpy.types.Object) -> None:
@@ -210,8 +329,13 @@ def main() -> None:
     export_glb(str(args.output_high))
     print(f"[cleanup] 高模 {tris_high} tris → {args.output_high}")
 
-    ratio = decimate(obj, args.target_tris)
-    tris_web = triangle_count(obj)
+    # 變體需要從「修整後、未減面」的網格各自出發,先留一份快照
+    base_mesh = obj.data.copy() if args.variants else None
+
+    dec = apply_decimate(obj, args.strategy, args)
+    tris_web = dec["tris_after"]
+    # collapse 有明確 ratio;planar / unsubdiv 以實際減後面數比回報
+    ratio = dec["params"].get("ratio", round(tris_web / max(dec["tris_before"], 1), 4))
     if args.reunwrap:
         reunwrap(obj)
         print("[cleanup] 已重新 unwrap(既有貼圖將對不上新 UV,需後續 bake)")
@@ -222,13 +346,19 @@ def main() -> None:
     export_glb(str(args.output_web))
     print(f"[cleanup] Web 版 {tris_web} tris (ratio={ratio:.4f}) → {args.output_web}")
 
+    variants = export_variants(obj, base_mesh, args) if base_mesh else []
+    if variants:
+        update_variants_manifest(args, variants)
+
     stats = {
         "blender_version": bpy.app.version_string,
         "tris_raw": tris_raw,
         "tris_high": tris_high,
         "tris_web": tris_web,
         "target_tris": args.target_tris,
+        "strategy": args.strategy,
         "decimate_ratio": round(ratio, 4),
+        "variants": variants,
         **repair_stats,
         "reunwrapped": args.reunwrap,
         "uv": uv_stats,
