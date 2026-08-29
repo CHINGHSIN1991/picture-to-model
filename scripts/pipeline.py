@@ -20,6 +20,9 @@ from render_model import render_job
 from run_blender import run as run_blender
 from validate_textures import validate
 
+# 與 scripts/blender/cleanup_model.py 的 STRATEGIES 同步(該檔 import bpy,無法在 venv 匯入)
+STRATEGIES = ("collapse", "planar", "unsubdiv")
+
 
 def update_stages(job_dir: Path, stage: dict) -> None:
     meta_path = job_dir / "metadata.json"
@@ -43,9 +46,11 @@ def run_stage(job_dir: Path, name: str, fn) -> None:
                             "elapsed_sec": round(time.time() - t0, 1)})
 
 
-def blender_stage(script: str, job_dir: Path, extra_args: list[str] | None = None):
+def blender_stage(script: str, job_dir: Path, extra_args: list[str] | None = None,
+                  timeout: int | None = None):
     def _run():
-        rc = run_blender(script, ["--job-dir", str(job_dir), *(extra_args or [])])
+        kwargs = {"timeout": timeout} if timeout else {}
+        rc = run_blender(script, ["--job-dir", str(job_dir), *(extra_args or [])], **kwargs)
         if rc != 0:
             raise RuntimeError(f"{script} exit code {rc}")
     return _run
@@ -59,13 +64,28 @@ def main() -> None:
     ap.add_argument("--no-pbr", action="store_true")
     ap.add_argument("--samples", type=int, default=128)
     ap.add_argument("--resolution", type=int, default=1600)
-    ap.add_argument("--strategy", choices=("collapse", "planar", "unsubdiv"),
+    ap.add_argument("--strategy", choices=STRATEGIES,
                     help="cleanup 的減面策略(預設 collapse)")
     ap.add_argument("--variants", type=str,
                     help="cleanup 額外輸出的減面策略變體,逗號分隔(如 collapse,planar)")
     ap.add_argument("--variant-tris", type=str,
                     help="collapse 變體的目標面數清單,逗號分隔(如 10000,30000,60000)")
+    ap.add_argument("--blender-timeout", type=int,
+                    help="Blender 階段逾時秒數(預設 1800;多變體 cleanup 可能需要調高)")
     args = ap.parse_args()
+
+    # cleanup_model 內也會驗證,但那時付費的 generate 階段已經跑完;typo 在這裡先擋下
+    if args.variants:
+        unknown = [s for s in args.variants.split(",") if s.strip() and s.strip() not in STRATEGIES]
+        if unknown:
+            ap.error(f"未知的減面策略: {', '.join(unknown)}(可用: {', '.join(STRATEGIES)})")
+    if args.variant_tris:
+        try:
+            tris = [int(s) for s in args.variant_tris.split(",") if s.strip()]
+        except ValueError:
+            ap.error(f"--variant-tris 需為逗號分隔的整數: {args.variant_tris}")
+        if any(t <= 0 for t in tris):
+            ap.error("--variant-tris 需為正整數")
 
     t0 = time.time()
     if args.skip_generate:
@@ -94,8 +114,10 @@ def main() -> None:
         cleanup_args += ["--variants", args.variants]
     if args.variant_tris:
         cleanup_args += ["--variant-tris", args.variant_tris]
-    run_stage(job_dir, "cleanup", blender_stage("cleanup_model", job_dir, cleanup_args))
-    run_stage(job_dir, "material", blender_stage("setup_material", job_dir))
+    run_stage(job_dir, "cleanup", blender_stage("cleanup_model", job_dir, cleanup_args,
+                                                timeout=args.blender_timeout))
+    run_stage(job_dir, "material", blender_stage("setup_material", job_dir,
+                                                 timeout=args.blender_timeout))
     run_stage(job_dir, "textures", textures_stage)
     run_stage(job_dir, "render",
               lambda: render_job(job_dir, samples=args.samples, resolution=args.resolution))

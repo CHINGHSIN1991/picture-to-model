@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { computed, onErrorCaptured, onMounted, reactive, ref, watch } from 'vue'
 import ModelViewer from './ModelViewer.vue'
 import { createCameraSync } from './cameraSync'
 
@@ -16,6 +16,7 @@ interface Variant {
 }
 interface BaseEntry {
   source: string
+  high_bytes?: number // 修整後高模 GLB 大小,檔案縮減比較的基準(舊 manifest 沒有)
   target_tris: number
   variants: Variant[]
 }
@@ -43,32 +44,25 @@ onMounted(async () => {
     if (!res.ok) throw new Error(String(res.status))
     manifest.value = await res.json()
     const names = Object.keys(manifest.value ?? {})
-    if (names.length) {
-      base.value = names[0]
-      selected.value = manifest.value![names[0]].variants[0]?.file ?? ''
-    }
+    if (names.length) base.value = names[0]
   } catch {
     loadError.value = true
   }
 })
 
 const entry = computed(() => (manifest.value && base.value ? manifest.value[base.value] : null))
-const variant = computed(
-  () => entry.value?.variants.find((v) => v.file === selected.value) ?? null,
-)
+// 選取狀態用衍生的方式收斂:selected 不在當前 base 的清單裡(換 base、換 manifest)
+// 就退回第一個變體,不需要 watch 修補
+const variant = computed(() => {
+  const list = entry.value?.variants ?? []
+  return list.find((v) => v.file === selected.value) ?? list[0] ?? null
+})
 const sourceUrl = computed(() => (entry.value ? `/models/${entry.value.source}` : ''))
 const variantUrl = computed(() => (variant.value ? `/models/${variant.value.file}` : ''))
 
 function variantLabel(v: Variant) {
   return v.label ?? STRATEGY_LABELS[v.strategy] ?? v.strategy
 }
-
-// 換 base 後選取的檔案不存在,退回第一個變體
-watch(base, () => {
-  if (entry.value && !entry.value.variants.some((v) => v.file === selected.value)) {
-    selected.value = entry.value.variants[0]?.file ?? ''
-  }
-})
 
 const sync = reactive(createCameraSync())
 const wireframe = ref(true) // 減面比較看的是拓撲,預設開結構線
@@ -78,14 +72,25 @@ interface Stats {
   bytes: number | null
 }
 const stats = reactive<{ left: Stats | null; right: Stats | null }>({ left: null, right: null })
-watch(sourceUrl, () => (stats.left = null))
-watch(variantUrl, () => (stats.right = null))
+const viewerError = ref<string | null>(null)
+watch(sourceUrl, () => ((stats.left = null), (viewerError.value = null)))
+watch(variantUrl, () => ((stats.right = null), (viewerError.value = null)))
 
+// GLB 載入失敗(檔案不在 web/public/models/)時 Suspense 永遠不 resolve,
+// 這裡接住錯誤顯示訊息,不讓 pane 卡在「載入模型中…」沒有任何線索
+onErrorCaptured((err) => {
+  viewerError.value = err instanceof Error ? err.message : String(err)
+  return false
+})
+
+// 比較數據直接讀 manifest(cleanup_model.py 量好的),不等模型載完;
+// 基準都是修整後高模:面數 = tris_before、檔案 = high_bytes
 const diff = computed(() => {
-  if (!stats.left || !stats.right) return null
-  const tris = (1 - stats.right.triangles / stats.left.triangles) * 100
-  const size =
-    stats.left.bytes && stats.right.bytes ? (1 - stats.right.bytes / stats.left.bytes) * 100 : null
+  const v = variant.value
+  if (!v || !(v.tris_before > 0)) return null
+  const tris = (1 - v.tris_after / v.tris_before) * 100
+  const high = entry.value?.high_bytes
+  const size = high && v.bytes ? (1 - v.bytes / high) * 100 : null
   return { tris, size }
 })
 
@@ -126,7 +131,7 @@ function fmtParams(v: Variant) {
         <button
           v-for="v in entry?.variants ?? []"
           :key="v.file"
-          :class="{ active: selected === v.file }"
+          :class="{ active: variant?.file === v.file }"
           :title="STRATEGY_HINTS[v.strategy]"
           @click="selected = v.file"
         >
@@ -142,23 +147,27 @@ function fmtParams(v: Variant) {
 
     <div class="diff-bar">
       <span v-if="diff && variant" class="diff">
-        {{ variantLabel(variant) }} vs 原始:面數 {{ fmtPct(diff.tris) }}<template v-if="diff.size != null">、檔案 {{ fmtPct(diff.size) }}</template>
+        {{ variantLabel(variant) }} vs 修整後高模:面數 {{ fmtPct(diff.tris) }}<template v-if="diff.size != null">、檔案 {{ fmtPct(diff.size) }}</template>
       </span>
-      <span v-else class="diff placeholder">載入比較數據中…</span>
+      <span v-else class="diff placeholder">無比較數據</span>
     </div>
+
+    <p v-if="viewerError" class="load-error">
+      模型載入失敗:{{ viewerError }} — 檔案可能不在 web/public/models/,重新產生或複製後重整。
+    </p>
 
     <div class="compare">
       <section class="pane" @pointerenter="sync.active = 'left'" @pointerdown="sync.active = 'left'">
         <span class="pane-label">原始 {{ entry?.source }} · {{ fmtStats(stats.left) }}</span>
         <Suspense>
-          <ModelViewer :key="sourceUrl" :url="sourceUrl" :sync="sync" pane-id="left" :wireframe="wireframe" @loaded="(s) => (stats.left = s)" />
+          <ModelViewer :key="sourceUrl" :url="sourceUrl" :sync="sync" pane-id="left" :wireframe="wireframe" @loaded="(s) => { if (s.url === sourceUrl) stats.left = s }" />
           <template #fallback><p class="loading">載入模型中…</p></template>
         </Suspense>
       </section>
       <section class="pane" @pointerenter="sync.active = 'right'" @pointerdown="sync.active = 'right'">
         <span class="pane-label">{{ variant?.file }} · {{ fmtStats(stats.right) }}</span>
         <Suspense>
-          <ModelViewer v-if="variantUrl" :key="variantUrl" :url="variantUrl" :sync="sync" pane-id="right" :wireframe="wireframe" @loaded="(s) => (stats.right = s)" />
+          <ModelViewer v-if="variantUrl" :key="variantUrl" :url="variantUrl" :sync="sync" pane-id="right" :wireframe="wireframe" @loaded="(s) => { if (s.url === variantUrl) stats.right = s }" />
           <template #fallback><p class="loading">載入模型中…</p></template>
         </Suspense>
       </section>
@@ -249,6 +258,14 @@ function fmtParams(v: Variant) {
 }
 .diff.placeholder {
   color: #555;
+}
+.load-error {
+  margin: 0;
+  padding: 0.35rem 0.75rem;
+  background: #2a1520;
+  border-bottom: 1px solid #4a2535;
+  color: #ff9a9a;
+  font-size: 0.8rem;
 }
 .compare {
   flex: 1;

@@ -21,7 +21,7 @@ watch(left, () => (stats.left = null))
 watch(right, () => (stats.right = null))
 
 const diff = computed(() => {
-  if (!stats.left || !stats.right) return null
+  if (!stats.left || !stats.right || !stats.left.triangles) return null
   const tris = (1 - stats.right.triangles / stats.left.triangles) * 100
   const size =
     stats.left.bytes && stats.right.bytes ? (1 - stats.right.bytes / stats.left.bytes) * 100 : null
@@ -71,13 +71,13 @@ function fmtPct(p: number) {
     <div class="compare">
       <section class="pane" @pointerenter="sync.active = 'left'" @pointerdown="sync.active = 'left'">
         <Suspense>
-          <ModelViewer :key="left" :url="left" :sync="sync" pane-id="left" :wireframe="wireframe" @loaded="(s) => (stats.left = s)" />
+          <ModelViewer :key="left" :url="left" :sync="sync" pane-id="left" :wireframe="wireframe" @loaded="(s) => { if (s.url === left) stats.left = s }" />
           <template #fallback><p class="loading">載入模型中…</p></template>
         </Suspense>
       </section>
       <section class="pane" @pointerenter="sync.active = 'right'" @pointerdown="sync.active = 'right'">
         <Suspense>
-          <ModelViewer :key="right" :url="right" :sync="sync" pane-id="right" :wireframe="wireframe" @loaded="(s) => (stats.right = s)" />
+          <ModelViewer :key="right" :url="right" :sync="sync" pane-id="right" :wireframe="wireframe" @loaded="(s) => { if (s.url === right) stats.right = s }" />
           <template #fallback><p class="loading">載入模型中…</p></template>
         </Suspense>
       </section>

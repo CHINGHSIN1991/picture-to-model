@@ -11,7 +11,7 @@ import {
   Vector3,
   type Material,
 } from 'three'
-import { loadGlb } from './useGlb'
+import { loadGlbShared } from './useGlb'
 import type { CameraSync } from './cameraSync'
 import SceneEnvironment from './SceneEnvironment.vue'
 import { HDRI_INTENSITY, loadHdri } from './useHdri'
@@ -27,13 +27,17 @@ const props = defineProps<{
   // setup_camera / setup_lighting 的球座標配置
   studio?: boolean
 }>()
-const emit = defineEmits<{ loaded: [stats: { triangles: number; bytes: number | null }] }>()
+// loaded 帶回 url:比較模式快速切換時,被 Suspense 丟棄的舊實例仍會發出
+// loaded(async setup 無法取消),呼叫端以 url 比對丟棄過期的統計
+const emit = defineEmits<{ loaded: [stats: { url: string; triangles: number; bytes: number | null }] }>()
 
 const [gltf, hdriTexture] = await Promise.all([
-  loadGlb(props.url),
+  loadGlbShared(props.url),
   loadHdri(),
 ])
-const model = gltf.scene
+// 快取共用同一份 GLTF:clone 節點樹(geometry/材質共用,不複製記憶體),
+// 位置縮放與 wireframe 的材質「指派」只動 clone,不污染快取
+const model = gltf.scene.clone(true)
 
 // 統計三角形數與檔案大小,給比較頁顯示
 let triangles = 0
@@ -52,7 +56,7 @@ try {
 } catch {
   // 拿不到檔案大小就不顯示
 }
-emit('loaded', { triangles, bytes })
+emit('loaded', { url: props.url, triangles, bytes })
 
 // AI 生成模型的原點與尺度不可預期:置中並縮放到單位大小
 const box = new Box3().setFromObject(model)
@@ -82,10 +86,18 @@ function spherical(azimuthDeg: number, elevationDeg: number, distance: number): 
 const STUDIO_FOV = 39.6
 const STUDIO_DIST = (1.6 / 2 / Math.tan(((STUDIO_FOV / 2) * Math.PI) / 180)) * 1.4
 
-const cameraTarget = props.studio ? new Vector3(0, centerY, 0) : new Vector3(0, 0, 0)
+// 比較模式從共享相機狀態取初始視角:切換變體重掛載時保住使用者調好的角度
+// (sync 的初始值即預設視角,首次掛載行為不變)
+const cameraTarget = props.studio
+  ? new Vector3(0, centerY, 0)
+  : props.sync
+    ? new Vector3(...props.sync.target)
+    : new Vector3(0, 0, 0)
 const cameraPos = props.studio
   ? spherical(30, 18, STUDIO_DIST).add(cameraTarget)
-  : new Vector3(2.2, 1.4, 2.2)
+  : props.sync
+    ? new Vector3(...props.sync.pos)
+    : new Vector3(2.2, 1.4, 2.2)
 const cameraFov = props.studio ? STUDIO_FOV : 45
 
 // 三點打光角度同 setup_lighting.py(Key 75°/45°、Fill −30°/20°、Rim 200°/40°);

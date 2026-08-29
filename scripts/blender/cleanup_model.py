@@ -75,10 +75,18 @@ def parse_args() -> argparse.Namespace:
     unknown = [s for s in args.variants if s not in STRATEGIES]
     if unknown:
         ap.error(f"未知的減面策略: {', '.join(unknown)}(可用: {', '.join(STRATEGIES)})")
+    if len(args.variants) != len(set(args.variants)):
+        ap.error(f"--variants 含重複策略: {', '.join(args.variants)}")
     try:
         args.variant_tris = [int(s) for s in args.variant_tris.split(",") if s.strip()]
     except ValueError:
         ap.error(f"--variant-tris 需為逗號分隔的整數: {args.variant_tris}")
+    if args.target_tris <= 0 or any(t <= 0 for t in args.variant_tris):
+        ap.error("--target-tris / --variant-tris 需為正整數")
+    if len(args.variant_tris) != len(set(args.variant_tris)):
+        ap.error(f"--variant-tris 含重複目標面數: {args.variant_tris}")
+    if args.variants_manifest and not args.variants:
+        print("[cleanup] 警告: 未指定 --variants,--variants-manifest 不會有任何輸出")
     if args.variants and not args.variants_manifest:
         args.variants_manifest = args.output_web.parent / "variants.json"
     return args
@@ -144,17 +152,18 @@ def repair_mesh(obj: bpy.types.Object, keep_interior: bool) -> dict:
 
 
 def apply_decimate(obj: bpy.types.Object, strategy: str, args: argparse.Namespace,
-                   target_tris: int | None = None) -> dict:
+                   target_tris: int | None = None, tris_before: int | None = None) -> dict:
     """套用一種減面策略,回傳 {strategy, params, tris_before, tris_after}。
 
     collapse:邊塌縮到目標三角形數(target_tris 可覆寫),保 UV,面數可控。
     planar:合併夾角小於容差的共面區域,適合 hard-surface,面數不可直接控。
     unsubdiv:反細分,只對規則 quad 網格有效(如 remesh 過的模型)。
+    tris_before 可帶入呼叫端已算好的面數,省一次全網格 Python 迴圈。
     """
-    before = triangle_count(obj)
+    before = tris_before if tris_before is not None else triangle_count(obj)
     mod = None
     if strategy == "collapse":
-        target = target_tris or args.target_tris
+        target = target_tris if target_tris is not None else args.target_tris
         ratio = min(1.0, target / max(before, 1))
         params = {"target_tris": target, "ratio": round(ratio, 4)}
         if ratio < 1.0:
@@ -212,12 +221,32 @@ def variant_jobs(args: argparse.Namespace) -> list[dict]:
 
 
 def export_variants(obj: bpy.types.Object, base_mesh: bpy.types.Mesh,
-                    args: argparse.Namespace) -> list[dict]:
-    """每個變體從修整後高模(base_mesh)各自減面並匯出獨立 GLB。"""
+                    args: argparse.Namespace, base_tris: int, main_dec: dict) -> list[dict]:
+    """每個變體從修整後高模(base_mesh)各自減面並匯出獨立 GLB。
+
+    與 Web 版主輸出同策略同參數的變體(未 --reunwrap 時)直接引用主輸出檔,
+    不重複減面與匯出;被換下的 mesh datablock 隨手移除,避免 headless 進程堆積。
+    """
     variants: list[dict] = []
     for job in variant_jobs(args):
+        same_as_main = (
+            not args.reunwrap
+            and job["strategy"] == args.strategy
+            and (job["strategy"] != "collapse" or job["target_tris"] == args.target_tris)
+        )
+        if same_as_main:
+            v = dict(main_dec)
+            v["label"] = job["label"]
+            v["file"] = args.output_web.name
+            v["bytes"] = args.output_web.stat().st_size
+            variants.append(v)
+            print(f"[cleanup] 變體 {job['label']} 與 Web 版相同,直接引用 {args.output_web.name}")
+            continue
+        old = obj.data
         obj.data = base_mesh.copy()
-        v = apply_decimate(obj, job["strategy"], args, target_tris=job["target_tris"])
+        bpy.data.meshes.remove(old)
+        v = apply_decimate(obj, job["strategy"], args,
+                           target_tris=job["target_tris"], tris_before=base_tris)
         v["label"] = job["label"]
         path = args.output_web.with_name(f"{args.output_web.stem}__{job['slug']}.glb")
         export_glb(str(path))
@@ -225,15 +254,31 @@ def export_variants(obj: bpy.types.Object, base_mesh: bpy.types.Mesh,
         v["bytes"] = path.stat().st_size
         variants.append(v)
         print(f"[cleanup] 變體 {job['label']}: {v['tris_before']} → {v['tris_after']} tris → {path}")
+    bpy.data.meshes.remove(base_mesh)
     return variants
 
 
 def update_variants_manifest(args: argparse.Namespace, variants: list[dict]) -> None:
-    """以 web 檔名為 key 合併寫入 manifest,viewer 的減面策略模式讀這份。"""
+    """以 web 檔名為 key 合併寫入 manifest,viewer 的減面策略模式讀這份。
+
+    既有 manifest 壞掉(截斷 / 非 object)時警告後重建,不讓幾十分鐘的
+    減面成果毀在一個壞 JSON 上。
+    """
     path = args.variants_manifest
-    manifest = json.loads(path.read_text()) if path.exists() else {}
+    manifest: dict = {}
+    if path.exists():
+        try:
+            data = json.loads(path.read_text())
+            if isinstance(data, dict):
+                manifest = data
+            else:
+                print(f"[cleanup] 警告: {path} 內容不是 JSON object,重建 manifest")
+        except json.JSONDecodeError as exc:
+            print(f"[cleanup] 警告: {path} 解析失敗({exc}),重建 manifest")
     manifest[args.output_web.stem] = {
         "source": args.input.name,
+        # 變體的比較基準是「修整後高模」(tris_before 即其面數),檔案大小基準同樣用高模 GLB
+        "high_bytes": args.output_high.stat().st_size,
         "target_tris": args.target_tris,
         "variants": variants,
     }
@@ -332,10 +377,13 @@ def main() -> None:
     # 變體需要從「修整後、未減面」的網格各自出發,先留一份快照
     base_mesh = obj.data.copy() if args.variants else None
 
-    dec = apply_decimate(obj, args.strategy, args)
+    dec = apply_decimate(obj, args.strategy, args, tris_before=tris_high)
     tris_web = dec["tris_after"]
-    # collapse 有明確 ratio;planar / unsubdiv 以實際減後面數比回報
-    ratio = dec["params"].get("ratio", round(tris_web / max(dec["tris_before"], 1), 4))
+    # 一律記「實際達成比」(after/before);collapse 的請求比留在 params["ratio"]
+    ratio = round(tris_web / max(dec["tris_before"], 1), 4)
+    if args.strategy != "collapse" and tris_web > args.target_tris:
+        print(f"[cleanup] 警告: {args.strategy} 策略不受 --target-tris 控制,"
+              f"Web 版 {tris_web} tris 超出目標 {args.target_tris}")
     if args.reunwrap:
         reunwrap(obj)
         print("[cleanup] 已重新 unwrap(既有貼圖將對不上新 UV,需後續 bake)")
@@ -346,7 +394,7 @@ def main() -> None:
     export_glb(str(args.output_web))
     print(f"[cleanup] Web 版 {tris_web} tris (ratio={ratio:.4f}) → {args.output_web}")
 
-    variants = export_variants(obj, base_mesh, args) if base_mesh else []
+    variants = export_variants(obj, base_mesh, args, tris_high, dec) if base_mesh else []
     if variants:
         update_variants_manifest(args, variants)
 
