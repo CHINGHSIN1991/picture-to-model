@@ -27,14 +27,17 @@ npm run build    # vue-tsc 型別檢查 + 產出 dist/
 | `public/models/` | ❌ gitignore | GLB 較大且可由 pipeline 重新生成,**需自行複製**: |
 
 ```bash
-cp ../output/<job_id>/model.glb public/models/<名字>.glb
-# 然後在 src/modelList.ts 加一行;一致性驗證頁的配對在 ConsistencyViewer.vue 的 pairs
+cp ../output/<job_id>/web/model.glb public/models/<名字>.glb   # pipeline optimize stage 的壓縮版(meshopt + WebP)
+# 未壓縮版在 ../output/<job_id>/model.glb;然後在 src/modelList.ts 加一行;一致性驗證頁的配對在 ConsistencyViewer.vue 的 pairs
 ```
 
-### GLB 瘦身(embed / 部署前建議)
+### GLB 瘦身
+
+pipeline 的 `optimize` stage 已自動產出 `output/<job_id>/web/model.glb`(`uv run scripts/optimize_glb.py output/<job_id>` 可單獨重跑)。
+手動壓任一 GLB 仍可用:
 
 ```bash
 npm run optimize:glb -- public/models/<名字>.glb public/models/<名字>.glb
-# meshopt + 貼圖 WebP,實測 −54%~−89%;viewer 已掛 MeshoptDecoder(useGlb.ts),壓縮與否都能載
+# meshopt + 貼圖 WebP,實測 −49%~−89%;viewer 已掛 MeshoptDecoder(useGlb.ts),壓縮與否都能載
 # 注意:script 已鎖 --simplify false(面數歸 Blender 管)與 --palette false(材質名是 scene.json override 的 key)
 ```

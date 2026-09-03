@@ -1,10 +1,12 @@
-"""Phase 2 Step 2-6: 單一指令 pipeline — 圖片 → Web 模型 + 商品圖。
+"""Phase 2 Step 2-6: 單一指令 pipeline — 圖片 → Web 模型 + poster。
 
     uv run scripts/pipeline.py test-assets/hard-surface/vintage-radio/front.png
     uv run scripts/pipeline.py --job-dir output/<job_id> --skip-generate   # 重跑後段,省 API 額度
+    uv run scripts/pipeline.py <image> --skip-preprocess --skip-optimize   # 對照 / 除錯
 
-流程:generate(Tripo)→ cleanup(修整 + decimate)→ material(PBR 檢查)
-→ render(Cycles 商品圖 + WebP)。
+七段流程:preprocess(去背 / 置中 / 佔比 / 解析度 fail fast)→ generate(Tripo)
+→ cleanup(修整 + decimate)→ material(PBR 檢查)→ textures(拆 ORM + 驗證)
+→ optimize(gltf-transform meshopt|draco + WebP → web/model.glb)→ render(Cycles poster + WebP)。
 每步輸入輸出都是檔案、可單獨重跑;各階段狀態與耗時記進 metadata.json 的 stages。
 """
 
@@ -12,10 +14,13 @@ import argparse
 import json
 import sys
 import time
+import uuid
 from pathlib import Path
 
 from extract_textures import extract_textures
 from generate_model import generate
+from optimize_glb import COMPRESSORS, optimize_job
+from preprocess_image import MIN_RESOLUTION, TARGET_RATIO, preprocess
 from render_model import render_job
 from run_blender import run as run_blender
 from validate_textures import validate
@@ -62,6 +67,13 @@ def main() -> None:
     ap.add_argument("--job-dir", type=Path, help="既有 job(搭配 --skip-generate)")
     ap.add_argument("--skip-generate", action="store_true", help="用既有 model_raw.glb 重跑後段")
     ap.add_argument("--no-pbr", action="store_true")
+    ap.add_argument("--skip-preprocess", action="store_true", help="跳過品質前處理(對照 / 除錯用)")
+    ap.add_argument("--min-resolution", type=int, default=MIN_RESOLUTION, help="輸入解析度下限,低於即 fail fast")
+    ap.add_argument("--target-ratio", type=float, default=TARGET_RATIO, help="主體佔比目標(0.70~0.80)")
+    ap.add_argument("--no-remove-bg", action="store_true", help="前處理不去背")
+    ap.add_argument("--skip-optimize", action="store_true", help="跳過 GLB 壓縮")
+    ap.add_argument("--compress", choices=COMPRESSORS, default="meshopt",
+                    help="optimize 幾何壓縮器(meshopt 預設;draco 需 viewer 掛 DRACOLoader)")
     ap.add_argument("--samples", type=int, default=128)
     ap.add_argument("--resolution", type=int, default=1600)
     ap.add_argument("--strategy", choices=STRATEGIES,
@@ -97,9 +109,20 @@ def main() -> None:
     else:
         if not args.image or not args.image.exists():
             ap.error("需要有效的輸入圖片(或 --skip-generate + --job-dir)")
-        job_dir = generate(args.image, pbr=not args.no_pbr)
-        update_stages(job_dir, {"name": "generate", "status": "ok",
-                                "elapsed_sec": round(time.time() - t0, 1)})
+        job_dir = args.job_dir or Path("output") / uuid.uuid4().hex[:12]
+        job_dir.mkdir(parents=True, exist_ok=True)
+        gen_input = {"image": args.image}
+
+        def preprocess_stage() -> None:
+            meta = preprocess(args.image, job_dir, min_resolution=args.min_resolution,
+                              target_ratio=args.target_ratio, remove_bg=not args.no_remove_bg)
+            gen_input["image"] = job_dir / meta["output"]
+
+        if args.skip_preprocess:
+            update_stages(job_dir, {"name": "preprocess", "status": "skipped", "elapsed_sec": 0})
+        else:
+            run_stage(job_dir, "preprocess", preprocess_stage)
+        run_stage(job_dir, "generate", lambda: generate(gen_input["image"], pbr=not args.no_pbr, job_dir=job_dir))
 
     def textures_stage() -> None:
         extract_textures(job_dir)
@@ -119,6 +142,10 @@ def main() -> None:
     run_stage(job_dir, "material", blender_stage("setup_material", job_dir,
                                                  timeout=args.blender_timeout))
     run_stage(job_dir, "textures", textures_stage)
+    if args.skip_optimize:
+        update_stages(job_dir, {"name": "optimize", "status": "skipped", "elapsed_sec": 0})
+    else:
+        run_stage(job_dir, "optimize", lambda: optimize_job(job_dir, compress=args.compress))
     run_stage(job_dir, "render",
               lambda: render_job(job_dir, samples=args.samples, resolution=args.resolution))
 

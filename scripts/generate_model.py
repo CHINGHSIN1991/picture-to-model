@@ -107,10 +107,14 @@ def download(url: str, dest: Path) -> None:
     dest.write_bytes(r.content)
 
 
-def generate(image: Path, pbr: bool = True) -> Path:
-    """圖片 → Tripo → output/<job_id>/(model_raw.glb + source + metadata)。回傳 job dir。"""
-    job_id = uuid.uuid4().hex[:12]
-    out_dir = Path("output") / job_id
+def generate(image: Path, pbr: bool = True, job_dir: Path | None = None) -> Path:
+    """圖片 → Tripo → output/<job_id>/(model_raw.glb + source + metadata)。回傳 job dir。
+
+    job_dir:pipeline 先建好的 job 目錄(preprocess stage 已寫入 input/ 與 metadata);
+    未指定則自建 output/<uuid>/。既有 metadata.json 會合併而非覆蓋。
+    """
+    out_dir = job_dir if job_dir is not None else Path("output") / uuid.uuid4().hex[:12]
+    job_id = out_dir.name
     t0 = time.time()
 
     print(f"[{job_id}] 上傳 {image} ...")
@@ -138,7 +142,10 @@ def generate(image: Path, pbr: bool = True) -> Path:
         "elapsed_sec": round(time.time() - t0, 1),
         "glb_bytes": dest.stat().st_size,
     }
-    (out_dir / "metadata.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2))
+    meta_path = out_dir / "metadata.json"
+    existing = json.loads(meta_path.read_text()) if meta_path.exists() else {}
+    existing.update(meta)
+    meta_path.write_text(json.dumps(existing, ensure_ascii=False, indent=2))
     print(f"[{job_id}] 完成 ({meta['elapsed_sec']}s, {meta['glb_bytes']/1e6:.1f} MB) → {out_dir}/")
     return out_dir
 

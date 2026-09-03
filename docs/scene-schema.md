@@ -36,7 +36,7 @@
     { "id": "rim",  "type": "area", "azimuth": 200, "elevation": 40, "power": 250 }
   ],
 
-  "camera": {                                         // = setup_camera.py 參數面
+  "camera": {                                         // = setup_camera.py 參數面;poster 渲染與 viewer 初始相機共用同一份(避免載入跳動)
     "azimuth": 30, "elevation": 18,
     "focal_mm": 50, "padding": 1.4                   // auto-frame:距離依 bounding box 與 FOV 計算
   },
@@ -61,7 +61,7 @@
 | `model_url` | cleanup 輸出 `model.glb` | Viewport 載入 | render.py `--input` |
 | `environment.*` | `setup_lighting.py` HDRI 段 | Light tab(強度 / 旋轉 / 背景) | build_lighting() |
 | `lights[]` | `setup_lighting.py` 三點打光常數 | Scene 樹 + Light tab | build_lighting() |
-| `camera.*` | `setup_camera.py` CLI 參數 | Camera tab(preset / FOV / auto-frame) | frame_camera() |
+| `camera.*` | `setup_camera.py` CLI 參數 | Camera tab(preset / FOV / auto-frame);**Embed 初始相機** | frame_camera();**poster 渲染** —— 兩者讀同一份,是避免載入完成時畫面「跳動」的關鍵(見 [phase-4「4B Embed 指南」](phase-4-web-product.md)) |
 | `materials_override` | glTF PBR 因子(factor × 貼圖取樣) | Material tab 滑桿 | setup_material 延伸(套 override 後匯出) |
 | `render.*` | `render.py` CLI 參數 | poster 按鈕的進階選項 | render.py(--scene-json) |
 
@@ -97,6 +97,15 @@ scene.json ────────► Export:gltf-transform 把 materials_overr
 | 改貼圖「內容」(風格 / 去烘死光影) | texture gen / delighting(P2) | ✓ | — |
 
 ---
+
+## 四個支撐機制(2026-08-27 補述)
+
+供文件與簡報共用的敘述;四者合起來就是「為什麼滑桿可以隨便拉、GLB 永遠不會壞」。
+
+1. **非破壞性覆寫**:`materials_override` 以 GLB 材質名為 key、只記差異;移除即還原,GLB 永不改寫。(因此 gltf-transform 的 `--palette` 必須關閉 —— 材質名不能被合併改掉。)
+2. **factor × 貼圖語意**:override 以 glTF PBR factor 實作(數值乘在貼圖取樣結果上);Three.js 與 `apply_scene.py` 共用同一套語意 = 兩端一致的前提。
+3. **快照式 Undo**:scene.json < 2KB,整份快照進 undo stack(⌘Z、350ms 收束);天然涵蓋 additive 新欄位,新滑桿不用寫新 command。
+4. **Additive 版本策略**:`version` 自 0 起、欄位只增不改語意;未知欄位「讀取端忽略、寫入端保留」。`environment.rotation` 為首次演進的向前相容驗證。
 
 ## 版本策略
 

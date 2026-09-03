@@ -5,6 +5,44 @@
 
 ---
 
+## 2026-09-03 — P0 落地:`preprocess`(D-2)與 `optimize`(D-1)stage 併入 pipeline + D-3 授權表
+
+> 依 08-27 外部檢視的 P0 排程:三項皆純 CLI、不等 4A。pipeline 由五段擴為**七段**
+> `preprocess → generate → cleanup → material → textures → optimize → render`。
+
+### 程式碼更新
+
+| 檔案 | 內容 |
+|---|---|
+| `scripts/preprocess_image.py` | 新增。**D-2 品質前處理**(venv,Pillow):(1) 解析度下限 fail fast(預設 1024,`--min-resolution`),錯誤訊息可直接給使用者;(2) 去背 —— 先試 in-process rembg,venv 是 Python 3.14 尚無 onnxruntime wheel,故退到 **`uvx --python 3.12 --from 'rembg[cpu,cli]' rembg i`** 另開環境執行;都不可用時記警告續跑;(3) alpha bbox 算主體佔比(最長邊 / 畫面邊),以「主體最長邊 / 目標佔比 0.75」為方形邊長**置中重取景**,超界補透明(無 alpha 時補角落背景色、bbox 改以色差估算並記警告);放大 > 1.5× 記警告;(4) 輸出 1024² RGBA PNG → `<job>/input/front_preprocessed.png`,原圖另存 `input/front.<ext>`;統計寫 `metadata.preprocess`(前後尺寸 / bbox / 佔比 / crop_box / scale / 去背方法 / warnings)。 |
+| `scripts/optimize_glb.py` | 新增。**D-1 壓縮優化**(venv,subprocess 呼叫 `web/node_modules/.bin/gltf-transform`,退 `npm exec --prefix web`):`optimize --compress meshopt|draco --texture-compress webp --simplify false --palette false`(與 08-26 的 npm script 同參數、同理由);輸出 `<job>/web/model.glb`(`model_baked.glb` 存在時一併壓);`metadata.optimize` 記工具版本 / 壓縮器 / 前後 bytes / 比率 / viewer 解碼器。**定案 meshopt 為預設**,Draco 保留為選項並印警告(viewer 需 DRACOLoader)。支援單檔模式 `optimize_glb.py in.glb out.glb`。 |
+| `scripts/pipeline.py` | 七段流程;新旗標 `--skip-preprocess` / `--min-resolution` / `--target-ratio` / `--no-remove-bg` / `--skip-optimize` / `--compress`。job 目錄改由 pipeline 先建立(preprocess 需在 generate 之前寫入),skipped 的 stage 也記進 `metadata.stages`(status=skipped)供進度條顯示。docstring 改為七段。 |
+| `scripts/generate_model.py` | `generate()` 新增 `job_dir` 參數(沿用 pipeline 建好的目錄);metadata.json 改**合併寫入**,不再覆蓋 preprocess 已寫的欄位。 |
+| `docs/evaluation.md` | **D-3**:新增「評估表(首版)」(Tripo × 3 素材 vs TRELLIS.2 的耗時 / 面數 / GLB / 材質 / 水密,自 dev-log 回填;主觀分數與 Meshy / Rodin 待補)與「授權與商務條件」表 —— 生成資產商用權利 / 是否需標註 / 使用者轉授權 / 模型 license / 查閱來源欄;列 Tripo、TRELLIS.2、trellis-mac 相依(RMBG-2.0、dinov3)、rembg 權重、Poly Haven HDRI。**條款內容未填**(不憑記憶填寫,需人工查官方頁面附網址與日期)。 |
+| `web/README.md` | 複製指引改指向 `output/<job_id>/web/model.glb`(optimize stage 產物)。 |
+
+### 實測結果
+
+- **optimize**(coral `b0b8fdff66a5`):`model.glb` 2.11MB → **1.08MB(−48.9%)**,0.6s;gltf-transform 4.4.2。`--skip-generate` 全段重跑 cleanup 6.2 + material 1.4 + textures 1.3 + optimize 0.7 + render 8.0(32 samples / 800px 測試值)= **17.7s**,`metadata.stages` 七段(generate 沿用舊值)全數 ok。
+- **preprocess**(radio front.png 655×655):主體佔比 **0.927 → 0.75**、放大 1.27×;去背 rembg(uvx)首次 **103.3s**(建環境 + 下載 u2net 權重),之後 fishbowl **10.2s**(648² → 1024²,佔比 0.875 → 0.75)。無去背模式 0.1s。目視:主體置中、邊界乾淨、透明背景。
+- **fail fast 實測**:radio 655px 與 coral 491px 皆被預設下限 1024 擋下,訊息含建議。
+
+### 發現 / 決策
+
+- ⚠️ **現有 `test-assets/` 全部低於 1024px**(365~655px,AI 多視角 sheet 切圖)。預設 pipeline 會全數拒收 —— 這正是 D-2 要擋的情境;舊素材重跑需 `--min-resolution 480`,素材重出仍列 Phase 0 待辦(phase-0 Step 0-1 早已記錄此坑)。
+- **meshopt 定案**取代規格中的 Draco 預設:decoder 隨 three 內建、免託管 WASM;壓縮率在本專案模型上足夠。
+- optimize 驗收「再 −60%」未達:貼圖佔比高的模型(coral −49%)受限於 WebP 仍是全解析度像素;要再降需 Web 版貼圖降 1024px 或 KTX2(第二階段)。
+
+### 待辦 / 下一步
+
+- [ ] **A/B 生成比較**(D-2 驗收):三類素材前處理前後各跑一次 Tripo,結論入 `docs/evaluation.md`(需 API 額度)
+- [ ] **4G 節流首屏 < 3s** 量測(D-1 驗收);`<model-viewer>` 載同一顆 GLB 驗證
+- [ ] **D-3 條款查填**:Tripo ToS、TRELLIS.2 model card、RMBG-2.0 授權(自架商用前置)
+- [ ] 首個對外 Embed 案例(把壓縮、poster、CORS、授權一次逼到台面上)
+- [ ] test-assets 重出 ≥ 1024px 版本
+
+---
+
 ## 2026-08-28 — 減面策略比較:cleanup 多策略/多面數變體 + viewer「減面策略」模式
 
 > Phase 5 retopology/LOD 的前置探索:同一份修整後高模,套不同 decimate 策略
@@ -35,6 +73,36 @@
   驗證 planar 只適合 hard-surface
 - unsubdiv 兩模型同樣無效(−0.05% / −0.06%)
 - manifest 三個 base(model / fishbowl / coral)合併正常,viewer 下拉切換模型可用
+
+---
+
+## 2026-08-27 — 規格更新:外部檢視後的排程校正(embed-first)
+
+> 來源:技術分享簡報《圖片轉 3D 模型 — 選型與 Pipeline 規劃》(25 頁)與外部檢視結論。純文件更新,無程式碼變更。
+> 原則:**外科式修改** —— 既有 phase 文件不整份重寫,逐處插入;新規格直接併入既有文件,不另開檔案。
+
+### 文件更新
+
+| 檔案 | 變更 |
+|---|---|
+| `ROADMAP.md` | pipeline 圖擴為**七段**(`preprocess → generate → cleanup → material → textures → optimize → render`);新增「已知債務 D-1~D-9」完整列管(P0/P1/P2 + 建議執行順序);技術選型總表新增 4 列(前處理 / 幾何壓縮 / 貼圖壓縮 / 嵌入);里程碑新增 P0 與「首個對外 Embed 案例」兩列;Phase 0 加授權欄位、Phase 2 加減面策略表、Scene Schema 加四個支撐機制;末尾新增附錄「3D 術語表」 |
+| `docs/phase-0-evaluation.md` | 評估表新增三個固定授權欄位(商用權利 / 是否需標註 / 使用者轉授權)+ 開源模型 license 欄;驗收新增「授權欄位至少完成 Tripo 與 TRELLIS.2」(D-3) |
+| `docs/phase-2-blender-automation.md` | stage 敘述改七段;新增「減面策略選項」表;非水密防護補白話說明;**新增 Step 2-7 `preprocess` stage 與 Step 2-8 `optimize` stage 規格**(處理項目 / 技術選項 / 減面-bake-壓縮分工表 / metadata / 驗收) |
+| `docs/phase-3-pbr.md` | 未結項轉入 D-6~D-9;Step 3-5 補 poster 與 viewer 初始相機共用 `scene.json` `camera` |
+| `docs/phase-4-web-product.md` | 4-1 移除「可選去背 / resize」改交叉引用 preprocess stage;`jobs.status` 值域新增 `done_degraded`;4-2 狀態機新增降級規則(D-4)與「內容審核拒絕 = 不可重試」(D-5);4-3 Draco 敘述改交叉引用 optimize stage;**新增「4B Embed 指南」**(三層嵌入策略、poster 四用途、`<model-viewer>` 相容性、靜態檔組成與 CORS / 快取) |
+| `docs/phase-5-scaling.md` | 5-2 LOD 與 5-6 USDZ 觸發條件明確化;優先序表新增 KTX2 / BasisU(瘦身組第二階段) |
+| `docs/scene-schema.md` | 新增「四個支撐機制」;`camera` 欄位補註 poster / viewer 共用 |
+
+### 與程式現況的差異(已於文件註記)
+
+- 規格以 Draco 為幾何壓縮預設,但 web 端已於 08-26 以 **meshopt** + WebP 落地(`npm run optimize:glb`);optimize stage 併入 pipeline 時再二選一定案。
+- 08-28 已加 `--strategy collapse|planar|unsubdiv` 變體比較;規格減面策略表中的「迭代式 decimate」與 retopo 仍未做。
+
+### 待決定(尚未寫入 spec)
+
+- [ ] **og:image 慣例**:另裁 1200×630、固定純色背景(透明背景在社群預覽會被填黑)
+- [ ] **簡報拆分**:25 頁拆成「主簡報(選型 + 流程 + 成果)」與「附錄技術冊(深入頁 + 術語表)」
+- [ ] **meshopt vs Draco**:若首屏互動時間比檔案大小更關鍵,meshopt 解碼更快;現況已用 meshopt
 
 ---
 

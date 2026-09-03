@@ -2,7 +2,41 @@
 
 > 對應 [ROADMAP.md](../ROADMAP.md) 各階段的評估與決策紀錄。
 > Phase 0 的正式選型評估未逐項執行(直接以 Tripo 進入 PoC 驗證,運作良好);
-> 本文件自 Phase 3 起補齊各項評估。
+> 2026-09-03 依 dev-log 實測回填評估表首版,並新增授權與商務條件表(D-3)。
+
+---
+
+## 評估表(首版,2026-09-03;數據來源 dev-log 實測)
+
+> 「單家深測 + 本地對照」的結果整理。Meshy / Rodin 橫向待補;主觀分數(輪廓 / 背面 / topology)待人工評分後填入。
+> 同一張輸入:`test-assets/hard-surface/vintage-radio/front.png`(655px)。
+
+| 服務 | 物件 | 生成時間 | 面數(原始) | GLB | 材質類型 | 水密 | 輪廓還原 | 背面合理性 | Topology | 單次成本 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Tripo(API,PBR) | vintage-radio | 112.1s | 501,102 tris | 15.1 MB | **PBR**(basecolor + ORM + normal,2048²) | ✅ | | | | API 額度(待填) |
+| Tripo | coral-mound | 107.5s | 502,558 tris | 16.2 MB | PBR | ✅ | | | | |
+| Tripo | fishbowl | 104.9s | ~501K tris | — | PBR(玻璃烘成不透明,見附錄 A) | ✅ | | | | |
+| TRELLIS.2(本地 trellis-mac,M4 24GB,無 Metal 加速) | vintage-radio | ≈10.3 分(451.7s + 貼圖 167s) | 1,824,936 → ~200K tris | 8.85 MB | 僅 basecolor(1024²) | ❌(觸發 cleanup 非水密防護) | | | | 0(本機電費) |
+| Meshy | — | | | | | | | | | 待測 |
+| Rodin | — | | | | | | | | | 待測 |
+
+**現況結論**:Tripo 主方案(速度 5.5×、PBR 完整、水密);TRELLIS.2 為自架備援候補,觸發條件「月 API 費 > GPU 租金 + 維運」。
+
+## 授權與商務條件(D-3,P0)
+
+> 做 embed 產品 = 使用者把生成模型放上**他們的**商業網站。以下欄位是首個對外 Embed 案例的硬前置,未確認前不得對外交付。
+> 填寫依據請以官方條款當日版本為準並**附上網址與查閱日期**;本表不憑記憶填寫。
+
+| 服務 / 元件 | 生成資產商用權利(允許 / 限制 / 需授權) | 是否需標註來源 | 使用者轉授權(嵌入其商業網站) | 模型 license(開源限填) | API 價格 | Rate limit | SLA | 查閱來源 / 日期 |
+|---|---|---|---|---|---|---|---|---|
+| **Tripo(VAST)API** | ⬜ 待查(Terms of Service:生成物歸屬、付費方案與免費方案差異) | ⬜ 待查 | ⬜ 待查(是否允許整合進自家產品再供第三方商用) | — | ⬜ 待查(每次 image_to_model 額度) | ⬜ 待查 | ⬜ 待查 | |
+| **TRELLIS.2(Microsoft)權重** | ⬜ 待查 | ⬜ 待查 | ⬜ 待查 | ⬜ 待查(HuggingFace model card 的 license 欄;**Step 5-5 灰度切換的硬前置**) | — | — | — | |
+| trellis-mac 相依:`briaai/RMBG-2.0`(去背) | ⬜ 待查 —— gated model,dev-log 記錄需同意條款才能下載;**疑為非商用授權,自架商用前必須確認** | ⬜ | ⬜ | ⬜ 待查 | — | — | — | |
+| trellis-mac 相依:`facebook/dinov3-vitl16` | ⬜ 待查(Meta 表單審核制,授權條款待讀) | ⬜ | ⬜ | ⬜ 待查 | — | — | — | |
+| pipeline 相依:rembg(preprocess stage 去背) | 工具本身 MIT;預設 u2net 權重 Apache-2.0 —— ⬜ 待覆核;若改用 BiRefNet / isnet 等其他權重需逐一查 | — | — | ⬜ | — | — | — | |
+| HDRI `studio_small_08`(Poly Haven) | CC0,可商用、可嵌入 | 否 | 允許 | CC0 | — | — | — | polyhaven.com(license 頁) |
+
+**驗收(D-3)**:`[ ]` Tripo 與 TRELLIS.2 兩列填完並附來源網址與日期。任一列為「限制 / 需授權」時,對外 Embed 前要先取得授權或改方案。
 
 ---
 
