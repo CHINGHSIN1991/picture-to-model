@@ -6,7 +6,7 @@
 
 七段流程:preprocess(去背 / 置中 / 佔比 / 解析度 fail fast)→ generate(Tripo)
 → cleanup(修整 + decimate)→ material(PBR 檢查)→ textures(拆 ORM + 驗證)
-→ optimize(gltf-transform meshopt|draco + WebP → web/model.glb)→ render(Cycles poster + WebP)。
+→ optimize(gltf-transform draco|meshopt + WebP 1024px → web/model.glb)→ render(Cycles poster + WebP)。
 每步輸入輸出都是檔案、可單獨重跑;各階段狀態與耗時記進 metadata.json 的 stages。
 """
 
@@ -19,8 +19,8 @@ from pathlib import Path
 
 from extract_textures import extract_textures
 from generate_model import generate
-from optimize_glb import COMPRESSORS, optimize_job
-from preprocess_image import MIN_RESOLUTION, TARGET_RATIO, preprocess
+from optimize_glb import COMPRESSORS, TEXTURE_SIZE, optimize_job
+from preprocess_image import MIN_RESOLUTION, REMBG_MODEL, TARGET_RATIO, preprocess
 from render_model import render_job
 from run_blender import run as run_blender
 from validate_textures import validate
@@ -71,9 +71,12 @@ def main() -> None:
     ap.add_argument("--min-resolution", type=int, default=MIN_RESOLUTION, help="輸入解析度下限,低於即 fail fast")
     ap.add_argument("--target-ratio", type=float, default=TARGET_RATIO, help="主體佔比目標(0.70~0.80)")
     ap.add_argument("--no-remove-bg", action="store_true", help="前處理不去背")
+    ap.add_argument("--bg-model", default=REMBG_MODEL, help="rembg 模型(限 MIT 授權;預設 u2net,勿用 bria-rmbg)")
     ap.add_argument("--skip-optimize", action="store_true", help="跳過 GLB 壓縮")
-    ap.add_argument("--compress", choices=COMPRESSORS, default="meshopt",
-                    help="optimize 幾何壓縮器(meshopt 預設;draco 需 viewer 掛 DRACOLoader)")
+    ap.add_argument("--compress", choices=COMPRESSORS, default="draco",
+                    help="optimize 幾何壓縮器(draco 預設,<model-viewer> 可載;meshopt 僅自家 viewer)")
+    ap.add_argument("--texture-size", type=int, default=TEXTURE_SIZE,
+                    help="optimize 貼圖邊長上限 px(預設 1024,Web 版規格;2048 不降)")
     ap.add_argument("--samples", type=int, default=128)
     ap.add_argument("--resolution", type=int, default=1600)
     ap.add_argument("--strategy", choices=STRATEGIES,
@@ -115,7 +118,8 @@ def main() -> None:
 
         def preprocess_stage() -> None:
             meta = preprocess(args.image, job_dir, min_resolution=args.min_resolution,
-                              target_ratio=args.target_ratio, remove_bg=not args.no_remove_bg)
+                              target_ratio=args.target_ratio, remove_bg=not args.no_remove_bg,
+                              bg_model=args.bg_model)
             gen_input["image"] = job_dir / meta["output"]
 
         if args.skip_preprocess:
@@ -145,7 +149,8 @@ def main() -> None:
     if args.skip_optimize:
         update_stages(job_dir, {"name": "optimize", "status": "skipped", "elapsed_sec": 0})
     else:
-        run_stage(job_dir, "optimize", lambda: optimize_job(job_dir, compress=args.compress))
+        run_stage(job_dir, "optimize",
+                  lambda: optimize_job(job_dir, compress=args.compress, texture_size=args.texture_size))
     run_stage(job_dir, "render",
               lambda: render_job(job_dir, samples=args.samples, resolution=args.resolution))
 

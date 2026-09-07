@@ -4,30 +4,26 @@ import ModelViewer from './components/ModelViewer.vue'
 import CompareViewer from './components/CompareViewer.vue'
 import ConsistencyViewer from './components/ConsistencyViewer.vue'
 import EditorView from './components/EditorView.vue'
-import EmbedViewer from './components/EmbedViewer.vue'
 import StrategyViewer from './components/StrategyViewer.vue'
 import { MODELS } from './modelList'
 
 const models = ref<string[]>(MODELS)
 const current = ref(models.value[0])
-// ?mode=compare / consistency / strategy / editor 可深連結;embed 為無 chrome 的嵌入頁
-type Mode = 'single' | 'compare' | 'consistency' | 'strategy' | 'editor' | 'embed'
+// ?mode=compare / consistency / strategy / editor 可深連結;embed 由 main.ts 直接掛 EmbedViewer(獨立 chunk)
+type Mode = 'single' | 'compare' | 'consistency' | 'strategy' | 'editor'
 const initialMode = new URLSearchParams(location.search).get('mode')
 const mode = ref<Mode>(
   initialMode === 'compare' ||
     initialMode === 'consistency' ||
     initialMode === 'strategy' ||
-    initialMode === 'editor' ||
-    initialMode === 'embed'
+    initialMode === 'editor'
     ? initialMode
     : 'single',
 )
 </script>
 
 <template>
-  <!-- 🎯 Embed:主產出的嵌入頁,不帶任何 app chrome -->
-  <EmbedViewer v-if="mode === 'embed'" />
-  <div v-else class="viewer-page">
+  <div class="viewer-page">
     <header>
       <h1>Picture to Model — Viewer</h1>
       <nav class="mode-switch">

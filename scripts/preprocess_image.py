@@ -4,7 +4,8 @@ pipeline 第 1 站,在 generate 之前。輸入品質是生成品質的第一槓
 在花掉 API 額度之前先把圖修好或擋下:
 
 1. 解析度下限檢查(fail fast,預設 1024px)
-2. 去背(rembg;venv 缺 onnxruntime 時退到 `uvx --python 3.12 rembg`;都不行則記警告續跑)
+2. 去背(rembg,**明確指定 MIT 授權的 u2net 模型**——rembg 預設 bria-rmbg 為 BRIA 非商用授權,不可用於 embed 產品;
+   venv 缺 onnxruntime 時退到 `uvx --python 3.12 rembg`;都不行則記警告續跑)
 3. 主體佔比檢查與置中重取景(alpha bounding box,目標佔比 0.75,允許 0.70~0.80)
 4. 輸出正規化:方形 1024² RGBA PNG → <job>/input/front_preprocessed.png;原圖另存 input/front.<ext> 不覆蓋
 
@@ -31,23 +32,26 @@ ALPHA_THRESHOLD = 16          # alpha 大於此值視為主體
 COLOR_DIFF_THRESHOLD = 24     # 無 alpha 時,與角落背景色差大於此值視為主體
 UPSCALE_WARN = 1.5            # 放大倍率超過此值記警告(細節不足)
 REMBG_PYTHON = "3.12"         # onnxruntime 尚無 3.14 wheel;uvx 另開環境跑 rembg
-REMBG_TIMEOUT = 900           # 首次執行會下載 u2net 權重(~170MB)
+REMBG_TIMEOUT = 900           # 首次執行會下載模型權重(u2net ~170MB)
+# rembg 的 CLI / remove() 預設模型是 bria-rmbg(RMBG-2.0,BRIA 授權:商用需付費協議)。
+# 本專案輸出會嵌進使用者的商業網站,故一律明確指定 MIT(via rembg)授權的模型。
+REMBG_MODEL = "u2net"         # 可選 isnet-general-use / birefnet-general(皆 MIT via rembg);勿用 bria-rmbg
 
 
 # ---------------------------------------------------------------- 去背
-def _rembg_inprocess(img: Image.Image) -> Image.Image | None:
+def _rembg_inprocess(img: Image.Image, model: str) -> Image.Image | None:
     try:
-        from rembg import remove  # type: ignore
+        from rembg import new_session, remove  # type: ignore
     except ImportError:
         return None
-    return remove(img).convert("RGBA")
+    return remove(img, session=new_session(model)).convert("RGBA")
 
 
-def _rembg_uvx(src: Path, work_dir: Path) -> Image.Image | None:
+def _rembg_uvx(src: Path, work_dir: Path, model: str) -> Image.Image | None:
     if not shutil.which("uvx"):
         return None
     out = work_dir / "_rembg.png"
-    cmd = ["uvx", "--python", REMBG_PYTHON, "--from", "rembg[cpu,cli]", "rembg", "i", str(src), str(out)]
+    cmd = ["uvx", "--python", REMBG_PYTHON, "--from", "rembg[cpu,cli]", "rembg", "i", "-m", model, str(src), str(out)]
     try:
         proc = subprocess.run(cmd, capture_output=True, text=True, timeout=REMBG_TIMEOUT)
     except (subprocess.TimeoutExpired, OSError) as exc:
@@ -62,14 +66,17 @@ def _rembg_uvx(src: Path, work_dir: Path) -> Image.Image | None:
     return img
 
 
-def remove_background(img: Image.Image, src: Path, work_dir: Path) -> tuple[Image.Image | None, str]:
-    """回傳 (RGBA 去背圖或 None, 方法名)。"""
-    result = _rembg_inprocess(img)
+def remove_background(img: Image.Image, src: Path, work_dir: Path,
+                      model: str = REMBG_MODEL) -> tuple[Image.Image | None, str]:
+    """回傳 (RGBA 去背圖或 None, 方法名)。model 一律明確指定,避免落到 rembg 的非商用預設。"""
+    if model == "bria-rmbg":
+        raise ValueError("bria-rmbg(RMBG-2.0)為 BRIA 非商用授權,本專案禁止使用;請改 u2net / isnet-general-use / birefnet-general")
+    result = _rembg_inprocess(img, model)
     if result is not None:
-        return result, "rembg"
-    result = _rembg_uvx(src, work_dir)
+        return result, f"rembg:{model}"
+    result = _rembg_uvx(src, work_dir, model)
     if result is not None:
-        return result, f"rembg(uvx py{REMBG_PYTHON})"
+        return result, f"rembg:{model}(uvx py{REMBG_PYTHON})"
     return None, "unavailable"
 
 
@@ -106,6 +113,7 @@ def preprocess(
     output_size: int = OUTPUT_SIZE,
     target_ratio: float = TARGET_RATIO,
     remove_bg: bool = True,
+    bg_model: str = REMBG_MODEL,
 ) -> dict:
     """處理單張圖,寫入 out_dir/input/,合併統計到 out_dir/metadata.json 的 preprocess 欄位。
 
@@ -139,7 +147,7 @@ def preprocess(
     bg_method = "skipped"
     background_removed = False
     if remove_bg and not has_alpha:
-        cut, bg_method = remove_background(src.convert("RGB"), kept, input_dir)
+        cut, bg_method = remove_background(src.convert("RGB"), kept, input_dir, model=bg_model)
         if cut is not None:
             img, has_alpha, background_removed = cut, True, True
         else:
@@ -190,6 +198,7 @@ def preprocess(
         "scale": round(scale, 3),
         "background_removed": background_removed,
         "background_method": bg_method,
+        "background_model_license": "MIT (via rembg)" if background_removed else None,
         "min_resolution": min_resolution,
         "warnings": warnings,
         "elapsed_sec": round(time.time() - t0, 1),
@@ -214,13 +223,14 @@ def main() -> None:
     ap.add_argument("--size", type=int, default=OUTPUT_SIZE, help="輸出邊長(px)")
     ap.add_argument("--target-ratio", type=float, default=TARGET_RATIO)
     ap.add_argument("--no-remove-bg", action="store_true", help="不去背,只做取景與正規化")
+    ap.add_argument("--bg-model", default=REMBG_MODEL, help="rembg 模型(限 MIT 授權:u2net / isnet-general-use / birefnet-general)")
     args = ap.parse_args()
     if not args.image.exists():
         sys.exit(f"找不到圖片: {args.image}")
     out_dir = args.out_dir or Path("output") / f"preprocess-{args.image.stem}"
     try:
         preprocess(args.image, out_dir, min_resolution=args.min_resolution, output_size=args.size,
-                   target_ratio=args.target_ratio, remove_bg=not args.no_remove_bg)
+                   target_ratio=args.target_ratio, remove_bg=not args.no_remove_bg, bg_model=args.bg_model)
     except ValueError as exc:
         sys.exit(f"[preprocess] {exc}")
 

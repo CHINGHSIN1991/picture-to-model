@@ -27,7 +27,7 @@ npm run build    # vue-tsc 型別檢查 + 產出 dist/
 | `public/models/` | ❌ gitignore | GLB 較大且可由 pipeline 重新生成,**需自行複製**: |
 
 ```bash
-cp ../output/<job_id>/web/model.glb public/models/<名字>.glb   # pipeline optimize stage 的壓縮版(meshopt + WebP)
+cp ../output/<job_id>/web/model.glb public/models/<名字>.glb   # pipeline optimize stage 的壓縮版(Draco + WebP + 貼圖 ≤1024px)
 # 未壓縮版在 ../output/<job_id>/model.glb;然後在 src/modelList.ts 加一行;一致性驗證頁的配對在 ConsistencyViewer.vue 的 pairs
 ```
 
@@ -38,6 +38,7 @@ pipeline 的 `optimize` stage 已自動產出 `output/<job_id>/web/model.glb`(`u
 
 ```bash
 npm run optimize:glb -- public/models/<名字>.glb public/models/<名字>.glb
-# meshopt + 貼圖 WebP,實測 −49%~−89%;viewer 已掛 MeshoptDecoder(useGlb.ts),壓縮與否都能載
+# Draco + WebP(貼圖維持原尺寸);pipeline 版 uv run scripts/optimize_glb.py in.glb out.glb 另預設貼圖 ≤1024px。
+# viewer 兩種解碼器都掛(useGlb.ts;Draco WASM 由 Vite 自 three 打包),Draco / meshopt / 未壓縮都能載
 # 注意:script 已鎖 --simplify false(面數歸 Blender 管)與 --palette false(材質名是 scene.json override 的 key)
 ```

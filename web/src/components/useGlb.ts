@@ -1,11 +1,20 @@
-// 共用 GLB loader:掛上 MeshoptDecoder,才吃得下 gltf-transform 壓過的
-// EXT_meshopt_compression GLB(npm run optimize:glb);未壓縮的 GLB 照常載。
+// 共用 GLB loader:同時掛 MeshoptDecoder 與 DRACOLoader,兩種 gltf-transform 壓縮
+// (EXT_meshopt_compression / KHR_draco_mesh_compression)與未壓縮的 GLB 都吃得下。
+// - Draco 為 optimize stage 預設(2026-09-04 定案:<model-viewer> 原生支援 Draco、載不了 meshopt,
+//   且 Draco 檔更小)。three r185 的 DRACOLoader 以 import.meta.url 定位解碼器,Vite 會把
+//   draco_decoder.wasm / draco_wasm_wrapper.js 當資產打進 dist/assets/——不必手動託管 WASM。
+// - meshopt 保留(decoder 隨 three 內建),舊產物與 --compress meshopt 仍可載。
 // EXT_texture_webp / KHR_mesh_quantization 由 GLTFLoader 原生支援。
 import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js'
+
+const draco = new DRACOLoader()
+draco.setDecoderConfig({ type: 'wasm' })
 
 const loader = new GLTFLoader()
 loader.setMeshoptDecoder(MeshoptDecoder)
+loader.setDRACOLoader(draco)
 
 export function loadGlb(url: string): Promise<GLTF> {
   return loader.loadAsync(url)

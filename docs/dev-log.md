@@ -5,6 +5,80 @@
 
 ---
 
+## 2026-09-04 — P0 驗收收尾:授權查填(D-3)、4G 節流量測、`<model-viewer>` 相容性 → 壓縮預設改 Draco
+
+> 昨日 P0 的三個待辦中不花 API 額度的部分:D-3 條款查填、D-1 的 4G < 3s 與 model-viewer 驗收。兩個發現改了實作。
+
+### 發現 1:rembg 預設模型是非商用授權(D-3 → D-2 修正)
+
+- rembg README 與 CLI `--help` 確認:**預設模型 `bria-rmbg` = RMBG-2.0,BRIA License,商用需付費協議**(HF model card:CC BY-NC 4.0)。昨日 preprocess 首測就是用這個預設跑的。
+- 修正:`preprocess_image.py` 新增 `REMBG_MODEL = "u2net"`(MIT via rembg),in-process 與 uvx 兩條路徑都明確傳模型;`--bg-model` 可換 isnet-general-use / birefnet-general;傳 bria-rmbg 直接 raise。metadata 加 `background_model_license`。pipeline 透傳 `--bg-model`。
+- 實測 u2net(fishbowl 648²):冷啟 14.4s(下載權重)、暖 **2.7s**;佔比 0.878 → 0.748,目視邊緣乾淨、玻璃邊界完整。
+- 連帶:trellis-mac 自架路線也用 RMBG-2.0 去背,**商用前必須換模型或取得 BRIA 協議**,已記入 evaluation.md。
+
+### 發現 2:`<model-viewer>` 載不了 meshopt GLB(D-1 → 壓縮預設改 Draco)
+
+- headless Chrome 152 + `<model-viewer>` 4.1(Google CDN)載 optimize 產物:**meshopt → `loadfailure`**(console:`THREE.GLTFLoader: setMeshoptDecoder must be called before loading compressed files`);**Draco → 正常**;未壓縮 → 正常。
+- 嵌入三層策略的第 ② 層就是 model-viewer,故 08-26「meshopt 免託管 WASM」的取捨在 embed-first 下不成立。**定案 Draco 為 `optimize` 預設**,meshopt 保留為選項(印警告)。
+- viewer 端:`useGlb.ts` 同時掛 `DRACOLoader`(WASM 模式)與 `MeshoptDecoder`。原本把三個解碼器檔複製到 `web/public/draco/` 手動託管,後發現 three r185 的 DRACOLoader 以 `import.meta.url` 定位解碼器、Vite 會自動把 WASM 打進 `dist/assets/`(hash 檔名、隨 three 版本同步),故移除手動複製。實測嵌入頁載 Draco / meshopt / 未壓縮三種 GLB 皆無錯。
+- 附帶收穫:同一顆 fishbowl,Draco 629KB < meshopt 704KB。
+
+### 4G 節流量測(D-1 驗收)
+
+方法:puppeteer-core 驅動本機 Chrome 152,CDP `emulateNetworkConditions`(Chrome DevTools 預設值:Fast 4G 4Mbps↓/20ms、Slow 4G 1.6Mbps↓/150ms),無快取,自寫 gzip 靜態伺服器(python http.server 不壓縮,會把 1.09MB 的 JS bundle 算滿,首輪測出 4.8s 是假的高)。素材:fishbowl(Draco GLB 629KB + hdr 512 389KB + scene 1KB + poster 233KB + JS gzip ≈ 300KB)。「首屏」= 嵌入頁 poster 淡出(`.poster.hidden`)/ model-viewer `load` 事件。
+
+| 頁面 | 無節流 | Fast 4G | Slow 4G |
+|---|---|---|---|
+| 自家嵌入頁 `?mode=embed`(Draco) | 0.15s | **3.1s** | 7.9s |
+| 自家嵌入頁(meshopt) | 0.15s | 3.1s | 7.8s |
+| `<model-viewer>` + Draco | 0.6s | 3.2s | 8.0s |
+| `<model-viewer>` + meshopt | — | ❌ loadfailure | — |
+
+- **< 3s 差 0.1s 未達**(貼圖 2048² 時)。
+
+### 補記:拆 chunk 無感,貼圖 1024px 才是槓桿 → Fast 4G 2.58s ✅
+
+- **拆 embed chunk**(`main.ts` 依 `?mode=embed` 動態 import EmbedViewer,不載 App):App 專屬程式碼只有 ~10KB gz,three + tresjs 共用 chunk 266KB gz 不可省;而 Draco 解碼器(wasm 64KB + wrapper 12KB gz)是新增請求 —— 淨效果 3.17s,無感。仍保留(結構上正確,嵌入頁不該載編輯器)。
+- **看 GLB 組成**(`gltf-transform inspect`):fishbowl 629KB 裡 **518KB 是三張 2048² WebP 貼圖**(normal 152 / basecolor 273 / ORM 94KB),幾何只剩 ~110KB。Phase 3-1 規格本來就寫「Web 版 1024px」,optimize stage 一直沒做。
+- optimize stage 加 `--texture-size`(預設 **1024**;2048 = 不降):fishbowl **1.54MB → 320KB(−79.2%)**,512px 則 187KB。同角度截圖 1024 vs 2048 mean abs diff **1.8/255**,目視無感。
+- 重測嵌入頁(Draco + 1024):**Fast 4G 2.58s ✅、Slow 4G 6.8s**(2048 版 3.17s / 8.25s)。D-1 兩項驗收(−60%、< 3s)皆過;Slow 4G 仍超,交給 5-2 LOD / KTX2。
+- Draco 解碼器改由 Vite 自 three 打包(DRACOLoader r185 用 `import.meta.url`),`web/public/draco/` 手動複製撤回。
+- 附帶:GLB 404 時嵌入頁 `.poster.hidden` 仍會觸發(Suspense 錯誤也算 resolve),poster 沒有留下當降級圖 —— 列待辦。
+- 對 Cloudflare Pages 正式站測到 65~76s 才 poster 淡出且不隨節流變化;curl 單檔 0.7MB 要 4.5s —— 本機到 CF 的線路慢,非站台問題,未深究。
+
+### D-3 授權查填結果(evaluation.md)
+
+| 元件 | 結果 |
+|---|---|
+| TRELLIS.2-4B | ✅ MIT(HF model card 原文) |
+| RMBG-2.0 | ❌ CC BY-NC 4.0,商用需 BRIA 協議 |
+| DINOv3 | ✅ DINOv3 License(2025-08-19):免權利金可商用、散布須附 License、禁逆向 / 軍事;自訂授權建議法務過目 |
+| rembg | 工具 MIT;模型逐一標示,u2net / isnet / birefnet「MIT (via rembg)」 |
+| **Tripo** | ⚠️ `tripo3d.ai/terms` 與官方 blog 對自動抓取回 **403**,原文未取得;僅核實 developers 定價頁:1 credit = $0.01,image-to-3D 20 / 30 credits。**商用權 / 標註 / 終端使用者轉授權三條需人工開瀏覽器查** |
+
+### 程式碼更新
+
+| 檔案 | 內容 |
+|---|---|
+| `scripts/preprocess_image.py` | 強制 `u2net`、`--bg-model`、拒絕 bria-rmbg、metadata `background_model_license` |
+| `scripts/optimize_glb.py` / `scripts/pipeline.py` | `--compress` 預設 draco;**`--texture-size` 預設 1024**(metadata 記 `texture_size`);警告改為 meshopt 不支援 model-viewer |
+| `web/src/components/useGlb.ts` | 加 DRACOLoader(WASM;解碼器由 Vite 自 three 打包,不手動託管) |
+| `web/src/main.ts` / `App.vue` | **embed 頁拆 chunk**:`?mode=embed` 由 main.ts 直接掛 EmbedViewer,不載 App(編輯器 / 比較 / 一致性 / 減面策略)——App 只剩 10KB gz,three + tresjs 共用 chunk 266KB gz 仍是大宗 |
+| `web/package.json` | `optimize:glb` script 同步改 `--compress draco`,與 pipeline 一致 |
+| `docs/evaluation.md` | D-3 表填入上述查證結果與來源 / 日期 |
+
+### 待辦 / 下一步
+
+- [ ] **Tripo ToS 人工查閱**(商用權 / 標註 / 轉授權),填回 evaluation.md
+- [x] embed 頁拆 chunk + 貼圖 1024px → Fast 4G 2.58s(見補記)
+- [ ] 嵌入頁 GLB 載入失敗時保留 poster 作降級圖(目前會淡出成空白)
+- [ ] Slow 4G(1.6Mbps)6.8s:LOD / KTX2 / poster 縮小(現 1600px 233KB)
+- [ ] A/B 生成比較(D-2 驗收,需 Tripo 額度:三類素材 × 前處理有無 ≈ 6 job ≈ 180 credits)
+- [x] `npm run optimize:glb` script 同步改 Draco
+- [ ] 首個對外 Embed 案例
+
+---
+
 ## 2026-09-03 — P0 落地:`preprocess`(D-2)與 `optimize`(D-1)stage 併入 pipeline + D-3 授權表
 
 > 依 08-27 外部檢視的 P0 排程:三項皆純 CLI、不等 4A。pipeline 由五段擴為**七段**

@@ -29,14 +29,16 @@
 
 | 服務 / 元件 | 生成資產商用權利(允許 / 限制 / 需授權) | 是否需標註來源 | 使用者轉授權(嵌入其商業網站) | 模型 license(開源限填) | API 價格 | Rate limit | SLA | 查閱來源 / 日期 |
 |---|---|---|---|---|---|---|---|---|
-| **Tripo(VAST)API** | ⬜ 待查(Terms of Service:生成物歸屬、付費方案與免費方案差異) | ⬜ 待查 | ⬜ 待查(是否允許整合進自家產品再供第三方商用) | — | ⬜ 待查(每次 image_to_model 額度) | ⬜ 待查 | ⬜ 待查 | |
-| **TRELLIS.2(Microsoft)權重** | ⬜ 待查 | ⬜ 待查 | ⬜ 待查 | ⬜ 待查(HuggingFace model card 的 license 欄;**Step 5-5 灰度切換的硬前置**) | — | — | — | |
-| trellis-mac 相依:`briaai/RMBG-2.0`(去背) | ⬜ 待查 —— gated model,dev-log 記錄需同意條款才能下載;**疑為非商用授權,自架商用前必須確認** | ⬜ | ⬜ | ⬜ 待查 | — | — | — | |
-| trellis-mac 相依:`facebook/dinov3-vitl16` | ⬜ 待查(Meta 表單審核制,授權條款待讀) | ⬜ | ⬜ | ⬜ 待查 | — | — | — | |
-| pipeline 相依:rembg(preprocess stage 去背) | 工具本身 MIT;預設 u2net 權重 Apache-2.0 —— ⬜ 待覆核;若改用 BiRefNet / isnet 等其他權重需逐一查 | — | — | ⬜ | — | — | — | |
+| **Tripo(VAST)API** | 🔄 **官方 ToS 原文未取得**:`tripo3d.ai/terms` 與官方 blog 對自動抓取回 403,需人工開瀏覽器查閱。二手來源(搜尋摘要,**未核實**)稱:API 產出含商用權;免費方案產出公開於 gallery 並採 CC BY 4.0 非商用 | ⬜ 待查(二手來源稱付費 / API 不需標註,免費方案 CC BY) | ⬜ 待查(能否讓終端使用者把產出放上其商業網站 —— 本產品成立的關鍵條款) | — | ✅ 1 credit = $0.01;image-to-3D **20 credits(無貼圖)/ 30 credits(標準貼圖)**(developers.tripo3d.ai/en/pricing) | ⬜ 待查 | ⬜ 待查 | developers.tripo3d.ai/en/pricing,2026-09-04;ToS:tripo3d.ai/terms(待人工) |
+| **TRELLIS.2(Microsoft)權重** | ✅ 允許(MIT) | 否(保留 license 聲明即可) | 允許 | ✅ **MIT** —— model card:「This model is released under the MIT License.」 | — | — | — | huggingface.co/microsoft/TRELLIS.2-4B,2026-09-04 |
+| trellis-mac 相依:`briaai/RMBG-2.0`(去背) | ❌ **非商用**:「released under a CC BY-NC 4.0 license for non-commercial use. Commercial use is subject to a commercial agreement with BRIA.」 | 是(CC BY-NC) | ❌ | CC BY-NC 4.0 / BRIA 商業協議 | — | — | — | huggingface.co/briaai/RMBG-2.0,2026-09-04 |
+| trellis-mac 相依:`facebook/dinov3-vitl16` | ✅ 允許(DINOv3 License 授予非專屬、全球、免權利金的使用 / 衍生 / 散布權;未禁止商用) | 研究發表需致謝;散布權重須附 License 全文 | 允許(散布須附 License) | **DINOv3 License**(自訂,2025-08-19;禁止逆向工程、禁止軍事 / 出口管制用途)—— 自訂授權建議法務過目 | — | — | — | github.com/facebookresearch/dinov3/blob/main/LICENSE.md,2026-09-04 |
+| pipeline 相依:rembg(preprocess stage 去背) | ✅ 工具 MIT;**⚠️ rembg 預設模型是 `bria-rmbg`(= RMBG-2.0,BRIA 非商用)**。本專案已改為明確指定 **u2net(MIT via rembg)**,`preprocess_image.py` 對 bria-rmbg 直接拒絕 | 否 | 允許 | u2net / isnet-general-use / birefnet-general 皆「MIT (via rembg)」;bria-rmbg 為 BRIA License | — | — | — | github.com/danielgatis/rembg README,2026-09-04 |
 | HDRI `studio_small_08`(Poly Haven) | CC0,可商用、可嵌入 | 否 | 允許 | CC0 | — | — | — | polyhaven.com(license 頁) |
 
-**驗收(D-3)**:`[ ]` Tripo 與 TRELLIS.2 兩列填完並附來源網址與日期。任一列為「限制 / 需授權」時,對外 Embed 前要先取得授權或改方案。
+**驗收(D-3)**:`[x]` TRELLIS.2 完成(MIT)。`[ ]` **Tripo 待人工查 ToS**(自動抓取被擋),重點三條:API 產出商用權、是否需標註、終端使用者轉授權。任一列為「限制 / 需授權」時,對外 Embed 前要先取得授權或改方案。
+
+**已據此調整的實作**:自架路線(trellis-mac)若走商用,RMBG-2.0 去背必須換成 MIT 模型或取得 BRIA 協議;pipeline 的 preprocess 去背已強制 u2net。
 
 ---
 
