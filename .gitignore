@@ -14,10 +14,15 @@ web/public/models/
 __pycache__/
 .venv/
 *.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
 
 # Node
 node_modules/
 web/dist/
+web/playwright-report/
+*.tsbuildinfo
 
 # 系統
 .DS_Store
