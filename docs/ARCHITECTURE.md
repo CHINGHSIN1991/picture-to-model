@@ -1,13 +1,15 @@
 # Picture to Model — 技術架構草案
 
-日期：2026-09-20。以下為建議設計，尚未建立應用程式或鎖定依賴版本。
+更新日期：2026-10-05。Phase 1 已建立可執行的本機流程，依賴鎖定於 `uv.lock` 與 `web/package-lock.json`；本文件其餘編輯、匯出、發布等設計仍為後續階段規劃。
+
+目前實作：React＋Three.js 預覽、FastAPI、SQLite migration、私有本機儲存、獨立 worker 與固定 fixture provider。API 的 `/api/health` 顯示 `provider: fake`，不載入 `.env`、不呼叫任何付費 API。啟動方式與驗證範圍見 [README](../README.md)。
 
 ## 1. 技術選型
 
 | 層 | 建議 | 理由／限制 |
 | --- | --- | --- |
 | 編輯前端 | React + TypeScript + Vite | 獨立 SPA，適合屬性面板與編輯狀態 |
-| 3D 編輯 | Three.js + React Three Fiber + Drei | 場景控制、選取、變換與材質；匯出使用 GLTFExporter |
+| 3D 預覽／編輯 | Phase 1 使用 Three.js；編輯階段再評估 React Three Fiber + Drei | 目前提供預覽控制；後續加入選取、變換、材質與 GLTFExporter |
 | 公開檢視 | model-viewer | 輕量展示介面，與完整編輯器分開載入 |
 | API | Python + FastAPI + Pydantic | 檔案驗證、任務協調、供應商整合 |
 | 本機持久層 | SQLite + 私有檔案目錄 | 先單機；禁止以 web/public 作私有資產目錄 |
@@ -148,7 +150,9 @@ iframe 使用 Publication；model-viewer 與 Three.js 下載套件使用 Integra
 
 驗證時對三種交付比對 GLB hash，並在獨立 HTTP origin 執行兩個套件；停止本系統後確認不再依賴其 API。額外測試 resize、模型載入失敗、設定欄位映射及 Three.js 點選接點。Three.js 範例僅提供開發接點，客製化互動不納入 MVP 交付。
 
-## 8. 建議目錄（尚未建立）
+## 8. 目錄安排
+
+目前 `backend/app/` 採較小的模組：main、db、storage、images、providers、worker 與 migrations；`web/src/` 包含工作台、API client、ModelViewer 與樣式。先保持 Phase 1 結構簡單，下列依功能拆分的子目錄隨後續規模增加再建立。
 
 ```text
 backend/app/{api,models,providers,jobs,storage,services}/

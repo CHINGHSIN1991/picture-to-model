@@ -84,7 +84,11 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-測試不需要任何 AI 金鑰。Chromium 首次安裝需要網路；日常測試資料放在被忽略的 `output/` 下。
+測試不需要任何 AI 金鑰。Chromium 首次安裝需要網路；測試資料放在被忽略的 `output/` 下，結束後自動清除。失敗 trace／截圖保留在 `web/test-results/`。也可以設定 `PTM_BROWSER_PATH` 指向已安裝的相容 Chromium 執行檔。
+
+2026-10-05 驗證：62 項後端測試、4 項 Chromium E2E，以及 Ruff／ESLint／Prettier／正式建置全部通過。後端涵蓋 SQLite 並行初始化、lease 過期接手、提交後崩潰恢復、過期 worker 不可覆寫結果、重試額度與所有權。E2E 涵蓋真實 GLB 載入、重新整理、損毀圖片、模型載入重試、專案切換與輪詢斷線恢復。手機寬度僅在桌面 Chromium 模擬，完整跨瀏覽器驗證留到部署階段。
+
+目前有兩項非阻擋訊息：測試依賴的棄用警告，以及 Three.js 預覽 chunk 約 635 KB 的建置提示。3D 程式已延遲到預覽時載入；後續正式部署再進行效能調整。
 
 ## 結構與下一階段
 
