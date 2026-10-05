@@ -14,7 +14,7 @@ class Settings:
     local_owner: str = "local-owner"
     worker_interval: float = 0.5
     lease_seconds: float = 30.0
-    max_attempts: int = 5
+    max_attempts: int = 5  # Consecutive failed/crashed attempts; successful stages reset this.
     retry_seconds: float = 2.0
     web_origin: str = "http://127.0.0.1:5173"
 
@@ -27,14 +27,21 @@ class Settings:
         if not owner:
             raise ValueError("PTM_LOCAL_OWNER must not be empty")
         web_origin = os.getenv("PTM_WEB_ORIGIN", "http://127.0.0.1:5173").rstrip("/")
-        origin = urlsplit(web_origin)
+        try:
+            origin = urlsplit(web_origin)
+            port = origin.port  # Access validates malformed/out-of-range port numbers.
+        except ValueError as error:
+            raise ValueError("PTM_WEB_ORIGIN must be an explicit local HTTP origin") from error
         if (
             origin.scheme != "http"
             or origin.hostname not in {"127.0.0.1", "localhost", "::1"}
             or origin.path
             or origin.query
             or origin.fragment
-            or origin.username
+            or origin.username is not None
+            or origin.password is not None
+            or port == 0
+            or origin.netloc.endswith(":")
         ):
             raise ValueError("PTM_WEB_ORIGIN must be an explicit local HTTP origin")
         return cls(data_dir=data_dir.resolve(), local_owner=owner, web_origin=web_origin)

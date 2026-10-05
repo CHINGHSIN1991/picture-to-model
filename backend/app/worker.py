@@ -27,7 +27,7 @@ class Claim:
     job_id: str
     generation_id: str
     token: str
-    attempt: int
+    attempt: int  # Consecutive claims since the last successful stage or status poll.
 
 
 class Worker:
@@ -80,13 +80,15 @@ class Worker:
         claim: Claim,
         status: str = "pending",
         delay: float | None = None,
+        reset_attempt: bool = False,
     ):
         if delay is None:
             delay = self.settings.worker_interval
         connection.execute(
             "UPDATE jobs SET lease_token = NULL, lease_expires_at = NULL, status = ?, "
-            "next_run_at = ? WHERE id = ? AND lease_token = ?",
-            (status, self.clock() + delay, claim.job_id, claim.token),
+            "next_run_at = ?, attempt = CASE WHEN ? THEN 0 ELSE attempt END "
+            "WHERE id = ? AND lease_token = ?",
+            (status, self.clock() + delay, reset_attempt, claim.job_id, claim.token),
         )
 
     def _retry_later(self, claim: Claim) -> None:
@@ -109,7 +111,14 @@ class Worker:
                 f"UPDATE generations SET state = ?, updated_at = ?{assignments} WHERE id = ?",
                 (state, timestamp(), *fields.values(), claim.generation_id),
             )
-            self._release(connection, claim, "failed" if state == "failed" else "pending")
+            # Successful stages and pending provider polls must not consume the
+            # retry budget of the next operation. Crashes and failed calls do.
+            self._release(
+                connection,
+                claim,
+                "failed" if state == "failed" else "pending",
+                reset_attempt=state != "failed",
+            )
         logger.info("generation_id=%s state=%s", claim.generation_id, state)
         return True
 
@@ -139,7 +148,7 @@ class Worker:
                 "WHERE id = ?",
                 (version_id, now, generation["id"]),
             )
-            self._release(connection, claim, "completed")
+            self._release(connection, claim, "completed", reset_attempt=True)
         logger.info("generation_id=%s state=ready", claim.generation_id)
 
     def process(self, claim: Claim) -> None:

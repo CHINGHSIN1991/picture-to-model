@@ -45,8 +45,8 @@ def test_repeated_errors_fail_after_max_attempts(client, settings, generation):
     result = client.get(f"/api/generations/{generation['id']}").json()
     assert result["state"] == "failed"
     assert result["error"]["code"] == "generation_failed"
-    # queued → submitting is one attempt; the remaining budget is spent on submit.
-    assert provider.calls == 2
+    # Successful queued → submitting does not consume the retry budget.
+    assert provider.calls == 3
 
 
 def test_generation_exposes_source_and_new_key_can_retry_after_failure(
