@@ -7,8 +7,14 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: '127.0.0.1',
+    strictPort: true,
     proxy: {
       '/api': { target: apiTarget, changeOrigin: false },
     },
+  },
+  preview: {
+    host: '127.0.0.1',
+    strictPort: true,
+    proxy: { '/api': { target: apiTarget, changeOrigin: false } },
   },
 })

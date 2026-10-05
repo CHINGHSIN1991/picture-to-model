@@ -61,9 +61,17 @@ async function parse<T>(pending: Promise<Response>): Promise<T> {
   return (await response.json()) as T
 }
 
+function request(url: string, init?: RequestInit): Promise<Response> {
+  const timeout = AbortSignal.timeout(20000)
+  return fetch(url, {
+    ...init,
+    signal: init?.signal ? AbortSignal.any([init.signal, timeout]) : timeout,
+  })
+}
+
 export function createProject(name: string): Promise<Project> {
   return parse(
-    fetch('/api/projects', {
+    request('/api/projects', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name }),
@@ -71,18 +79,20 @@ export function createProject(name: string): Promise<Project> {
   )
 }
 
-export function listProjects(): Promise<{ items: Project[] }> {
-  return parse(fetch('/api/projects'))
+export function listProjects(signal?: AbortSignal): Promise<{ items: Project[] }> {
+  return parse(request('/api/projects', { signal }))
 }
 
-export function getProject(projectId: string): Promise<ProjectDetail> {
-  return parse(fetch(`/api/projects/${projectId}`))
+export function getProject(projectId: string, signal?: AbortSignal): Promise<ProjectDetail> {
+  return parse(request(`/api/projects/${encodeURIComponent(projectId)}`, { signal }))
 }
 
 export async function uploadImage(projectId: string, file: File): Promise<Asset> {
   const body = new FormData()
   body.append('file', file)
-  return parse(fetch(`/api/projects/${projectId}/images`, { method: 'POST', body }))
+  return parse(
+    request(`/api/projects/${encodeURIComponent(projectId)}/images`, { method: 'POST', body }),
+  )
 }
 
 export function createGeneration(
@@ -91,7 +101,7 @@ export function createGeneration(
   idempotencyKey: string,
 ): Promise<Generation> {
   return parse(
-    fetch(`/api/projects/${projectId}/generations`, {
+    request(`/api/projects/${encodeURIComponent(projectId)}/generations`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Idempotency-Key': idempotencyKey },
       body: JSON.stringify({ source_asset_id: sourceAssetId }),
@@ -99,10 +109,10 @@ export function createGeneration(
   )
 }
 
-export function getGeneration(generationId: string): Promise<Generation> {
-  return parse(fetch(`/api/generations/${generationId}`))
+export function getGeneration(generationId: string, signal?: AbortSignal): Promise<Generation> {
+  return parse(request(`/api/generations/${encodeURIComponent(generationId)}`, { signal }))
 }
 
-export function getModelVersion(versionId: string): Promise<ModelVersion> {
-  return parse(fetch(`/api/model-versions/${versionId}`))
+export function getModelVersion(versionId: string, signal?: AbortSignal): Promise<ModelVersion> {
+  return parse(request(`/api/model-versions/${encodeURIComponent(versionId)}`, { signal }))
 }

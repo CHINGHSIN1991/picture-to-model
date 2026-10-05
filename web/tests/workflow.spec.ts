@@ -1,9 +1,35 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 
 const png = Buffer.from(
   'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAO0lEQVR4nO3RsREAMAjDQJNt02QDds8IoqHTD2DuRL2+2XRW1+OBAX+ATIRMhEyETIRMhEyETIRMFPIBqPwBlDPvuzIAAAAASUVORK5CYII=',
   'base64',
 )
+
+async function createReadyProject(page: Page, name: string) {
+  const project = await (await page.request.post('/api/projects', { data: { name } })).json()
+  const source = await (
+    await page.request.post(`/api/projects/${project.id}/images`, {
+      multipart: { file: { name: 'product.png', mimeType: 'image/png', buffer: png } },
+    })
+  ).json()
+  const generation = await (
+    await page.request.post(`/api/projects/${project.id}/generations`, {
+      headers: { 'Idempotency-Key': crypto.randomUUID() },
+      data: { source_asset_id: source.id },
+    })
+  ).json()
+  await expect
+    .poll(async () => {
+      const task = await (await page.request.get(`/api/generations/${generation.id}`)).json()
+      return task.state
+    })
+    .toBe('ready')
+  const task = await (await page.request.get(`/api/generations/${generation.id}`)).json()
+  const version = await (
+    await page.request.get(`/api/model-versions/${task.model_version_id}`)
+  ).json()
+  return { project, generation, version }
+}
 
 test('upload → durable demo task → actual GLB rendering → reload', async ({ page }) => {
   const pageErrors: string[] = []
@@ -80,4 +106,54 @@ test('corrupt image is rejected before generation and UI recovers', async ({ pag
   })
   expect((await retry).ok()).toBeTruthy()
   await expect(page.getByRole('button', { name: '開始示範生成', exact: true })).toBeEnabled()
+})
+
+test('failed GLB load stays unready and retries without creating a generation', async ({
+  page,
+}) => {
+  const { project, version } = await createReadyProject(page, '預覽失敗恢復')
+  const modelUrl = `**${version.asset_url}`
+  await page.route(modelUrl, (route) =>
+    route.fulfill({ status: 503, body: 'temporarily unavailable' }),
+  )
+  await page.goto(`/?project=${project.id}`)
+  await expect(page.getByRole('alert')).toContainText('模型載入失敗')
+  await expect(page.getByTestId('model-ready')).toHaveCount(0)
+  await page.unroute(modelUrl)
+  await page.getByRole('button', { name: '重新載入預覽' }).click()
+  await expect(page.getByTestId('model-ready')).toBeVisible()
+  const detail = await (await page.request.get(`/api/projects/${project.id}`)).json()
+  expect(detail.generations).toHaveLength(1)
+
+  await page.getByRole('button', { name: '← 所有專案' }).click()
+  await expect(page).not.toHaveURL(/project=/)
+  await page.getByRole('button', { name: /預覽失敗恢復.*已有參考圖片/ }).click()
+  await expect(page.getByTestId('model-ready')).toBeVisible()
+  await expect(page.getByTestId('model-canvas')).toHaveCount(1)
+  await page.setViewportSize({ width: 390, height: 844 })
+  await expect
+    .poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth))
+    .toBeTruthy()
+  await page.screenshot({ path: test.info().outputPath('mobile-workspace.png'), fullPage: true })
+})
+
+test('interrupted status polling reconnects to the existing task', async ({ page }) => {
+  const { project, generation } = await createReadyProject(page, '進度斷線恢復')
+  // Present an in-flight snapshot once; the durable server task is already complete.
+  await page.route(`**/api/projects/${project.id}`, async (route) => {
+    const response = await route.fetch()
+    const detail = await response.json()
+    detail.generations[0].state = 'generating'
+    detail.generations[0].model_version_id = null
+    await route.fulfill({ response, json: detail })
+  })
+  const taskUrl = `**/api/generations/${generation.id}`
+  await page.route(taskUrl, (route) => route.abort())
+  await page.goto(`/?project=${project.id}`)
+  await expect(page.getByRole('alert')).toContainText('重新連線')
+  await page.unroute(taskUrl)
+  await expect(page.getByTestId('model-ready')).toBeVisible()
+  await expect(page.getByRole('alert')).toHaveCount(0)
+  const detail = await (await page.request.get(`/api/projects/${project.id}`)).json()
+  expect(detail.generations).toHaveLength(1)
 })
