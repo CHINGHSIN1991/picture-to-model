@@ -1,28 +1,30 @@
-# Roadmap 與規劃文件(不進版控)
-ROADMAP.md
-docs/phase-*.md
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
 
-# 生成產物與測試結果
-output/
-test-results/
-web/public/models/
+# Blender
+*.blend1
+*.blend2
+blender/renders/**/*.png
+blender/renders/**/*.jpg
+blender/renders/**/*.exr
+!blender/renders/**/.gitkeep
 
-# 機密
+# Large binary outputs (keep the reproducible .py sources instead)
+export/*.glb
+!export/.gitkeep
+
+# Web (Vue 3 + Vite, Step 10)
+web/node_modules/
+web/dist/
+web/.vite/
+
+# Secrets
 .env
+.env.*
+!.env.example
 
 # Python
 __pycache__/
-.venv/
 *.pyc
-.pytest_cache/
-.ruff_cache/
-*.egg-info/
-
-# Node
-node_modules/
-web/dist/
-web/playwright-report/
-*.tsbuildinfo
-
-# 系統
-.DS_Store
