@@ -91,10 +91,11 @@ that affects a component marked as animatable.
 如果有大量重複元件(珊瑚分枝、魚):
 
 ```
-For repeated components (coral branches, fish):
+For repeated components (see the part groups marked "instancing" in PROJECT_SPEC.md):
 - model each unique variant once
 - place copies as linked duplicates (Alt+D) sharing the same mesh data
-- give each copy a clear name like Coral_Branch_A_001
+- name each copy <Category>_<Variant>_<Index>, e.g. Coral_BranchA_001
+- put each object's origin where PROJECT_SPEC.md says (the animation mode depends on it)
 This allows InstancedMesh in Three.js later.
 ```
 

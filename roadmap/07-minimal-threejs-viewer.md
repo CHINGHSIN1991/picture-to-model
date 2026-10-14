@@ -13,21 +13,21 @@
 
 ## 前置條件
 
-- Step 06 完成,有驗證過的 `export/reef.glb`
+- Step 06 完成,有驗證過的 `export/<asset>.glb`
 
 ## 操作步驟
 
 ### 1. 建立 web 專案
 
 ```bash
-cd /Users/chinghsinc/Develop/blender-to-model
+cd <repo>   # 本專案 repo 根目錄
 bun create vite web --template vue-ts
 cd web
 bun install
 bun add three gsap
 bun add -d @types/three
 mkdir -p public/models
-cp ../export/reef.glb public/models/reef.glb
+cp ../export/<asset>.glb public/models/<asset>.glb   # <asset> 見 PROJECT_SPEC.md
 ```
 
 ### 2. 要求 Codex 建 viewer

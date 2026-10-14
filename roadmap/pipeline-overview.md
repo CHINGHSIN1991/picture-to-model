@@ -37,7 +37,7 @@
    ↓
 ⑰ Scroll animation                      → Step 12
    ↓
-⑱ 模型拆解 / 重組 animation             → Step 13
+⑱ 逐件 part animation(方式依 spec)     → Step 13
    ↓
 ⑲ Mobile static fallback                → Step 14
    ↓
@@ -101,8 +101,13 @@ Blender Agent Studio 本身也是以保留 `.blend` + Python source 作為核心
 
 ### 關鍵差異 2:所有網頁端參數可序列化
 
-Step 08 的 lighting、Step 10 的 materials / camera、Step 12 的 sections 全部是 plain object。
+Step 08 的 lighting、Step 10 的 materials / camera、Step 12 的 sections、Step 13 的 part animations 全部是 plain object。
 未來平台的 UI 只要編輯這些 JSON,場景就會跟著變。
+
+### 關鍵差異 4:動畫方式不寫死
+
+影片是「散開 → 重組」,但那只是其中一種。本專案把零件動畫做成 mode 目錄(explode / stack / grow / path / orbit / custom),
+每個零件群組用哪個 mode 寫在 `PROJECT_SPEC.md`;Step 13 的 `PartAnimator` 讀 config,程式碼本身不含任何特定效果。
 
 ### 關鍵差異 3:Vue 3 + Vite,Three.js 與 UI 分離
 
@@ -134,7 +139,7 @@ Step 08 的 lighting、Step 10 的 materials / camera、Step 12 的 sections 全
                      └─────────────────┬──────────────┘
                                        │
                                        ▼
-                             web/public/models/reef.glb
+                             web/public/models/<asset>.glb
                                        │
                                        ▼
                                Vite HMR / reload

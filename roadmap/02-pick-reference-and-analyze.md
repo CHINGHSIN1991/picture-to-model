@@ -75,16 +75,22 @@ Start with a graybox.
 | 魚群 | 單一 mesh + InstancedMesh | 數量多 |
 
 ## Object hierarchy (for Three.js)
-- Reef_Root
-  - Reef_Base
-  - Coral_Branch_01 ... Coral_Branch_N  ← 可獨立動
-  - Coral_Plate_01 ...
-- Diver
-- Fish_Instance
+- <Hero>_Root
+  - <Hero>_Base
+  - <Category>_<Variant>_001 ... N  ← 可獨立動,命名規則固定
+- <Secondary>
+- <Repeated>_<Variant>_001 ...     ← instancing
 
 ## Animation plan
-- 哪些物件會旋轉 / 散開 / 重組
-- 哪些物件需要獨立 origin
+每個會動的群組一列,**mode 必須從 Step 13 的目錄選**(explode / stack / grow / path / orbit / custom),
+不要只寫「會動」:
+
+| group | match | mode | origin 要求 | 用途 |
+|---|---|---|---|---|
+| (例)corals | /^Coral_/ | grow | 接觸點 | scroll 依序長出 |
+
+另列 pointer 互動的 mode(tilt / parallax / repel / none)與 idle(時間驅動)動畫。
+這張表要同步抄進 `PROJECT_SPEC.md` 的「動畫方式」。
 
 ## Polygon budget
 - 總目標:< 150k triangles
@@ -94,7 +100,8 @@ Start with a graybox.
 ### 4. 人工檢查分析
 
 確認:
-- 「要動的部分」確實被列為獨立物件
+- 「要動的部分」確實被列為獨立物件,且每個群組都有指定 mode 與對應的 origin 規則
+- `PROJECT_SPEC.md` 的「零件群組」「動畫方式」兩表已依分析填好
 - polygon 預算合理(桌機 hero 通常 50k~200k triangles)
 - 沒有把應該用材質表現的細節列成 geometry
 
@@ -103,6 +110,7 @@ Start with a graybox.
 - [ ] `references/final-concept.png` 存在,且只有一張
 - [ ] `blender/MODEL_PLAN.md` 存在,包含 forms / geometry vs material / hierarchy / animation plan / budget
 - [ ] 人工確認過分析合理
+- [ ] `PROJECT_SPEC.md` 的零件群組與動畫方式已填
 
 ## 常見問題
 

@@ -2,10 +2,12 @@
 
 從「概念圖」到「可互動的 Three.js 網站」的 Blender → Web 3D 工作流程。
 完整步驟見 [roadmap/README.md](roadmap/README.md),一次做一步,達到每步的完成條件再往下。
+roadmap 是通用流程;本專案的專案值(asset 名稱、零件群組、動畫方式、sections)集中在 [PROJECT_SPEC.md](PROJECT_SPEC.md)。
 
 ## 目錄結構
 
 ```
+PROJECT_SPEC.md       本專案的專案值(roadmap 裡的 <asset> 等佔位符查這裡)
 roadmap/              步驟文件(00–17)與 pipeline 總覽
 references/           概念圖、最終 reference(Step 01–02)
 blender/
@@ -13,7 +15,7 @@ blender/
   scenes/             .blend 檔
   renders/graybox/    graybox 多角度 render(Step 03)
   renders/final/      完整模型 render(Step 05)
-export/               驗證過的 .glb(Step 06)
+export/               驗證過的 <asset>.glb(Step 06)
 mockups/              網站 mockup 圖(Step 09)
 web/                  Vue 3 + Vite + Three.js 專案(Step 10)
 ```
@@ -53,3 +55,4 @@ blender --background --python blender/scripts/smoke-test.py
 4. 永遠保存 Blender Python source,讓模型可重現。
 5. 網站先做 mockup。
 6. Web 效能(mobile fallback、offscreen pause、DPR 限制)是設計的一部分。
+7. 動畫方式是資料不是程式:零件怎麼動寫在 PROJECT_SPEC,程式讀 config,不寫死任何一種效果。

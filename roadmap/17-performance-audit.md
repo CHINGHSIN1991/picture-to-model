@@ -46,7 +46,7 @@ Write the report to web/PERFORMANCE.md with before/after numbers.
 
 | 項目 | 怎麼量 | 目標 |
 |------|--------|------|
-| GLB 大小 | `ls -lh web/public/models/reef.glb` / Network panel | < 5 MB |
+| GLB 大小 | `ls -lh web/public/models/<asset>.glb` / Network panel | < 5 MB |
 | Texture 大小 | gltf-validator 報告,或 Network 看 | 含在 GLB 內 |
 | 三角面 | `renderer.info.render.triangles` | < 200k |
 | Draw calls | `renderer.info.render.calls` | < 50 |
@@ -107,7 +107,7 @@ LCP 由 WebP 決定,3D 是加分。
 ## Download
 | Asset | Before | After |
 |-------|--------|-------|
-| reef.glb | 6.8 MB | 3.9 MB |
+| <asset>.glb | 6.8 MB | 3.9 MB |
 | three chunk | 640 KB | 520 KB |
 | hero.webp | — | 142 KB |
 

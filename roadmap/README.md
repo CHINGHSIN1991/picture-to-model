@@ -15,6 +15,9 @@
 4. **永遠保存 Blender Python source** — 讓模型可重現、可修改、可自動 regenerate。
 5. **網站也先做 mockup** — 不要邊寫 CSS 邊想畫面。
 6. **Web 端效能是設計的一部分** — mobile fallback、offscreen pause、DPR 限制、audit。
+7. **通用流程與專案值分開** — roadmap 不寫死任何專案值(asset 名稱、零件前綴、section 數、動畫效果);
+   這些全部在 [`PROJECT_SPEC.md`](../PROJECT_SPEC.md),roadmap 內用 `<asset>` 等佔位符指過去。
+   特別是動畫:roadmap 只提供「逐件動畫」的 mode 目錄(Step 13),用哪個 mode 由 spec 指定。
 
 ## 步驟索引
 
@@ -33,7 +36,7 @@
 | 10 | [10-implement-website.md](./10-implement-website.md) | Web | Vue 3 + Vite + Three.js + GSAP 專案 |
 | 11 | [11-pointer-interaction.md](./11-pointer-interaction.md) | 互動 | 滑鼠跟隨互動 |
 | 12 | [12-scroll-storytelling.md](./12-scroll-storytelling.md) | 互動 | Scroll 驅動的敘事動畫 |
-| 13 | [13-decomposable-model.md](./13-decomposable-model.md) | 互動 | 可拆解 / 重組的模型結構 |
+| 13 | [13-decomposable-model.md](./13-decomposable-model.md) | 互動 | 可逐件操控的模型結構 + 通用 PartAnimator(mode 由 spec 指定) |
 | 14 | [14-mobile-fallback.md](./14-mobile-fallback.md) | 效能 | 手機靜態圖 fallback |
 | 15 | [15-offscreen-pause.md](./15-offscreen-pause.md) | 效能 | 離開畫面暫停 render |
 | 16 | [16-dpr-limit.md](./16-dpr-limit.md) | 效能 | DPR 上限 |
@@ -43,7 +46,8 @@
 ## 建議的專案目錄結構
 
 ```
-blender-to-model/
+<repo>/
+├─ PROJECT_SPEC.md          ← 專案值:asset 名稱、零件群組、動畫方式、sections
 ├─ roadmap/                 ← 本資料夾
 ├─ references/              ← 概念圖、最終 reference
 │  ├─ concept-01.png
@@ -58,7 +62,7 @@ blender-to-model/
 │     ├─ graybox/
 │     └─ final/
 ├─ export/
-│  └─ reef.glb
+│  └─ <asset>.glb
 ├─ mockups/                 ← 網站 mockup 圖
 │  ├─ homepage-01.png
 │  └─ final-homepage.png
@@ -69,4 +73,5 @@ blender-to-model/
 
 - 每份文件包含:**目標、為什麼、前置條件、操作步驟、可直接複製的 prompt、完成條件 (Definition of Done)、常見問題**。
 - 一次只做一步,每一步的「完成條件」都達到了才往下。
+- 文件裡的 `<asset>`、`<Category>_<Variant>_<Index>`、`<SECTIONS.md 內容>` 都是佔位符,值在 `PROJECT_SPEC.md`。
 - prompt 都是給 Codex(搭配 Blender Agent Studio)用的,可直接貼上。

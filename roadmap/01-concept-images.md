@@ -75,7 +75,7 @@ Generate multiple compositions and shape variations.
 | 材質 | 是硬面、有機、發光、透明?哪些可以用 texture 做,哪些需要 geometry? |
 | 比例 | 主體與配角(潛水員、魚)的比例合理嗎? |
 | 構圖 | 適合當 hero 嗎?留白夠放文字嗎? |
-| 哪個部分未來要動 | 哪些元素可以拆開、旋轉、散開、重組?(對應 Step 12、13) |
+| 哪個部分未來要動 | 哪些元素會獨立動?**怎麼動**(堆起、長出、散開、沿路徑進場、環繞……)?(對應 Step 12、13,最後寫進 PROJECT_SPEC) |
 
 ### 4. 迭代
 
@@ -95,7 +95,7 @@ Based on concept-03, generate four variations that:
 - **避免過細幾何**:概念圖裡太多細節,到 Blender 階段會變成 polygon 災難。
 - **單一 hero object**:一張圖一個主角,方便後面做 scroll 動畫。
 - **多角度有趣**:網站裡模型會旋轉,只有正面好看不夠。
-- **先想動畫**:現在就標記「這個部分之後要散開」,Step 13 會需要。
+- **先想動畫**:現在就標記「這個部分之後要怎麼動」(不限於散開),Step 02 會把它寫成 PROJECT_SPEC 的動畫表。
 
 ## 完成條件 (Definition of Done)
 

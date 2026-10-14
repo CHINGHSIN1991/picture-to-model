@@ -32,7 +32,7 @@ GLB 只帶:mesh、材質(PBR 參數)、物件階層、transforms、(可選)動�
 ```
 Prepare this Blender asset for Three.js.
 
-Export a GLB version to export/reef.glb.
+Export a GLB version to export/<asset>.glb (asset name from PROJECT_SPEC.md).
 
 Before exporting:
 - apply required transforms
@@ -76,7 +76,7 @@ Save the export logic as blender/scripts/03_export.py so it can be re-run.
 
 **a. 用 Blender 重新 import 檢查**
 ```
-Import export/reef.glb into a fresh Blender scene, render the hero angle,
+Import export/<asset>.glb into a fresh Blender scene, render the hero angle,
 and compare it side by side with blender/renders/final/hero.png.
 Report any difference in geometry, material, or orientation.
 ```
@@ -84,7 +84,7 @@ Report any difference in geometry, material, or orientation.
 **b. 用 gltf-validator / 線上 viewer**
 ```bash
 # gltf-validator
-bunx gltf-validator export/reef.glb
+bunx gltf-validator export/<asset>.glb
 
 # 或丟到 https://gltf-viewer.donmccurdy.com/ 看
 ```
@@ -94,7 +94,7 @@ bunx gltf-validator export/reef.glb
 把報告寫到 `export/REPORT.md`:
 
 ```markdown
-# reef.glb
+# <asset>.glb
 
 - File size: 4.2 MB
 - Triangles: 118,340
@@ -120,7 +120,7 @@ bunx gltf-validator export/reef.glb
 
 ## 完成條件 (Definition of Done)
 
-- [ ] `export/reef.glb` 存在
+- [ ] `export/<asset>.glb` 存在
 - [ ] `blender/scripts/03_export.py` 存在且可重跑
 - [ ] 重新 import 的 render 與原 render 一致
 - [ ] gltf-validator 無 error

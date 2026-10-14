@@ -2,7 +2,7 @@
 
 Reference:`references/final-concept.png`(唯一 reference,之後所有 render 都跟它比)。
 目標:一個 low-poly、玩具感的珊瑚礁 diorama,潛水員懸浮其上,魚群環繞。
-用途:Three.js 網站 hero,需支援旋轉、scroll 敘事、逐件爆開 / 重組(Step 11–13)。
+用途:Three.js 網站 hero,需支援旋轉、scroll 敘事、逐件動畫(Step 11–13;mode 見 `PROJECT_SPEC.md`)。
 
 ## Major forms
 
@@ -89,7 +89,7 @@ Scene_Root
    └─ Fish_C_001 … ~004           藍色
 ```
 
-### Origin 規則(Step 13 爆開方向依賴這個)
+### Origin 規則(Step 13 每個 group 的動畫 mode 依賴這個:`stack` 要底面中心、`grow` 要接觸點 / 根部)
 
 | 類別 | origin 位置 |
 |---|---|
@@ -115,11 +115,14 @@ Scene_Root
 
 ## Animation plan
 
-| 互動(Step) | 會動的物件 | 需要的結構 |
+正式的 group / mode / 參數表在 `PROJECT_SPEC.md`「動畫方式」,這裡只列 Blender 端要為它準備的結構。
+mode 名稱依 roadmap Step 13 的目錄。
+
+| 互動(Step) | group → mode | 需要的結構 |
 |---|---|---|
-| **Pointer 跟隨(11)** | Reef_Root 整體輕微 tilt;Fish_* 離游標遠一點 | Reef_Root 為單一 empty;魚為獨立 instance |
-| **Scroll 敘事(12)** | ① Rock_Tier 由下往上逐層堆起 ② Coral_* / Kelp_* 依序 scale-in 長出 ③ Diver 沿曲線從畫面頂下潛到定位 ④ Fish_* 進場環繞 | 岩塊分層獨立;珊瑚 origin 在接觸點(scale-in 才不會浮起);Diver 為 empty 可整體移動 |
-| **爆開 / 重組(13)** | 全部 Coral_*、Kelp_*、Rock_Boulder_*、Fish_* 以 Reef_Root 為中心向外散開再回彈;Rock_Peak / Rock_Tier 留在原地當錨 | linked duplicates 共用 geometry → InstancedMesh;origin 正確;無 modifier 殘留 |
+| **Pointer(11)** | Reef_Root → `tilt`;fish → `repel`(可選) | Reef_Root 為單一 empty;魚為獨立 instance |
+| **Scroll 敘事(12 / 13)** | rocks → `stack`(由下往上逐層堆起);corals + kelp → `grow`(依序長出);diver → `path`(沿曲線從畫面頂下潛);fish → `orbit`(進場環繞) | 岩塊分層獨立、origin 在底面中心;珊瑚 / 海草 origin 在接觸點 / 根部(`grow` 才不會浮起);Diver 為 empty 可整體移動;魚為獨立 instance |
+| **散開 / 重組(13,未定)** | boulders + corals + kelp + fish → `explode`;rocks 留在原地當錨 | 只有 SECTIONS.md 某 section 需要時才啟用;結構需求與上列相同(linked duplicates → InstancedMesh、origin 正確、無 modifier 殘留) |
 | **持續 idle** | Kelp 擺動(vertex shader)、Fish 游動(路徑)、Diver 上下浮動、氣泡 sprite 上升 | 不需 Blender 動畫;GLB 不帶 animation |
 | **點擊單一珊瑚(13 可選)** | 被點的 instance 彈跳 + 短暫變亮 | raycaster instanceId |
 

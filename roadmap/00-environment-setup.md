@@ -83,7 +83,7 @@ cd blender-to-web
 ### 7. 建立本專案目錄骨架
 
 ```bash
-cd /Users/chinghsinc/Develop/blender-to-model
+cd <repo>   # 本專案 repo 根目錄
 mkdir -p references blender/scripts blender/scenes blender/renders/graybox blender/renders/final export mockups web
 ```
 

@@ -2,7 +2,17 @@
 
 ## 目標
 
-模型**微妙地**跟著游標轉,有彈簧 / 阻尼感,離開時平滑回到中性。
+游標互動**微妙**、有彈簧 / 阻尼感,離開時平滑回到中性。
+互動方式由 `PROJECT_SPEC.md` 的「Pointer」表指定,從下列 mode 選:
+
+| mode | 效果 | 作用對象 |
+|------|------|----------|
+| `tilt` | 整體跟著游標微轉(影片的做法,預設) | 模型 root |
+| `parallax` | 各群組依深度不同幅度位移 | part groups |
+| `repel` | 零件遠離游標(例如魚群) | 某個 part group |
+| `none` | 關閉 | — |
+
+本文件的實作範例是 `tilt`;其他 mode 的架構相同(目標值 → 彈簧 → 寫入),只是把「旋轉」換成「位移」。
 
 ## 為什麼
 
@@ -21,8 +31,10 @@
 Add subtle pointer interaction to the 3D asset.
 
 Implement in web/src/three/InteractionController.ts.
+The pointer modes to implement are listed in PROJECT_SPEC.md ("Pointer" table);
+read the mode and its parameters from config/pointer.ts, do not hard-code one effect.
 
-Behavior:
+Behavior (for the `tilt` mode; other modes replace rotation with displacement):
 - pointer movement slightly rotates the object
 - movement should use spring/damping
 - never directly snap to pointer coordinates
@@ -57,10 +69,13 @@ model.rotation.y = mouseX;   // 不要這樣
 ### 3. 參考實作
 
 ```ts
+// config/pointer.ts(值來自 PROJECT_SPEC)
 export interface PointerConfig {
-  maxRotationX: number;  // 弧度,建議 0.08
-  maxRotationY: number;  // 弧度,建議 0.15
+  mode: 'tilt' | 'parallax' | 'repel' | 'none';
+  maxRotationX: number;  // tilt:弧度,建議 0.08
+  maxRotationY: number;  // tilt:弧度,建議 0.15
   damping: number;       // 0~1,建議 0.08
+  groups?: { name: string; radius: number; strength: number }[];   // repel / parallax 才用
 }
 
 export class InteractionController {
@@ -113,12 +128,12 @@ model.rotation.y = scrollState.rotation.y + p.y;
 
 ## 完成條件 (Definition of Done)
 
-- [ ] 游標移動時模型微轉,有阻尼感
+- [ ] 游標移動時依 PROJECT_SPEC 指定的 mode 反應(tilt 預設:模型微轉),有阻尼感
 - [ ] 游標離開視窗時平滑回正
 - [ ] 旋轉幅度不破壞 hero 構圖
 - [ ] scroll 不受影響
 - [ ] `prefers-reduced-motion` 時無效果
-- [ ] 參數在 config 中可調
+- [ ] mode 與參數在 `config/pointer.ts` 中可調,換 mode 不用改程式
 
 ## 下一步
 

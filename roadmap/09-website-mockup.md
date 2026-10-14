@@ -32,30 +32,31 @@ mockups/
 
 ### 2. 生成 mockup
 
-把 `web/screenshots/lighting-v1.png`(或 `references/final-concept.png`)當作附圖,prompt:
+把 `web/screenshots/lighting-v1.png`(或 `references/final-concept.png`)當作附圖。
+section 清單與零件動畫要從 `PROJECT_SPEC.md` 帶入,**不要照抄下面的例子**:
 
 ```
-Design a premium landing page around this 3D coral reef asset.
+Design a premium landing page around this 3D <theme> asset.
 
 Create a full-page vertical website concept.
 
-Sections:
+Sections (3–6, decide the count from the story):
 1. Hero
-2. Explore the reef
-3. Marine ecosystem
-4. Diving experience
-5. CTA
+2. <section>
+3. <section>
+...
+N. CTA
 
-The 3D coral asset should visually travel through the page.
+The 3D asset should visually travel through the page.
 
 At some sections:
 - move left/right
 - rotate
 - zoom
-- separate selected elements
-- reassemble
+- animate its parts the way PROJECT_SPEC.md describes
+  (e.g. <rocks stack up layer by layer / corals grow in / the diver descends along a curve>)
 
-Use a dark ocean-inspired visual identity.
+Use a <visual identity from the reference>.
 Keep typography minimal and premium.
 
 Produce three distinct layout variations.
@@ -74,27 +75,28 @@ Produce three distinct layout variations.
 ### 4. 選定並標註
 
 選一張存成 `mockups/final-homepage.png`,
-並寫一份 `mockups/SECTIONS.md` 描述每個 section 的 3D 狀態:
+並寫一份 `mockups/SECTIONS.md` 描述每個 section 的 3D 狀態。
+「零件狀態」欄寫每個 part group 的 `t`(0 = 原位,1 = 該 group 在 PROJECT_SPEC 指定的 mode 下的離開狀態;見 Step 13):
 
 ```markdown
 # Sections
 
-| # | Section | 模型位置 | 旋轉 | 縮放 | 狀態 |
-|---|---------|----------|------|------|------|
-| 1 | Hero | 置中偏右 | 0° | 1.0 | 完整 |
-| 2 | Explore | 右側 | +30° Y | 0.8 | 完整 |
-| 3 | Ecosystem | 置中 | +90° Y | 1.1 | 分枝散開 |
-| 4 | Diving | 置中 | +150° Y | 1.0 | 重新組合 |
-| 5 | CTA | 左側 | +180° Y | 0.7 | 完整 |
+| # | Section | 模型位置 | 旋轉 | 縮放 | 零件狀態(group: t) |
+|---|---------|----------|------|------|----------------------|
+| 1 | Hero | 置中偏右 | 0° | 1.0 | rocks 0, corals 0, diver 1, fish 1 |
+| 2 | <section> | 右側 | +30° Y | 0.8 | diver 1→0(沿路徑下潛) |
+| 3 | <section> | 置中 | +90° Y | 1.1 | fish 1→0(環繞進場) |
+| … | | | | | |
+| N | CTA | 左側 | +180° Y | 0.7 | 全部 0 |
 ```
 
-這份表就是 Step 12 scroll 動畫的 spec。
+這份表就是 Step 12 scroll 動畫的 spec;section 數量由這裡決定,Step 10 的元件數也跟著它。
 
 ## 完成條件 (Definition of Done)
 
 - [ ] `mockups/` 有 3 張以上候選
 - [ ] `mockups/final-homepage.png` 選定
-- [ ] `mockups/SECTIONS.md` 描述每個 section 的模型狀態
+- [ ] `mockups/SECTIONS.md` 描述每個 section 的模型狀態與零件狀態(group 名稱與 PROJECT_SPEC 一致)
 
 ## 下一步
 

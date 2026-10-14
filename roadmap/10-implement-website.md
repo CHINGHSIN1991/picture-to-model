@@ -32,7 +32,7 @@ Stack:
 - Three.js
 - GSAP + ScrollTrigger
 
-Use the existing GLB asset at web/public/models/reef.glb.
+Use the existing GLB asset at web/public/models/<asset>.glb (name from PROJECT_SPEC.md).
 
 Do not use pre-rendered video for the desktop hero.
 The main object must remain a live Three.js asset.
@@ -44,7 +44,7 @@ Vue sections scroll over it.
 Reuse the lighting config from Step 08 (web/src/three/createLighting.ts).
 
 For now:
-- build all five sections with real layout and typography
+- build every section listed in mockups/SECTIONS.md with real layout and typography
 - place the model in its Hero state only
 - do NOT implement pointer or scroll interaction yet (next steps)
 ```
@@ -55,14 +55,14 @@ For now:
 web/src/
 ├─ components/
 │  ├─ HeroSection.vue
-│  ├─ ReefSection.vue
-│  ├─ EcosystemSection.vue
-│  ├─ DivingSection.vue
+│  ├─ <Section2>Section.vue    ← 一個 section 一個元件,數量與名稱依 SECTIONS.md
+│  ├─ …
 │  └─ CTASection.vue
 │
 ├─ three/
 │  ├─ Scene.ts                 ← renderer / scene / camera / loop
-│  ├─ ReefModel.ts             ← 載入 GLB、暴露可動 parts
+│  ├─ Model.ts                 ← 載入 GLB、依 PROJECT_SPEC 的 part groups 建 InstancedMesh
+│  ├─ PartAnimator.ts          ← Step 13:通用逐件動畫,mode 讀 config
 │  ├─ createLighting.ts        ← Step 08
 │  ├─ CameraController.ts      ← 相機狀態
 │  ├─ InteractionController.ts ← Step 11
@@ -70,6 +70,7 @@ web/src/
 │  └─ config/
 │     ├─ lighting.ts
 │     ├─ materials.ts
+│     ├─ partAnimations.ts     ← 對應 PROJECT_SPEC「逐件動畫」
 │     └─ sections.ts           ← 對應 SECTIONS.md
 │
 ├─ composables/
@@ -78,7 +79,7 @@ web/src/
 ├─ App.vue
 └─ main.ts
 
-web/public/models/reef.glb
+web/public/models/<asset>.glb
 ```
 
 ### 3. 架構原則
@@ -88,19 +89,21 @@ web/public/models/reef.glb
 | 單一 canvas | `position: fixed; inset: 0; z-index: 0`,所有 section `z-index: 1` 疊在上面 |
 | Vue 不碰 Three 物件 | 只透過 `useThreeScene()` 回傳的 API(`setSectionState`, `setPointer`, `pause`, `resume`) |
 | Three 不碰 DOM | 只接收 canvas element 與數值 |
-| 所有狀態可序列化 | lighting / material / camera / sections 全部是 plain object |
+| 所有狀態可序列化 | lighting / material / camera / sections / partAnimations 全部是 plain object |
 | 清理 | `onUnmounted` 時 dispose renderer、geometry、texture |
 
-### 4. ReefModel.ts 要暴露的介面
+### 4. Model.ts 要暴露的介面
 
 ```ts
-export interface ReefModel {
+export interface Model {
   root: THREE.Group;
-  parts: Record<string, THREE.Object3D>;     // 依 MODEL_PLAN 名稱索引
-  animatable: THREE.Object3D[];              // 可散開 / 重組的元件
+  parts: Record<string, THREE.Object3D>;                 // 依 MODEL_PLAN 名稱索引
+  groups: Record<string, (THREE.Object3D | THREE.InstancedMesh)[]>;   // 依 PROJECT_SPEC part group 分組
   setMaterialParam(name: string, key: string, value: number | string): void;
 }
 ```
+
+群組怎麼動不在這裡:交給 Step 13 的 `PartAnimator`。
 
 ### 5. 驗證
 
@@ -108,7 +111,7 @@ export interface ReefModel {
 bun run dev
 ```
 
-- 五個 section 都有版面與文字
+- SECTIONS.md 列的每個 section 都有版面與文字
 - 模型在 Hero 狀態,位置與 mockup 一致
 - scroll 時 canvas 固定、內容捲動
 - 無 console error
@@ -116,7 +119,7 @@ bun run dev
 
 ## 完成條件 (Definition of Done)
 
-- [ ] 五個 section 元件存在,版面接近 mockup
+- [ ] SECTIONS.md 列的每個 section 都有元件,版面接近 mockup
 - [ ] Three.js 程式碼全部在 `src/three/`,Vue 只透過 composable 存取
 - [ ] 桌機 hero 是活的 Three.js 模型
 - [ ] `bun run build` 通過
