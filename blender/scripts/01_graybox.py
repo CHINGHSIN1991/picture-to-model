@@ -1,4 +1,4 @@
-"""Step 03 graybox: coral reef diorama (reference: references/final-concept.png).
+"""Step 03 graybox: single-peak reef (reference: references/final-concept.png).
 
 Fully reproducible from an empty scene:
     blender --background --python blender/scripts/01_graybox.py
@@ -29,30 +29,31 @@ SEED = 7
 
 REEF_WIDTH = 3.0          # X extent of the rock mound (m)
 REEF_DEPTH = 2.2          # Y extent (m)
-REEF_PEAK_HEIGHT = 1.45   # top of Rock_Peak (m)
-SAND_RADIUS = (3.2, 2.5)  # sand disk X / Y radius (m)
+REEF_PEAK_HEIGHT = 1.65   # the only summit; all shoulders stay below it (m)
+PEAK_OFFSET = (0.28, 0.25)
+MOUNTAIN_SEGMENTS = 12
+# (height fraction, radius fraction): irregular cliffs alternate with ledges.
+MOUNTAIN_PROFILE = [
+    (0.00, 1.02), (0.12, 0.98),
+    (0.29, 0.87), (0.32, 0.74),
+    (0.50, 0.63), (0.53, 0.54),
+    (0.72, 0.43), (0.75, 0.34),
+    (0.91, 0.17),
+]
+SAND_RADIUS = (2.25, 1.80)
 
 ROCK_JITTER = 0.15        # radial vertex noise on rocks (0..1)
 ROCK_SUBDIV = 1           # icosphere subdivisions for rocks (1 = chunky)
 
-# Rock layout: name, cx, cy, rx, ry, rz, top_cut_z
+# Low foothill rocks attached to the continuous mountain, never separate peaks.
+# name, cx, cy, rx, ry, rz, top_cut_z
 ROCKS = [
-    # centre peak cluster (reference: peak sits right of centre)
-    ("Rock_Peak_001", 0.30, 0.25, 0.55, 0.50, 1.30, REEF_PEAK_HEIGHT),
-    ("Rock_Tier_001", 0.25, 0.05, 0.85, 0.70, 1.00, 0.95),
-    # left mound (tall, carries the big branch coral)
-    ("Rock_Tier_002", -1.05, 0.15, 0.62, 0.55, 0.85, 0.78),
-    ("Rock_Tier_003", -0.85, -0.55, 0.55, 0.45, 0.50, 0.42),
-    # right mound
-    ("Rock_Tier_004", 1.05, 0.20, 0.58, 0.50, 0.80, 0.70),
-    ("Rock_Tier_005", 1.15, -0.50, 0.50, 0.40, 0.45, 0.38),
-    # front terrace
-    ("Rock_Tier_006", 0.10, -0.70, 0.60, 0.40, 0.50, 0.40),
-    ("Rock_Tier_007", -0.40, -0.30, 0.50, 0.40, 0.70, 0.62),
-    ("Rock_Tier_008", 0.70, -0.35, 0.50, 0.40, 0.65, 0.55),
-    # back
-    ("Rock_Tier_009", -0.30, 0.75, 0.55, 0.45, 0.60, 0.50),
-    ("Rock_Tier_010", 0.90, 0.80, 0.50, 0.40, 0.55, 0.45),
+    ("Rock_Tier_001", -0.87, 0.03, 0.65, 0.57, 0.65, 0.55),
+    ("Rock_Tier_002", -1.02, -0.55, 0.60, 0.45, 0.40, 0.30),
+    ("Rock_Tier_003", 1.03, 0.08, 0.60, 0.53, 0.58, 0.46),
+    ("Rock_Tier_004", 1.04, -0.52, 0.57, 0.42, 0.36, 0.26),
+    ("Rock_Tier_005", -0.20, -0.86, 0.75, 0.40, 0.35, 0.25),
+    ("Rock_Tier_006", 0.22, 0.82, 0.70, 0.41, 0.44, 0.34),
 ]
 BOULDER_COUNT = 12
 BOULDER_RADIUS = (0.09, 0.18)
@@ -60,19 +61,21 @@ BOULDER_RING = (1.35, 2.05)
 
 # Coral placements (x, y) — z is found by ray-casting onto rocks / sand.
 CORALS = {
-    "Coral_BranchA": [(-1.15, -0.05), (1.15, 0.05)],
-    "Coral_BranchB": [(-0.55, -0.25), (0.75, -0.60), (0.35, 0.95), (-0.95, 0.55), (1.20, 0.75), (0.05, 0.30)],
-    "Coral_Brain": [(0.05, -0.80)],
-    "Coral_TubeA": [(-0.65, -0.75), (-0.25, 0.20), (0.85, -0.85), (1.45, -0.35), (-1.35, 0.45), (0.55, 0.40), (0.30, 1.05), (-0.45, 1.05)],
-    "Coral_TubeB": [(-0.95, -0.15), (0.40, -0.35), (1.25, -0.70), (-0.40, 0.70), (1.45, 0.45), (-1.45, -0.55), (0.90, 0.55), (-0.10, -0.45)],
-    "Coral_Plate": [(-0.70, 0.45), (0.95, 0.25), (-0.95, -0.60), (1.10, -0.55)],
-    "Coral_Bush": [(-0.30, -0.95), (0.20, 0.05), (-1.10, -0.40), (1.30, 0.35), (0.60, 1.00), (-0.15, 1.15)],
+    "Coral_BranchA": [(-1.14, -0.34), (1.20, -0.30)],
+    "Coral_BranchB": [(-0.55, -0.25), (0.75, -0.60), (0.35, 0.95), (-0.95, 0.55), (1.20, 0.65), (-0.60, 0.20)],
+    "Coral_Brain": [(-0.40, -0.72)],
+    "Coral_TubeA": [(-0.65, -0.75), (-0.70, 0.10), (0.85, -0.85), (1.35, -0.35), (-1.25, 0.45), (1.03, 0.42), (0.30, 1.05), (-0.45, 0.90)],
+    "Coral_TubeB": [(-0.95, -0.15), (0.40, -0.45), (1.25, -0.70), (-0.40, 0.70), (1.35, 0.45), (-1.35, -0.55), (0.90, 0.55), (-0.10, -0.55)],
+    "Coral_Plate": [(-0.70, 0.45), (0.95, 0.25), (-0.95, -0.65), (1.10, -0.55)],
+    "Coral_Bush": [(-0.30, -0.95), (0.20, -0.70), (-1.10, -0.40), (1.30, 0.35), (0.60, 0.95), (-0.15, 1.05)],
 }
+BRANCH_A_HEIGHT = 0.52
+BRANCH_B_HEIGHT = 0.28
 KELP_COUNT_PER_VARIANT = 8
 KELP_RING = (1.45, 2.10)
 KELP_HEIGHT = (0.30, 0.50)
 
-DIVER_LOCATION = (-0.15, 0.10, 1.85)
+DIVER_LOCATION = (-0.18, 0.08, 2.05)
 DIVER_LENGTH = 0.60
 DIVER_ROTATION_DEG = (0.0, -35.0, 20.0)   # pitch head up, yaw toward camera
 
@@ -81,10 +84,10 @@ FISH_RING = (1.25, 1.95)
 FISH_HEIGHT = (0.45, 1.40)
 
 RENDER_SIZE = (1024, 768)
-RENDER_TARGET = (0.0, 0.0, 0.65)
+RENDER_TARGET = (0.0, 0.0, 0.80)
 # name: (azimuth_deg, elevation_deg, distance, lens_mm). azimuth 0 = front (-Y).
 VIEWS = {
-    "hero": (-25.0, 22.0, 6.2, 45.0),
+    "hero": (-12.0, 17.0, 6.8, 50.0),
     "front": (0.0, 12.0, 7.5, 50.0),
     "left": (-90.0, 12.0, 7.5, 50.0),
     "right": (90.0, 12.0, 7.5, 50.0),
@@ -187,6 +190,59 @@ def build_rock(name, rx, ry, rz, top_cut):
     cut_plane(bm, 0.0, keep_above=True)
     cut_plane(bm, top_cut, keep_above=False)
     return bm_to_mesh(bm, name)
+
+
+def build_mountain():
+    """One closed, terraced landform with exactly one summit vertex.
+
+    Shared rings keep the mountain continuous. A separate random stream keeps
+    changes to its facets independent of coral and fish instance placement.
+    """
+    terrain_rng = random.Random(SEED + 101)
+    bm = bmesh.new()
+    directions = [
+        (math.tau * i / MOUNTAIN_SEGMENTS + terrain_rng.uniform(-0.06, 0.06),
+         terrain_rng.uniform(0.90, 1.08), terrain_rng.uniform(-0.065, 0.065))
+        for i in range(MOUNTAIN_SEGMENTS)
+    ]
+    rings = []
+    previous_radii = None
+    for level, radius in MOUNTAIN_PROFILE:
+        ring = []
+        radii = []
+        for i, (angle, irregularity, height_offset) in enumerate(directions):
+            r = radius * irregularity * terrain_rng.uniform(0.89, 1.10)
+            if previous_radii is not None:
+                # Every section narrows upward; no unsupported skirt at the foot.
+                r = min(r, previous_radii[i] - 0.04)
+            radii.append(r)
+            z = level * REEF_PEAK_HEIGHT
+            if level > 0:
+                z += height_offset * math.sin(math.pi * level)
+            ring.append(bm.verts.new((
+                PEAK_OFFSET[0] * level + math.cos(angle) * REEF_WIDTH * 0.5 * r,
+                PEAK_OFFSET[1] * level + math.sin(angle) * REEF_DEPTH * 0.5 * r,
+                z,
+            )))
+        rings.append(ring)
+        previous_radii = radii
+    bm.faces.new(list(reversed(rings[0])))
+    for level in range(len(rings) - 1):
+        for i in range(MOUNTAIN_SEGMENTS):
+            j = (i + 1) % MOUNTAIN_SEGMENTS
+            a, b = rings[level][i], rings[level][j]
+            c, d = rings[level + 1][j], rings[level + 1][i]
+            # Vary diagonals to avoid a regular grid of identical cliff facets.
+            if (level + i) % 2:
+                bm.faces.new((a, b, d))
+                bm.faces.new((b, c, d))
+            else:
+                bm.faces.new((a, b, c))
+                bm.faces.new((a, c, d))
+    summit = bm.verts.new((*PEAK_OFFSET, REEF_PEAK_HEIGHT))
+    for i in range(MOUNTAIN_SEGMENTS):
+        bm.faces.new((rings[-1][i], rings[-1][(i + 1) % MOUNTAIN_SEGMENTS], summit))
+    return bm_to_mesh(bm, "Rock_Peak_001")
 
 
 def build_sand():
@@ -318,10 +374,13 @@ def build_diver_fin():
 # --------------------------------------------------------------------------
 # Build: sand + rocks
 # --------------------------------------------------------------------------
-reef_root = new_empty("Reef_Root")
-sand = new_object("Sand", build_sand())
+scene_root = new_empty("Scene_Root")
+reef_root = new_empty("Reef_Root", parent=scene_root)
+sand = new_object("Sand", build_sand(), parent=scene_root)
 
-rock_objects = [sand]
+mountain = new_object("Rock_Peak_001", build_mountain(), parent=reef_root)
+mountain["bas_role"] = "single_summit_mountain"
+rock_objects = [sand, mountain]
 for name, cx, cy, rx, ry, rz, top in ROCKS:
     obj = new_object(name, build_rock(name, rx, ry, rz, top), parent=reef_root, location=(cx, cy, 0))
     rock_objects.append(obj)
@@ -347,19 +406,27 @@ depsgraph = bpy.context.evaluated_depsgraph_get()
 
 
 def ground_z(x, y):
-    """Height of the rock / sand surface under (x, y)."""
-    hit, loc, _n, _i, obj, _m = scene.ray_cast(depsgraph, Vector((x, y, 5.0)), Vector((0, 0, -1)))
-    if hit and obj in rock_objects:
-        return loc.z
-    return 0.0
+    """Highest rock/sand surface, unaffected by already placed decorations."""
+    heights = [0.0]
+    ray_origin = Vector((x, y, REEF_PEAK_HEIGHT + 5.0))
+    ray_direction = Vector((0, 0, -1))
+    for obj in rock_objects:
+        inverse = obj.matrix_world.inverted()
+        hit, point, _normal, _index = obj.ray_cast(
+            inverse @ ray_origin,
+            (inverse.to_3x3() @ ray_direction).normalized(),
+        )
+        if hit:
+            heights.append((obj.matrix_world @ point).z)
+    return max(heights)
 
 
 # --------------------------------------------------------------------------
 # Build: corals (shared mesh data per variant)
 # --------------------------------------------------------------------------
 coral_meshes = {
-    "Coral_BranchA": build_branch_coral("Coral_BranchA", 0.78, branches=5),
-    "Coral_BranchB": build_branch_coral("Coral_BranchB", 0.42, branches=3, sub_branches=False),
+    "Coral_BranchA": build_branch_coral("Coral_BranchA", BRANCH_A_HEIGHT, branches=5),
+    "Coral_BranchB": build_branch_coral("Coral_BranchB", BRANCH_B_HEIGHT, branches=3, sub_branches=False),
     "Coral_Brain": build_brain_coral(),
     "Coral_TubeA": build_tube_cluster("Coral_TubeA", 7, (0.20, 0.34), (0.040, 0.055), 0.11),
     "Coral_TubeB": build_tube_cluster("Coral_TubeB", 6, (0.12, 0.22), (0.045, 0.065), 0.10),
@@ -369,6 +436,8 @@ coral_meshes = {
 for key, places in CORALS.items():
     for i, (x, y) in enumerate(places):
         s = rng.uniform(0.9, 1.1)
+        if key == "Coral_BranchA" and i == 1:
+            s *= 0.85
         new_object(
             f"{key}_{i + 1:03d}", coral_meshes[key], parent=reef_root,
             location=(x, y, ground_z(x, y)), rotation=(0, 0, rng.uniform(0, math.tau)), scale=(s, s, s),
@@ -396,18 +465,22 @@ for i in range(total_kelp):
 # --------------------------------------------------------------------------
 # Build: diver
 # --------------------------------------------------------------------------
-diver = new_empty("Diver", location=DIVER_LOCATION, rotation=tuple(math.radians(a) for a in DIVER_ROTATION_DEG))
+diver = new_empty("Diver", location=DIVER_LOCATION, rotation=tuple(math.radians(a) for a in DIVER_ROTATION_DEG), parent=scene_root)
 new_object("Diver_Body", build_diver_body(), parent=diver)
 new_object("Diver_Tank", build_diver_tank(), parent=diver)
 new_object("Diver_Mask", build_diver_mask(), parent=diver)
 fin_mesh = build_diver_fin()
 new_object("Diver_Fin_L", fin_mesh, parent=diver, location=(-0.41, 0.10, 0.0))
 new_object("Diver_Fin_R", fin_mesh, parent=diver, location=(-0.41, -0.10, 0.0))
+bpy.context.view_layer.update()
+diver_points = [child.matrix_local @ Vector(corner) for child in diver.children for corner in child.bound_box]
+diver_extent = max(p.x for p in diver_points) - min(p.x for p in diver_points)
+diver.scale = (DIVER_LENGTH / diver_extent,) * 3
 
 # --------------------------------------------------------------------------
 # Build: fish
 # --------------------------------------------------------------------------
-fish_root = new_empty("Fish_Root")
+fish_root = new_empty("Fish_Root", parent=scene_root)
 fish_meshes = {
     "Fish_A": build_fish("Fish_A", 0.10, 0.30),
     "Fish_B": build_fish("Fish_B", 0.12, 0.22),
@@ -474,6 +547,7 @@ for view_name, (az, el, dist, lens) in VIEWS.items():
 
 # Leave the camera on the hero view in the saved .blend.
 place_camera(*VIEWS["hero"])
+scene.render.filepath = os.path.join(RENDER_DIR, "hero.png")
 
 # --------------------------------------------------------------------------
 # Hierarchy report

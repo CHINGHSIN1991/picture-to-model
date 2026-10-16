@@ -1,0 +1,84 @@
+{
+  "date": "2026-10-16",
+  "contract": {
+    "stage": "graybox",
+    "critical": [
+      "one dominant summit",
+      "continuous mountain tapering to a wide base",
+      "corals below the summit"
+    ],
+    "preserve": [
+      "Scene_Root hierarchy",
+      "separate diver children",
+      "shared variant mesh data",
+      "no materials or animation"
+    ],
+    "authorized_changes": [
+      "replace all graybox geometry",
+      "camera framing",
+      "component positions and scale",
+      "remove obsolete high-tier objects"
+    ],
+    "excluded": [
+      "detailed model",
+      "GLB export",
+      "website"
+    ]
+  },
+  "candidate": "blender/revisions/graybox_before_single_peak",
+  "reference": "references/final-concept.png",
+  "reference_observations": [
+    "one rock summit slightly right of center",
+    "lower coral-covered side slopes",
+    "diver hovering above and left of the peak"
+  ],
+  "candidate_ledger": [
+    {
+      "requirement": "one dominant summit",
+      "status": "fail",
+      "evidence": "blender/revisions/graybox_before_single_peak/renders/hero_matching_camera.png",
+      "finding": "Side corals competed with the central summit; separate tall rock columns weakened the mountain silhouette."
+    }
+  ],
+  "source_cause": "Independent tall side mounds and large branch coral proxies.",
+  "repair": "Rebuilt a closed terraced mountain around a single shared summit vertex; six low foothill rocks; lowered side corals; monotonically narrowing radial sections prevent projecting skirts.",
+  "final_ledger": [
+    {
+      "requirement": "one dominant summit",
+      "status": "pass",
+      "evidence": "blender/renders/graybox/contact_sheet.png"
+    },
+    {
+      "requirement": "wide base and tapering slopes",
+      "status": "pass",
+      "evidence": "blender/renders/graybox/contact_sheet.png"
+    },
+    {
+      "requirement": "corals do not compete with peak",
+      "status": "pass",
+      "evidence": "blender/renders/graybox/contact_sheet.png"
+    },
+    {
+      "requirement": "diver remains separate above mountain",
+      "status": "pass",
+      "evidence": "blender/renders/graybox/contact_sheet.png"
+    }
+  ],
+  "technical_results": {
+    "hard_gate_pass": true,
+    "single_peak_checks": {
+      "single_summit_vertices": 1,
+      "peak_height_m": 1.649999976158142,
+      "foothill_objects": 6,
+      "max_coral_height_m": 1.1581642627716064,
+      "summit_clearance_over_corals_m": 0.49183571338653564,
+      "hierarchy_check": "pass"
+    },
+    "peak_connected_components": 1,
+    "peak_non_manifold_edges": 0,
+    "scene_triangles": 7786
+  },
+  "comparison": "blender/renders/graybox/before_after.png; both scenes rendered through the same final camera and Workbench settings",
+  "source_sha256": "774a7279a1c2db916e3a21763229ed824c2dfe3a9ccf8ee37d1ad1f4f18c7077",
+  "decision": "retain_repair"
+}

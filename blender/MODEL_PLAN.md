@@ -8,7 +8,7 @@ Reference:`references/final-concept.png`(唯一 reference,之後所有 render �
 
 | 代號 | 說明 | 在圖中的位置 |
 |---|---|---|
-| **A. Reef(主體)** | 鈷藍色多面體岩塊堆成的三層階梯狀小丘,整體剪影是寬底三角 / 錐形。中央最高峰,左右各一座矮丘,周圍散落小石塊 | 畫面下半 2/3 |
+| **A. Reef(主體)** | 鈷藍色多面體岩塊形成階梯狀山體,整體剪影是寬底三角 / 錐形。只有一個略偏右的中央主峰,兩翼連續向山腳降低,周圍散落小石塊;兩側珊瑚不能形成與主峰等高的次峰 | 畫面下半 2/3 |
 | **B. Sand** | 淺米色沙地平面,邊緣自然淡出 | 底部 |
 | **C. Corals(配角,數量多)** | 五類:樹枝狀(紅 / 粉)、腦珊瑚(粉)、管狀叢(橘 / 紫 / 粉 / 藍)、盤狀 / 杯狀(橘)、小型叢(黃 / 紫) | 貼附在岩塊各層平台上 |
 | **D. Kelp(配角,數量多)** | 綠色與黃綠色 S 型海草 | 岩塊間與邊緣 |
@@ -64,8 +64,8 @@ Reference:`references/final-concept.png`(唯一 reference,之後所有 render �
 Scene_Root
 ├─ Sand                           (1 mesh)
 ├─ Reef_Root                      (empty,原點在礁石底部中心)
-│  ├─ Rock_Peak_001               中央主峰(最高,獨立 mesh,不 instancing)
-│  ├─ Rock_Tier_001 … 006         三層平台的大岩塊(各自獨立 mesh,形狀不重複)
+│  ├─ Rock_Peak_001               連續主山體與唯一中央峰(獨立 mesh,不 instancing)
+│  ├─ Rock_Tier_001 … 006         山腳／坡腳岩塊(各自獨立 mesh,不形成次峰)
 │  ├─ Rock_Boulder_A_001 … ~012   散落小石塊(2 variant,instancing)
 │  ├─ Rock_Boulder_B_001 …
 │  ├─ Coral_BranchA_001 … 002     大型紅樹枝珊瑚(左、右)
@@ -160,6 +160,7 @@ Blender 端**不做任何 keyframe 動畫**,GLB 只帶靜態 mesh 與階層。
 
 ## Graybox 階段(Step 03)要做到的範圍
 
+- 2026-10-16 使用者要求清空重做為單峰:主山體使用連續、閉合的階梯切面與一個頂點收峰,不再以數座高岩柱拼成多峰。六塊獨立低岩塊貼合山腳,珊瑚保留在中低坡。
 - 只建 Rock_Peak、Rock_Tier、Sand、Diver(一個 capsule 代替)、2 顆 Coral_BranchA 的概略體積、Coral_Brain 球體;
   管狀叢、海草、魚**先用簡單 primitive 佔位**(圓柱、平面、橢球),只為了確認分布與比例。
 - 命名與階層已依本文件建立,原點位置正確。
