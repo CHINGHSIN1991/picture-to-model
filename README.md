@@ -47,6 +47,17 @@ blender --background --python blender/scripts/smoke-test.py
 會產生 `blender/renders/smoke-test.png` 與 `blender/scenes/smoke-test.blend`。
 經 Codex + Blender Agent Studio 的版本請用 [roadmap/00-environment-setup.md](roadmap/00-environment-setup.md) 內的 prompt。
 
+## 細部模型（Step 04）
+
+```bash
+blender --background --factory-startup --threads 2 --python-exit-code 1 --python blender/scripts/02_detail.py
+```
+
+入口腳本搭配 `blender/scripts/detail_geometry.py`，從空場景重建單峰珊瑚礁，輸出
+`blender/scenes/02_detail.blend`、`blender/textures/reef_palette.png`、
+`blender/renders/final/` 六視角與潛水員近照。64×64 色票會封裝在 `.blend` 內。
+面數與分組報告位於 `blender/renders/final/build_report.json`。
+
 ## 原則
 
 1. 先概念圖,再建模。

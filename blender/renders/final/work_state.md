@@ -1,0 +1,1 @@
+Step 04 complete. Final source rebuilt successfully; all six views and three diver close-ups rendered and reviewed. Independent metrics and packed palette/hierarchy audit passed. Production GLB export remains Step 06.

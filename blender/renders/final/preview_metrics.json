@@ -1,0 +1,7075 @@
+{
+  "actions": [],
+  "blender": {
+    "background": true,
+    "build_hash": "fbe6228777e7",
+    "version": "5.2.0 LTS",
+    "version_tuple": [
+      5,
+      2,
+      0
+    ]
+  },
+  "hard_gate_pass": true,
+  "input": "/Users/chinghsinc/Develop/picture-to-model/blender/scenes/02_detail.blend",
+  "issues": [],
+  "material_details": [
+    {
+      "image_texture_nodes": 1,
+      "images": [
+        "Reef_Palette_64"
+      ],
+      "name": "Reef_Palette",
+      "node_count": 3,
+      "use_nodes": true
+    }
+  ],
+  "materials": [
+    "Reef_Palette"
+  ],
+  "meshes": [
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Coral_Brain",
+      "degenerate_faces": 0,
+      "edges": 648,
+      "flat_polygons": 336,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_Brain_001",
+      "non_manifold_edges": 0,
+      "polygons": 336,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 336,
+      "source_vertices": 314,
+      "triangles": 624,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 314,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.660764,
+          -0.995036,
+          0.517522
+        ],
+        [
+          -0.140482,
+          -0.448507,
+          0.828595
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Coral_BranchA_Union",
+      "degenerate_faces": 0,
+      "edges": 3438,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_BranchA_001",
+      "non_manifold_edges": 0,
+      "polygons": 2238,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 2238,
+      "source_polygons": 2238,
+      "source_vertices": 1202,
+      "triangles": 2400,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 1202,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.456786,
+          -0.651343,
+          0.499049
+        ],
+        [
+          -0.870856,
+          -0.080236,
+          0.983693
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Coral_BranchA_Union",
+      "degenerate_faces": 0,
+      "edges": 3438,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_BranchA_002",
+      "non_manifold_edges": 0,
+      "polygons": 2238,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 2238,
+      "source_polygons": 2238,
+      "source_vertices": 1202,
+      "triangles": 2400,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 1202,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.909495,
+          -0.56169,
+          0.513589
+        ],
+        [
+          1.490621,
+          0.016805,
+          0.894006
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Coral_BranchB_Union",
+      "degenerate_faces": 0,
+      "edges": 1295,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_BranchB_001",
+      "non_manifold_edges": 0,
+      "polygons": 845,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 845,
+      "source_polygons": 845,
+      "source_vertices": 452,
+      "triangles": 900,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 452,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.667715,
+          -0.329305,
+          0.861644
+        ],
+        [
+          -0.436647,
+          -0.115195,
+          1.103761
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Coral_BranchB_Union",
+      "degenerate_faces": 0,
+      "edges": 1295,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_BranchB_002",
+      "non_manifold_edges": 0,
+      "polygons": 845,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 845,
+      "source_polygons": 845,
+      "source_vertices": 452,
+      "triangles": 900,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 452,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.609897,
+          -0.727559,
+          0.535542
+        ],
+        [
+          0.923199,
+          -0.420889,
+          0.80197
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Coral_BranchB_Union",
+      "degenerate_faces": 0,
+      "edges": 1295,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_BranchB_003",
+      "non_manifold_edges": 0,
+      "polygons": 845,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 845,
+      "source_polygons": 845,
+      "source_vertices": 452,
+      "triangles": 900,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 452,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.257533,
+          0.81894,
+          0.336266
+        ],
+        [
+          0.491788,
+          1.064592,
+          0.562407
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Coral_BranchB_Union",
+      "degenerate_faces": 0,
+      "edges": 1295,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_BranchB_004",
+      "non_manifold_edges": 0,
+      "polygons": 845,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 845,
+      "source_polygons": 845,
+      "source_vertices": 452,
+      "triangles": 900,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 452,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.08191,
+          0.424908,
+          0.497109
+        ],
+        [
+          -0.782469,
+          0.720617,
+          0.748507
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Coral_BranchB_Union",
+      "degenerate_faces": 0,
+      "edges": 1295,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_BranchB_005",
+      "non_manifold_edges": 0,
+      "polygons": 845,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 845,
+      "source_polygons": 845,
+      "source_vertices": 452,
+      "triangles": 900,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 452,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          1.109654,
+          0.527526,
+          -0.015091
+        ],
+        [
+          1.347622,
+          0.78146,
+          0.237053
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Coral_BranchB_Union",
+      "degenerate_faces": 0,
+      "edges": 1295,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_BranchB_006",
+      "non_manifold_edges": 0,
+      "polygons": 845,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 845,
+      "source_polygons": 845,
+      "source_vertices": 452,
+      "triangles": 900,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 452,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.686761,
+          0.072012,
+          0.918822
+        ],
+        [
+          -0.456079,
+          0.319387,
+          1.170213
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Coral_Bush_Union",
+      "degenerate_faces": 0,
+      "edges": 1306,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_Bush_001",
+      "non_manifold_edges": 0,
+      "polygons": 857,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 857,
+      "source_polygons": 857,
+      "source_vertices": 449,
+      "triangles": 898,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 449,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.43652,
+          -1.092962,
+          0.241737
+        ],
+        [
+          -0.160323,
+          -0.81416,
+          0.499503
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Coral_Bush_Union",
+      "degenerate_faces": 0,
+      "edges": 1306,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_Bush_002",
+      "non_manifold_edges": 0,
+      "polygons": 857,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 857,
+      "source_polygons": 857,
+      "source_vertices": 449,
+      "triangles": 898,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 449,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.066922,
+          -0.828211,
+          0.551026
+        ],
+        [
+          0.32554,
+          -0.572365,
+          0.801186
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Coral_Bush_Union",
+      "degenerate_faces": 0,
+      "edges": 1306,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_Bush_003",
+      "non_manifold_edges": 0,
+      "polygons": 857,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 857,
+      "source_polygons": 857,
+      "source_vertices": 449,
+      "triangles": 898,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 449,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.221254,
+          -0.52682,
+          0.508109
+        ],
+        [
+          -0.975754,
+          -0.279216,
+          0.731032
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Coral_Bush_Union",
+      "degenerate_faces": 0,
+      "edges": 1306,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_Bush_004",
+      "non_manifold_edges": 0,
+      "polygons": 857,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 857,
+      "source_polygons": 857,
+      "source_vertices": 449,
+      "triangles": 898,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 449,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          1.16966,
+          0.213945,
+          0.332153
+        ],
+        [
+          1.433879,
+          0.480064,
+          0.562414
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Coral_Bush_Union",
+      "degenerate_faces": 0,
+      "edges": 1306,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_Bush_005",
+      "non_manifold_edges": 0,
+      "polygons": 857,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 857,
+      "source_polygons": 857,
+      "source_vertices": 449,
+      "triangles": 898,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 449,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.429675,
+          0.785231,
+          0.33031
+        ],
+        [
+          0.763197,
+          1.118127,
+          0.591024
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Coral_Bush_Union",
+      "degenerate_faces": 0,
+      "edges": 1306,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_Bush_006",
+      "non_manifold_edges": 0,
+      "polygons": 857,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 857,
+      "source_polygons": 857,
+      "source_vertices": 449,
+      "triangles": 898,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 449,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.282434,
+          0.914575,
+          0.33204
+        ],
+        [
+          -0.010559,
+          1.18458,
+          0.565582
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Coral_Plate",
+      "degenerate_faces": 0,
+      "edges": 480,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_Plate_001",
+      "non_manifold_edges": 0,
+      "polygons": 226,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 226,
+      "source_polygons": 226,
+      "source_vertices": 256,
+      "triangles": 508,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 256,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.034348,
+          0.119687,
+          0.822529
+        ],
+        [
+          -0.350943,
+          0.80064,
+          1.005542
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Coral_Plate",
+      "degenerate_faces": 0,
+      "edges": 480,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_Plate_002",
+      "non_manifold_edges": 0,
+      "polygons": 226,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 226,
+      "source_polygons": 226,
+      "source_vertices": 256,
+      "triangles": 508,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 256,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.660645,
+          -0.045716,
+          0.876556
+        ],
+        [
+          1.235992,
+          0.519783,
+          1.067297
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Coral_Plate",
+      "degenerate_faces": 0,
+      "edges": 480,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_Plate_003",
+      "non_manifold_edges": 0,
+      "polygons": 226,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 226,
+      "source_polygons": 226,
+      "source_vertices": 256,
+      "triangles": 508,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 256,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.245397,
+          -0.957082,
+          0.299824
+        ],
+        [
+          -0.630588,
+          -0.335174,
+          0.483869
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Coral_Plate",
+      "degenerate_faces": 0,
+      "edges": 480,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_Plate_004",
+      "non_manifold_edges": 0,
+      "polygons": 226,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 226,
+      "source_polygons": 226,
+      "source_vertices": 256,
+      "triangles": 508,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 256,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.808871,
+          -0.858144,
+          0.259843
+        ],
+        [
+          1.410128,
+          -0.253815,
+          0.423595
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 7,
+      "data_name": "Coral_TubeA",
+      "degenerate_faces": 0,
+      "edges": 910,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_TubeA_001",
+      "non_manifold_edges": 0,
+      "polygons": 434,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 434,
+      "source_polygons": 434,
+      "source_vertices": 490,
+      "triangles": 952,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 490,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.85572,
+          -0.973624,
+          0.428114
+        ],
+        [
+          -0.423586,
+          -0.545183,
+          0.746777
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 7,
+      "data_name": "Coral_TubeA",
+      "degenerate_faces": 0,
+      "edges": 910,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_TubeA_002",
+      "non_manifold_edges": 0,
+      "polygons": 434,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 434,
+      "source_polygons": 434,
+      "source_vertices": 490,
+      "triangles": 952,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 490,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.882129,
+          -0.044635,
+          0.857697
+        ],
+        [
+          -0.524326,
+          0.271275,
+          1.170064
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 7,
+      "data_name": "Coral_TubeA",
+      "degenerate_faces": 0,
+      "edges": 910,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_TubeA_003",
+      "non_manifold_edges": 0,
+      "polygons": 434,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 434,
+      "source_polygons": 434,
+      "source_vertices": 490,
+      "triangles": 952,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 490,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.647686,
+          -1.012772,
+          0.069099
+        ],
+        [
+          1.044076,
+          -0.658842,
+          0.405932
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 7,
+      "data_name": "Coral_TubeA",
+      "degenerate_faces": 0,
+      "edges": 910,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_TubeA_004",
+      "non_manifold_edges": 0,
+      "polygons": 434,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 434,
+      "source_polygons": 434,
+      "source_vertices": 490,
+      "triangles": 952,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 490,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          1.160266,
+          -0.532136,
+          0.248409
+        ],
+        [
+          1.537764,
+          -0.196161,
+          0.571659
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 7,
+      "data_name": "Coral_TubeA",
+      "degenerate_faces": 0,
+      "edges": 910,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_TubeA_005",
+      "non_manifold_edges": 0,
+      "polygons": 434,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 434,
+      "source_polygons": 434,
+      "source_vertices": 490,
+      "triangles": 952,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 490,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.438267,
+          0.252074,
+          0.307218
+        ],
+        [
+          -1.092928,
+          0.647765,
+          0.662719
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 7,
+      "data_name": "Coral_TubeA",
+      "degenerate_faces": 0,
+      "edges": 910,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_TubeA_006",
+      "non_manifold_edges": 0,
+      "polygons": 434,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 434,
+      "source_polygons": 434,
+      "source_vertices": 490,
+      "triangles": 952,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 490,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.794931,
+          0.222649,
+          0.469812
+        ],
+        [
+          1.251332,
+          0.645627,
+          0.828065
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 7,
+      "data_name": "Coral_TubeA",
+      "degenerate_faces": 0,
+      "edges": 910,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_TubeA_007",
+      "non_manifold_edges": 0,
+      "polygons": 434,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 434,
+      "source_polygons": 434,
+      "source_vertices": 490,
+      "triangles": 952,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 490,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.105721,
+          0.898038,
+          0.327236
+        ],
+        [
+          0.493147,
+          1.233177,
+          0.683193
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 7,
+      "data_name": "Coral_TubeA",
+      "degenerate_faces": 0,
+      "edges": 910,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_TubeA_008",
+      "non_manifold_edges": 0,
+      "polygons": 434,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 434,
+      "source_polygons": 434,
+      "source_vertices": 490,
+      "triangles": 952,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 490,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.59248,
+          0.724885,
+          0.448031
+        ],
+        [
+          -0.280373,
+          1.080921,
+          0.764392
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 6,
+      "data_name": "Coral_TubeB",
+      "degenerate_faces": 0,
+      "edges": 780,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_TubeB_001",
+      "non_manifold_edges": 0,
+      "polygons": 372,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 372,
+      "source_polygons": 372,
+      "source_vertices": 420,
+      "triangles": 816,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 420,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.138722,
+          -0.310746,
+          0.538347
+        ],
+        [
+          -0.817145,
+          -0.001238,
+          0.748613
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 6,
+      "data_name": "Coral_TubeB",
+      "degenerate_faces": 0,
+      "edges": 780,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_TubeB_002",
+      "non_manifold_edges": 0,
+      "polygons": 372,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 372,
+      "source_polygons": 372,
+      "source_vertices": 420,
+      "triangles": 816,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 420,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.261057,
+          -0.62624,
+          0.850236
+        ],
+        [
+          0.550261,
+          -0.325827,
+          1.046314
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 6,
+      "data_name": "Coral_TubeB",
+      "degenerate_faces": 0,
+      "edges": 780,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_TubeB_003",
+      "non_manifold_edges": 0,
+      "polygons": 372,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 372,
+      "source_polygons": 372,
+      "source_vertices": 420,
+      "triangles": 816,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 420,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          1.090127,
+          -0.846815,
+          0.248578
+        ],
+        [
+          1.428123,
+          -0.500238,
+          0.454669
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 6,
+      "data_name": "Coral_TubeB",
+      "degenerate_faces": 0,
+      "edges": 780,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_TubeB_004",
+      "non_manifold_edges": 0,
+      "polygons": 372,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 372,
+      "source_polygons": 372,
+      "source_vertices": 420,
+      "triangles": 816,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 420,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.565486,
+          0.499545,
+          0.789725
+        ],
+        [
+          -0.173218,
+          0.881334,
+          1.026014
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 6,
+      "data_name": "Coral_TubeB",
+      "degenerate_faces": 0,
+      "edges": 780,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_TubeB_005",
+      "non_manifold_edges": 0,
+      "polygons": 372,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 372,
+      "source_polygons": 372,
+      "source_vertices": 420,
+      "triangles": 816,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 420,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          1.151497,
+          0.292687,
+          0.054812
+        ],
+        [
+          1.48459,
+          0.610252,
+          0.290257
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 6,
+      "data_name": "Coral_TubeB",
+      "degenerate_faces": 0,
+      "edges": 780,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_TubeB_006",
+      "non_manifold_edges": 0,
+      "polygons": 372,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 372,
+      "source_polygons": 372,
+      "source_vertices": 420,
+      "triangles": 816,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 420,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.542537,
+          -0.788676,
+          0.286907
+        ],
+        [
+          -1.113731,
+          -0.358315,
+          0.523131
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 6,
+      "data_name": "Coral_TubeB",
+      "degenerate_faces": 0,
+      "edges": 780,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_TubeB_007",
+      "non_manifold_edges": 0,
+      "polygons": 372,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 372,
+      "source_polygons": 372,
+      "source_vertices": 420,
+      "triangles": 816,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 420,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.750454,
+          0.369916,
+          0.468508
+        ],
+        [
+          1.043102,
+          0.674911,
+          0.672923
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 6,
+      "data_name": "Coral_TubeB",
+      "degenerate_faces": 0,
+      "edges": 780,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Coral_TubeB_008",
+      "non_manifold_edges": 0,
+      "polygons": 372,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 372,
+      "source_polygons": 372,
+      "source_vertices": 420,
+      "triangles": 816,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 420,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.26733,
+          -0.741937,
+          0.73061
+        ],
+        [
+          0.053256,
+          -0.41151,
+          0.933996
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 5,
+      "data_name": "Diver_Body_Union",
+      "degenerate_faces": 0,
+      "edges": 4974,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Diver_Body",
+      "non_manifold_edges": 0,
+      "polygons": 3234,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 3234,
+      "source_polygons": 3234,
+      "source_vertices": 1750,
+      "triangles": 3480,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 1750,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.453602,
+          -0.120081,
+          1.780362
+        ],
+        [
+          0.036055,
+          0.250916,
+          2.268238
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 4,
+      "data_name": "Diver_Fin",
+      "degenerate_faces": 0,
+      "edges": 168,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Diver_Fin_L",
+      "non_manifold_edges": 0,
+      "polygons": 88,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 88,
+      "source_polygons": 88,
+      "source_vertices": 88,
+      "triangles": 160,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 88,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.488468,
+          -0.022294,
+          1.743178
+        ],
+        [
+          -0.344892,
+          0.087257,
+          1.883084
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 4,
+      "data_name": "Diver_Fin",
+      "degenerate_faces": 0,
+      "edges": 168,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Diver_Fin_R",
+      "non_manifold_edges": 0,
+      "polygons": 88,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 88,
+      "source_polygons": 88,
+      "source_vertices": 88,
+      "triangles": 160,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 88,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.521651,
+          -0.116929,
+          1.833935
+        ],
+        [
+          -0.378075,
+          -0.007379,
+          1.973841
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 8,
+      "data_name": "Diver_Mask",
+      "degenerate_faces": 0,
+      "edges": 724,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Diver_Mask",
+      "non_manifold_edges": 0,
+      "polygons": 404,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 404,
+      "source_polygons": 404,
+      "source_vertices": 336,
+      "triangles": 640,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 336,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.100269,
+          0.045072,
+          2.052712
+        ],
+        [
+          -0.015715,
+          0.126515,
+          2.148587
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 5,
+      "data_name": "Diver_Tank",
+      "degenerate_faces": 0,
+      "edges": 712,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Diver_Tank",
+      "non_manifold_edges": 0,
+      "polygons": 358,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 358,
+      "source_polygons": 358,
+      "source_vertices": 364,
+      "triangles": 708,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 364,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.31642,
+          -0.016459,
+          1.95026
+        ],
+        [
+          -0.035015,
+          0.199993,
+          2.206759
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 5,
+      "data_name": "Fish_A",
+      "degenerate_faces": 0,
+      "edges": 188,
+      "flat_polygons": 106,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Fish_A_001",
+      "non_manifold_edges": 0,
+      "polygons": 106,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 106,
+      "source_vertices": 92,
+      "triangles": 164,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 92,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          1.718514,
+          -0.054694,
+          0.849729
+        ],
+        [
+          1.751929,
+          0.047208,
+          0.915729
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 5,
+      "data_name": "Fish_A",
+      "degenerate_faces": 0,
+      "edges": 188,
+      "flat_polygons": 106,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Fish_A_002",
+      "non_manifold_edges": 0,
+      "polygons": 106,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 106,
+      "source_vertices": 92,
+      "triangles": 164,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 92,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          1.713188,
+          0.552822,
+          1.084257
+        ],
+        [
+          1.802039,
+          0.649078,
+          1.150257
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 5,
+      "data_name": "Fish_A",
+      "degenerate_faces": 0,
+      "edges": 188,
+      "flat_polygons": 106,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Fish_A_003",
+      "non_manifold_edges": 0,
+      "polygons": 106,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 106,
+      "source_vertices": 92,
+      "triangles": 164,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 92,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.713633,
+          0.945717,
+          0.951538
+        ],
+        [
+          0.818644,
+          0.995574,
+          1.017538
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 5,
+      "data_name": "Fish_A",
+      "degenerate_faces": 0,
+      "edges": 188,
+      "flat_polygons": 106,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Fish_A_004",
+      "non_manifold_edges": 0,
+      "polygons": 106,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 106,
+      "source_vertices": 92,
+      "triangles": 164,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 92,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.196172,
+          1.031428,
+          0.535541
+        ],
+        [
+          0.301371,
+          1.0834,
+          0.601541
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 5,
+      "data_name": "Fish_A",
+      "degenerate_faces": 0,
+      "edges": 188,
+      "flat_polygons": 106,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Fish_A_005",
+      "non_manifold_edges": 0,
+      "polygons": 106,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 106,
+      "source_vertices": 92,
+      "triangles": 164,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 92,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.052969,
+          1.114408,
+          0.489465
+        ],
+        [
+          0.155821,
+          1.151581,
+          0.555465
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 5,
+      "data_name": "Fish_A",
+      "degenerate_faces": 0,
+      "edges": 188,
+      "flat_polygons": 106,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Fish_A_006",
+      "non_manifold_edges": 0,
+      "polygons": 106,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 106,
+      "source_vertices": 92,
+      "triangles": 164,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 92,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.155755,
+          1.168146,
+          0.566724
+        ],
+        [
+          -1.06421,
+          1.26216,
+          0.632724
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 5,
+      "data_name": "Fish_B",
+      "degenerate_faces": 0,
+      "edges": 188,
+      "flat_polygons": 106,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Fish_B_001",
+      "non_manifold_edges": 0,
+      "polygons": 106,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 106,
+      "source_vertices": 92,
+      "triangles": 164,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 92,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.167729,
+          0.527005,
+          1.262291
+        ],
+        [
+          -1.109173,
+          0.652881,
+          1.331891
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 5,
+      "data_name": "Fish_B",
+      "degenerate_faces": 0,
+      "edges": 188,
+      "flat_polygons": 106,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Fish_B_002",
+      "non_manifold_edges": 0,
+      "polygons": 106,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 106,
+      "source_vertices": 92,
+      "triangles": 164,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 92,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.851276,
+          0.433398,
+          0.801944
+        ],
+        [
+          -1.777476,
+          0.559812,
+          0.871544
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 5,
+      "data_name": "Fish_B",
+      "degenerate_faces": 0,
+      "edges": 188,
+      "flat_polygons": 106,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Fish_B_003",
+      "non_manifold_edges": 0,
+      "polygons": 106,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 106,
+      "source_vertices": 92,
+      "triangles": 164,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 92,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.726357,
+          -0.629535,
+          0.576993
+        ],
+        [
+          -1.650637,
+          -0.50324,
+          0.646593
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 5,
+      "data_name": "Fish_B",
+      "degenerate_faces": 0,
+      "edges": 188,
+      "flat_polygons": 106,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Fish_B_004",
+      "non_manifold_edges": 0,
+      "polygons": 106,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 106,
+      "source_vertices": 92,
+      "triangles": 164,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 92,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.248266,
+          -0.756302,
+          0.609557
+        ],
+        [
+          -1.159253,
+          -0.632264,
+          0.679157
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 5,
+      "data_name": "Fish_B",
+      "degenerate_faces": 0,
+      "edges": 188,
+      "flat_polygons": 106,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Fish_B_005",
+      "non_manifold_edges": 0,
+      "polygons": 106,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 106,
+      "source_vertices": 92,
+      "triangles": 164,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 92,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.605478,
+          -0.955221,
+          0.949948
+        ],
+        [
+          -0.481268,
+          -0.866841,
+          1.019548
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 5,
+      "data_name": "Fish_C",
+      "degenerate_faces": 0,
+      "edges": 188,
+      "flat_polygons": 106,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Fish_C_001",
+      "non_manifold_edges": 0,
+      "polygons": 106,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 106,
+      "source_vertices": 92,
+      "triangles": 164,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 92,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.484643,
+          -1.154243,
+          1.023531
+        ],
+        [
+          -0.400298,
+          -1.108112,
+          1.071531
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 5,
+      "data_name": "Fish_C",
+      "degenerate_faces": 0,
+      "edges": 188,
+      "flat_polygons": 106,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Fish_C_002",
+      "non_manifold_edges": 0,
+      "polygons": 106,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 106,
+      "source_vertices": 92,
+      "triangles": 164,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 92,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.222013,
+          -1.57114,
+          1.179745
+        ],
+        [
+          0.30421,
+          -1.510152,
+          1.227745
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 5,
+      "data_name": "Fish_C",
+      "degenerate_faces": 0,
+      "edges": 188,
+      "flat_polygons": 106,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Fish_C_003",
+      "non_manifold_edges": 0,
+      "polygons": 106,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 106,
+      "source_vertices": 92,
+      "triangles": 164,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 92,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.738101,
+          -1.007415,
+          0.468409
+        ],
+        [
+          0.811831,
+          -0.932665,
+          0.516409
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 5,
+      "data_name": "Fish_C",
+      "degenerate_faces": 0,
+      "edges": 188,
+      "flat_polygons": 106,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Fish_C_004",
+      "non_manifold_edges": 0,
+      "polygons": 106,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 106,
+      "source_vertices": 92,
+      "triangles": 164,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 92,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          1.148907,
+          -0.574433,
+          0.831941
+        ],
+        [
+          1.187299,
+          -0.490592,
+          0.879941
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 3,
+      "data_name": "Kelp_A",
+      "degenerate_faces": 0,
+      "edges": 228,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Kelp_A_001",
+      "non_manifold_edges": 0,
+      "polygons": 114,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 114,
+      "source_polygons": 114,
+      "source_vertices": 120,
+      "triangles": 228,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 120,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          1.40793,
+          0.050936,
+          0.370872
+        ],
+        [
+          1.53685,
+          0.192059,
+          0.71255
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 3,
+      "data_name": "Kelp_A",
+      "degenerate_faces": 0,
+      "edges": 228,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Kelp_A_002",
+      "non_manifold_edges": 0,
+      "polygons": 114,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 114,
+      "source_polygons": 114,
+      "source_vertices": 120,
+      "triangles": 228,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 120,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.847433,
+          1.064694,
+          0.0
+        ],
+        [
+          1.0051,
+          1.183206,
+          0.388586
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 3,
+      "data_name": "Kelp_A",
+      "degenerate_faces": 0,
+      "edges": 228,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Kelp_A_003",
+      "non_manifold_edges": 0,
+      "polygons": 114,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 114,
+      "source_polygons": 114,
+      "source_vertices": 120,
+      "triangles": 228,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 120,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.10787,
+          1.35898,
+          0.0
+        ],
+        [
+          0.05386,
+          1.522523,
+          0.4061
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 3,
+      "data_name": "Kelp_A",
+      "degenerate_faces": 0,
+      "edges": 228,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Kelp_A_004",
+      "non_manifold_edges": 0,
+      "polygons": 114,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 114,
+      "source_polygons": 114,
+      "source_vertices": 120,
+      "triangles": 228,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 120,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.136134,
+          0.949687,
+          0.0
+        ],
+        [
+          -0.982748,
+          1.081047,
+          0.369467
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 3,
+      "data_name": "Kelp_A",
+      "degenerate_faces": 0,
+      "edges": 228,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Kelp_A_005",
+      "non_manifold_edges": 0,
+      "polygons": 114,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 114,
+      "source_polygons": 114,
+      "source_vertices": 120,
+      "triangles": 228,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 120,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -2.019241,
+          -0.130744,
+          0.0
+        ],
+        [
+          -1.851787,
+          0.013354,
+          0.403332
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 3,
+      "data_name": "Kelp_A",
+      "degenerate_faces": 0,
+      "edges": 228,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Kelp_A_006",
+      "non_manifold_edges": 0,
+      "polygons": 114,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 114,
+      "source_polygons": 114,
+      "source_vertices": 120,
+      "triangles": 228,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 120,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.133726,
+          -0.816039,
+          0.300001
+        ],
+        [
+          -1.037119,
+          -0.687805,
+          0.615826
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 3,
+      "data_name": "Kelp_A",
+      "degenerate_faces": 0,
+      "edges": 228,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Kelp_A_007",
+      "non_manifold_edges": 0,
+      "polygons": 114,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 114,
+      "source_polygons": 114,
+      "source_vertices": 120,
+      "triangles": 228,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 120,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.207923,
+          -1.33006,
+          0.0
+        ],
+        [
+          -0.087793,
+          -1.159067,
+          0.431643
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 3,
+      "data_name": "Kelp_A",
+      "degenerate_faces": 0,
+      "edges": 228,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Kelp_A_008",
+      "non_manifold_edges": 0,
+      "polygons": 114,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 114,
+      "source_polygons": 114,
+      "source_vertices": 120,
+      "triangles": 228,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 120,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          1.297424,
+          -0.832424,
+          0.259999
+        ],
+        [
+          1.396251,
+          -0.671076,
+          0.692962
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 3,
+      "data_name": "Kelp_B",
+      "degenerate_faces": 0,
+      "edges": 228,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Kelp_B_001",
+      "non_manifold_edges": 0,
+      "polygons": 114,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 114,
+      "source_polygons": 114,
+      "source_vertices": 120,
+      "triangles": 228,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 120,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          1.497828,
+          0.707152,
+          0.0
+        ],
+        [
+          1.607141,
+          0.844592,
+          0.27985
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 3,
+      "data_name": "Kelp_B",
+      "degenerate_faces": 0,
+      "edges": 228,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Kelp_B_002",
+      "non_manifold_edges": 0,
+      "polygons": 114,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 114,
+      "source_polygons": 114,
+      "source_vertices": 120,
+      "triangles": 228,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 120,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.667142,
+          0.756202,
+          0.219227
+        ],
+        [
+          0.848074,
+          0.958867,
+          0.639279
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 3,
+      "data_name": "Kelp_B",
+      "degenerate_faces": 0,
+      "edges": 228,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Kelp_B_003",
+      "non_manifold_edges": 0,
+      "polygons": 114,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 114,
+      "source_polygons": 114,
+      "source_vertices": 120,
+      "triangles": 228,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 120,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.842749,
+          0.870326,
+          0.038248
+        ],
+        [
+          -0.747588,
+          1.014671,
+          0.33606
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 3,
+      "data_name": "Kelp_B",
+      "degenerate_faces": 0,
+      "edges": 228,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Kelp_B_004",
+      "non_manifold_edges": 0,
+      "polygons": 114,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 114,
+      "source_polygons": 114,
+      "source_vertices": 120,
+      "triangles": 228,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 120,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.700169,
+          0.729459,
+          0.0
+        ],
+        [
+          -1.547611,
+          0.829321,
+          0.315143
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 3,
+      "data_name": "Kelp_B",
+      "degenerate_faces": 0,
+      "edges": 228,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Kelp_B_005",
+      "non_manifold_edges": 0,
+      "polygons": 114,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 114,
+      "source_polygons": 114,
+      "source_vertices": 120,
+      "triangles": 228,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 120,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.657319,
+          -0.526731,
+          0.0
+        ],
+        [
+          -1.496808,
+          -0.437602,
+          0.343996
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 3,
+      "data_name": "Kelp_B",
+      "degenerate_faces": 0,
+      "edges": 228,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Kelp_B_006",
+      "non_manifold_edges": 0,
+      "polygons": 114,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 114,
+      "source_polygons": 114,
+      "source_vertices": 120,
+      "triangles": 228,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 120,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.973143,
+          -1.110371,
+          0.0
+        ],
+        [
+          -0.787824,
+          -0.977953,
+          0.378283
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 3,
+      "data_name": "Kelp_B",
+      "degenerate_faces": 0,
+      "edges": 228,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Kelp_B_007",
+      "non_manifold_edges": 0,
+      "polygons": 114,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 114,
+      "source_polygons": 114,
+      "source_vertices": 120,
+      "triangles": 228,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 120,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.293797,
+          -1.317456,
+          0.0
+        ],
+        [
+          0.377114,
+          -1.176573,
+          0.297245
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 3,
+      "data_name": "Kelp_B",
+      "degenerate_faces": 0,
+      "edges": 228,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Kelp_B_008",
+      "non_manifold_edges": 0,
+      "polygons": 114,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 114,
+      "source_polygons": 114,
+      "source_vertices": 120,
+      "triangles": 228,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 120,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          1.543012,
+          -0.265661,
+          0.0
+        ],
+        [
+          1.705428,
+          -0.185312,
+          0.35913
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Rock_Boulder_A",
+      "degenerate_faces": 0,
+      "edges": 216,
+      "flat_polygons": 110,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Rock_Boulder_A_001",
+      "non_manifold_edges": 0,
+      "polygons": 110,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 110,
+      "source_vertices": 108,
+      "triangles": 212,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 108,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          1.829027,
+          -0.28212,
+          0.0
+        ],
+        [
+          2.201057,
+          0.097964,
+          0.109241
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Rock_Boulder_A",
+      "degenerate_faces": 0,
+      "edges": 216,
+      "flat_polygons": 110,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Rock_Boulder_A_002",
+      "non_manifold_edges": 0,
+      "polygons": 110,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 110,
+      "source_vertices": 108,
+      "triangles": 212,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 108,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.641042,
+          0.994146,
+          0.0
+        ],
+        [
+          0.832572,
+          1.17873,
+          0.056028
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Rock_Boulder_A",
+      "degenerate_faces": 0,
+      "edges": 216,
+      "flat_polygons": 110,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Rock_Boulder_A_003",
+      "non_manifold_edges": 0,
+      "polygons": 110,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 110,
+      "source_vertices": 108,
+      "triangles": 212,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 108,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.07127,
+          1.083346,
+          0.0
+        ],
+        [
+          -0.767739,
+          1.368528,
+          0.093532
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Rock_Boulder_A",
+      "degenerate_faces": 0,
+      "edges": 216,
+      "flat_polygons": 110,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Rock_Boulder_A_004",
+      "non_manifold_edges": 0,
+      "polygons": 110,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 110,
+      "source_vertices": 108,
+      "triangles": 212,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 108,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.773967,
+          -0.049511,
+          0.0
+        ],
+        [
+          -1.56033,
+          0.165759,
+          0.061577
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Rock_Boulder_A",
+      "degenerate_faces": 0,
+      "edges": 216,
+      "flat_polygons": 110,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Rock_Boulder_A_005",
+      "non_manifold_edges": 0,
+      "polygons": 110,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 110,
+      "source_vertices": 108,
+      "triangles": 212,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 108,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.878892,
+          -1.022048,
+          0.0
+        ],
+        [
+          -0.688912,
+          -0.8279,
+          0.055813
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Rock_Boulder_A",
+      "degenerate_faces": 0,
+      "edges": 216,
+      "flat_polygons": 110,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Rock_Boulder_A_006",
+      "non_manifold_edges": 0,
+      "polygons": 110,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 110,
+      "source_vertices": 108,
+      "triangles": 212,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 108,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.685659,
+          -1.099104,
+          0.0
+        ],
+        [
+          0.923027,
+          -0.856252,
+          0.069876
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Rock_Boulder_B",
+      "degenerate_faces": 0,
+      "edges": 216,
+      "flat_polygons": 110,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Rock_Boulder_B_001",
+      "non_manifold_edges": 0,
+      "polygons": 110,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 110,
+      "source_vertices": 108,
+      "triangles": 212,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 108,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          1.329816,
+          0.382345,
+          -0.0
+        ],
+        [
+          1.539806,
+          0.539501,
+          0.0888
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Rock_Boulder_B",
+      "degenerate_faces": 0,
+      "edges": 216,
+      "flat_polygons": 110,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Rock_Boulder_B_002",
+      "non_manifold_edges": 0,
+      "polygons": 110,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 110,
+      "source_vertices": 108,
+      "triangles": 212,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 108,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.057936,
+          1.217755,
+          -0.0
+        ],
+        [
+          0.261529,
+          1.589736,
+          0.140623
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Rock_Boulder_B",
+      "degenerate_faces": 0,
+      "edges": 216,
+      "flat_polygons": 110,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Rock_Boulder_B_003",
+      "non_manifold_edges": 0,
+      "polygons": 110,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 110,
+      "source_vertices": 108,
+      "triangles": 212,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 108,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.956453,
+          0.376268,
+          -0.0
+        ],
+        [
+          -1.665453,
+          0.725971,
+          0.134965
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Rock_Boulder_B",
+      "degenerate_faces": 0,
+      "edges": 216,
+      "flat_polygons": 110,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Rock_Boulder_B_004",
+      "non_manifold_edges": 0,
+      "polygons": 110,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 110,
+      "source_vertices": 108,
+      "triangles": 212,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 108,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.457881,
+          -0.504201,
+          -0.0
+        ],
+        [
+          -1.240244,
+          -0.267692,
+          0.087031
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Rock_Boulder_B",
+      "degenerate_faces": 0,
+      "edges": 216,
+      "flat_polygons": 110,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Rock_Boulder_B_005",
+      "non_manifold_edges": 0,
+      "polygons": 110,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 110,
+      "source_vertices": 108,
+      "triangles": 212,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 108,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.361747,
+          -1.360597,
+          -0.0
+        ],
+        [
+          -0.163832,
+          -1.162393,
+          0.073836
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Rock_Boulder_B",
+      "degenerate_faces": 0,
+      "edges": 216,
+      "flat_polygons": 110,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Rock_Boulder_B_006",
+      "non_manifold_edges": 0,
+      "polygons": 110,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 110,
+      "source_vertices": 108,
+      "triangles": 212,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 108,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          1.067304,
+          -0.73325,
+          -0.0
+        ],
+        [
+          1.37251,
+          -0.512041,
+          0.133123
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Rock_Peak_001",
+      "degenerate_faces": 0,
+      "edges": 1284,
+      "flat_polygons": 856,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Rock_Peak_001",
+      "non_manifold_edges": 0,
+      "polygons": 856,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 856,
+      "source_vertices": 430,
+      "triangles": 856,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 430,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.601881,
+          -1.112201,
+          0.0
+        ],
+        [
+          1.72131,
+          1.140377,
+          1.65
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Rock_Tier_001",
+      "degenerate_faces": 0,
+      "edges": 216,
+      "flat_polygons": 110,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Rock_Tier_001",
+      "non_manifold_edges": 0,
+      "polygons": 110,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 110,
+      "source_vertices": 108,
+      "triangles": 212,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 108,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.368958,
+          -0.45471,
+          -0.0
+        ],
+        [
+          -0.367938,
+          0.511802,
+          0.55
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Rock_Tier_002",
+      "degenerate_faces": 0,
+      "edges": 264,
+      "flat_polygons": 134,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Rock_Tier_002",
+      "non_manifold_edges": 0,
+      "polygons": 134,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 134,
+      "source_vertices": 132,
+      "triangles": 260,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 132,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.590184,
+          -0.937704,
+          0.0
+        ],
+        [
+          -0.334915,
+          -0.170689,
+          0.451265
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Rock_Tier_003",
+      "degenerate_faces": 0,
+      "edges": 216,
+      "flat_polygons": 110,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Rock_Tier_003",
+      "non_manifold_edges": 0,
+      "polygons": 110,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 110,
+      "source_vertices": 108,
+      "triangles": 212,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 108,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.477723,
+          -0.382459,
+          -0.0
+        ],
+        [
+          1.492378,
+          0.481969,
+          0.46
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Rock_Tier_004",
+      "degenerate_faces": 0,
+      "edges": 240,
+      "flat_polygons": 122,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Rock_Tier_004",
+      "non_manifold_edges": 0,
+      "polygons": 122,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 122,
+      "source_vertices": 120,
+      "triangles": 236,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 120,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.140168,
+          -0.897619,
+          0.0
+        ],
+        [
+          1.545531,
+          -0.05702,
+          0.458371
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Rock_Tier_005",
+      "degenerate_faces": 0,
+      "edges": 264,
+      "flat_polygons": 134,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Rock_Tier_005",
+      "non_manifold_edges": 0,
+      "polygons": 134,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 134,
+      "source_vertices": 132,
+      "triangles": 260,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 132,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.831297,
+          -1.297796,
+          -0.0
+        ],
+        [
+          0.602987,
+          -0.508569,
+          0.49271
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 0,
+      "connected_components": 1,
+      "data_name": "Rock_Tier_006",
+      "degenerate_faces": 0,
+      "edges": 240,
+      "flat_polygons": 122,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Rock_Tier_006",
+      "non_manifold_edges": 0,
+      "polygons": 122,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 122,
+      "source_vertices": 120,
+      "triangles": 236,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 120,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.405575,
+          0.250649,
+          0.0
+        ],
+        [
+          0.759048,
+          1.193168,
+          0.567695
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 48,
+      "connected_components": 1,
+      "data_name": "Sand",
+      "degenerate_faces": 0,
+      "edges": 96,
+      "flat_polygons": 48,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Reef_Palette"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Sand",
+      "non_manifold_edges": 48,
+      "polygons": 48,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 48,
+      "source_vertices": 49,
+      "triangles": 48,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 49,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -2.25,
+          -1.8,
+          0.0
+        ],
+        [
+          2.25,
+          1.8,
+          0.0
+        ]
+      ],
+      "zero_length_edges": 0
+    }
+  ],
+  "objects": [
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hidden_render": false,
+      "location": [
+        -1.352023,
+        -6.360769,
+        2.788128
+      ],
+      "name": "Camera",
+      "parent": null,
+      "rotation_euler": [
+        1.27409,
+        0.0,
+        -0.20944
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "CAMERA"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.439793,
+        0.396886,
+        0.311073
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.4,
+        -0.72,
+        0.517522
+      ],
+      "name": "Coral_Brain_001",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        4.374333
+      ],
+      "scale": [
+        1.072665,
+        1.072665,
+        1.072665
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.536025,
+        0.519434,
+        0.484645
+      ],
+      "hidden_render": false,
+      "location": [
+        -1.14,
+        -0.34,
+        0.513904
+      ],
+      "name": "Coral_BranchA_001",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        3.040023
+      ],
+      "scale": [
+        0.993198,
+        0.993198,
+        0.993198
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.420747,
+        0.407724,
+        0.380417
+      ],
+      "hidden_render": false,
+      "location": [
+        1.2,
+        -0.3,
+        0.525249
+      ],
+      "name": "Coral_BranchA_002",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.642064
+      ],
+      "scale": [
+        0.7796,
+        0.7796,
+        0.7796
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.195142,
+        0.213919,
+        0.242118
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.55,
+        -0.25,
+        0.876135
+      ],
+      "name": "Coral_BranchB_001",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        1.663517
+      ],
+      "scale": [
+        0.968527,
+        0.968527,
+        0.968527
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.214735,
+        0.235398,
+        0.266427
+      ],
+      "hidden_render": false,
+      "location": [
+        0.75,
+        -0.6,
+        0.551488
+      ],
+      "name": "Coral_BranchB_002",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        1.014349
+      ],
+      "scale": [
+        1.065771,
+        1.065771,
+        1.065771
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.182266,
+        0.199804,
+        0.226142
+      ],
+      "hidden_render": false,
+      "location": [
+        0.35,
+        0.95,
+        0.349801
+      ],
+      "name": "Coral_BranchB_003",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        5.975219
+      ],
+      "scale": [
+        0.904619,
+        0.904619,
+        0.904619
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.202622,
+        0.222119,
+        0.251398
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.95,
+        0.55,
+        0.512156
+      ],
+      "name": "Coral_BranchB_004",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.921131
+      ],
+      "scale": [
+        1.005651,
+        1.005651,
+        1.005651
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.203223,
+        0.222778,
+        0.252144
+      ],
+      "hidden_render": false,
+      "location": [
+        1.2,
+        0.65,
+        0.0
+      ],
+      "name": "Coral_BranchB_005",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.169913
+      ],
+      "scale": [
+        1.008634,
+        1.008634,
+        1.008634
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.202616,
+        0.222112,
+        0.251391
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.6,
+        0.2,
+        0.933868
+      ],
+      "name": "Coral_BranchB_006",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        6.148105
+      ],
+      "scale": [
+        1.005622,
+        1.005622,
+        1.005622
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.236635,
+        0.233286,
+        0.257766
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.3,
+        -0.95,
+        0.25
+      ],
+      "name": "Coral_Bush_001",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        4.915354
+      ],
+      "scale": [
+        1.081955,
+        1.081955,
+        1.081955
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.229652,
+        0.226402,
+        0.25016
+      ],
+      "hidden_render": false,
+      "location": [
+        0.2,
+        -0.7,
+        0.559046
+      ],
+      "name": "Coral_Bush_002",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        3.003568
+      ],
+      "scale": [
+        1.050028,
+        1.050028,
+        1.050028
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.204648,
+        0.201752,
+        0.222923
+      ],
+      "hidden_render": false,
+      "location": [
+        -1.1,
+        -0.4,
+        0.515255
+      ],
+      "name": "Coral_Bush_003",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        4.958284
+      ],
+      "scale": [
+        0.935704,
+        0.935704,
+        0.935704
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.211384,
+        0.208393,
+        0.230261
+      ],
+      "hidden_render": false,
+      "location": [
+        1.3,
+        0.35,
+        0.339534
+      ],
+      "name": "Coral_Bush_004",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        5.031723
+      ],
+      "scale": [
+        0.966503,
+        0.966503,
+        0.966503
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.239341,
+        0.235955,
+        0.260715
+      ],
+      "hidden_render": false,
+      "location": [
+        0.6,
+        0.95,
+        0.338667
+      ],
+      "name": "Coral_Bush_005",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        2.487127
+      ],
+      "scale": [
+        1.094332,
+        1.094332,
+        1.094332
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.214397,
+        0.211363,
+        0.233542
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.15,
+        1.05,
+        0.339526
+      ],
+      "name": "Coral_Bush_006",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        5.948901
+      ],
+      "scale": [
+        0.980277,
+        0.980277,
+        0.980277
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.494011,
+        0.483063,
+        0.183013
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.7,
+        0.45,
+        0.822705
+      ],
+      "name": "Coral_Plate_001",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        5.656804
+      ],
+      "scale": [
+        1.024813,
+        1.024813,
+        1.024813
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.514871,
+        0.503461,
+        0.190741
+      ],
+      "hidden_render": false,
+      "location": [
+        0.95,
+        0.25,
+        0.876739
+      ],
+      "name": "Coral_Plate_002",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        3.01262
+      ],
+      "scale": [
+        1.068087,
+        1.068087,
+        1.068087
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.496798,
+        0.485789,
+        0.184045
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.95,
+        -0.65,
+        0.300001
+      ],
+      "name": "Coral_Plate_003",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        5.02431
+      ],
+      "scale": [
+        1.030596,
+        1.030596,
+        1.030596
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.442018,
+        0.432222,
+        0.163751
+      ],
+      "hidden_render": false,
+      "location": [
+        1.1,
+        -0.55,
+        0.26
+      ],
+      "name": "Coral_Plate_004",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        4.150582
+      ],
+      "scale": [
+        0.916956,
+        0.916956,
+        0.916956
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.279625,
+        0.329721,
+        0.318662
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.65,
+        -0.75,
+        0.439541
+      ],
+      "name": "Coral_TubeA_001",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        2.304043
+      ],
+      "scale": [
+        0.952223,
+        0.952223,
+        0.952223
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.2741,
+        0.323206,
+        0.312366
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.7,
+        0.1,
+        0.868898
+      ],
+      "name": "Coral_TubeA_002",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        4.850229
+      ],
+      "scale": [
+        0.933408,
+        0.933408,
+        0.933408
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.295569,
+        0.348522,
+        0.336832
+      ],
+      "hidden_render": false,
+      "location": [
+        0.85,
+        -0.85,
+        0.081178
+      ],
+      "name": "Coral_TubeA_003",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        4.894946
+      ],
+      "scale": [
+        1.006518,
+        1.006518,
+        1.006518
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.283651,
+        0.334469,
+        0.323251
+      ],
+      "hidden_render": false,
+      "location": [
+        1.35,
+        -0.35,
+        0.26
+      ],
+      "name": "Coral_TubeA_004",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        1.401412
+      ],
+      "scale": [
+        0.965933,
+        0.965933,
+        0.965933
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.31195,
+        0.367838,
+        0.355501
+      ],
+      "hidden_render": false,
+      "location": [
+        -1.25,
+        0.45,
+        0.319966
+      ],
+      "name": "Coral_TubeA_005",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        6.188473
+      ],
+      "scale": [
+        1.062302,
+        1.062302,
+        1.062302
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.314365,
+        0.370685,
+        0.358253
+      ],
+      "hidden_render": false,
+      "location": [
+        1.03,
+        0.42,
+        0.482658
+      ],
+      "name": "Coral_TubeA_006",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        5.064741
+      ],
+      "scale": [
+        1.070526,
+        1.070526,
+        1.070526
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.312351,
+        0.36831,
+        0.355957
+      ],
+      "hidden_render": false,
+      "location": [
+        0.3,
+        1.05,
+        0.34
+      ],
+      "name": "Coral_TubeA_007",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        4.648759
+      ],
+      "scale": [
+        1.063667,
+        1.063667,
+        1.063667
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.277606,
+        0.327341,
+        0.316362
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.45,
+        0.9,
+        0.459375
+      ],
+      "name": "Coral_TubeA_008",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        3.25242
+      ],
+      "scale": [
+        0.945348,
+        0.945348,
+        0.945348
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.278476,
+        0.263436,
+        0.210266
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.95,
+        -0.15,
+        0.55
+      ],
+      "name": "Coral_TubeB_001",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.182088
+      ],
+      "scale": [
+        0.971112,
+        0.971112,
+        0.971112
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.259686,
+        0.245661,
+        0.196078
+      ],
+      "hidden_render": false,
+      "location": [
+        0.4,
+        -0.45,
+        0.861103
+      ],
+      "name": "Coral_TubeB_002",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        1.755638
+      ],
+      "scale": [
+        0.905587,
+        0.905587,
+        0.905587
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.272948,
+        0.258206,
+        0.206092
+      ],
+      "hidden_render": false,
+      "location": [
+        1.25,
+        -0.7,
+        0.26
+      ],
+      "name": "Coral_TubeB_003",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        4.351243
+      ],
+      "scale": [
+        0.951835,
+        0.951835,
+        0.951835
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.312942,
+        0.29604,
+        0.236289
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.4,
+        0.7,
+        0.80282
+      ],
+      "name": "Coral_TubeB_004",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        2.810014
+      ],
+      "scale": [
+        1.091303,
+        1.091303,
+        1.091303
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.311824,
+        0.294982,
+        0.235445
+      ],
+      "hidden_render": false,
+      "location": [
+        1.35,
+        0.45,
+        0.067861
+      ],
+      "name": "Coral_TubeB_005",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        6.208026
+      ],
+      "scale": [
+        1.087404,
+        1.087404,
+        1.087404
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.312855,
+        0.295958,
+        0.236224
+      ],
+      "hidden_render": false,
+      "location": [
+        -1.35,
+        -0.55,
+        0.299999
+      ],
+      "name": "Coral_TubeB_006",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        2.291075
+      ],
+      "scale": [
+        1.091,
+        1.091,
+        1.091
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.270728,
+        0.256106,
+        0.204415
+      ],
+      "hidden_render": false,
+      "location": [
+        0.9,
+        0.55,
+        0.479837
+      ],
+      "name": "Coral_TubeB_007",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        1.425314
+      ],
+      "scale": [
+        0.944092,
+        0.944092,
+        0.944092
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.269366,
+        0.254817,
+        0.203387
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.1,
+        -0.55,
+        0.741882
+      ],
+      "name": "Coral_TubeB_008",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        1.284116
+      ],
+      "scale": [
+        0.939341,
+        0.939341,
+        0.939341
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.18,
+        0.08,
+        2.05
+      ],
+      "name": "Diver",
+      "parent": "Scene_Root",
+      "rotation_euler": [
+        -0.959931,
+        -0.610865,
+        0.349066
+      ],
+      "scale": [
+        0.676275,
+        0.676275,
+        0.676275
+      ],
+      "transform_is_finite": true,
+      "type": "EMPTY"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.483945,
+        0.2459,
+        0.096403
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "Diver_Body",
+      "parent": "Diver",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.135284,
+        0.064922,
+        0.0399
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.41,
+        0.1,
+        0.0
+      ],
+      "name": "Diver_Fin_L",
+      "parent": "Diver",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.135284,
+        0.064922,
+        0.0399
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.41,
+        -0.1,
+        0.0
+      ],
+      "name": "Diver_Fin_R",
+      "parent": "Diver",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.07074,
+        0.06584,
+        0.02367
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "Diver_Mask",
+      "parent": "Diver",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.23268,
+        0.087247,
+        0.137269
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "Diver_Tank",
+      "parent": "Diver",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hidden_render": false,
+      "location": [
+        4.0,
+        -1.5,
+        3.0
+      ],
+      "name": "Fill_Softbox",
+      "parent": null,
+      "rotation_euler": [
+        1.058941,
+        0.0,
+        1.212026
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "LIGHT"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.101,
+        0.03025,
+        0.066
+      ],
+      "hidden_render": false,
+      "location": [
+        1.734891,
+        0.006752,
+        0.879728
+      ],
+      "name": "Fish_A_001",
+      "parent": "Fish_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        1.602289
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.101,
+        0.03025,
+        0.066
+      ],
+      "hidden_render": false,
+      "location": [
+        1.750759,
+        0.608903,
+        1.114257
+      ],
+      "name": "Fish_A_002",
+      "parent": "Fish_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        2.282118
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.101,
+        0.03025,
+        0.066
+      ],
+      "hidden_render": false,
+      "location": [
+        0.755851,
+        0.972747,
+        0.981538
+      ],
+      "name": "Fish_A_003",
+      "parent": "Fish_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        2.94004
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.101,
+        0.03025,
+        0.066
+      ],
+      "hidden_render": false,
+      "location": [
+        0.238535,
+        1.059751,
+        0.565541
+      ],
+      "name": "Fish_A_004",
+      "parent": "Fish_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        2.917128
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.101,
+        0.03025,
+        0.066
+      ],
+      "hidden_render": false,
+      "location": [
+        0.09392,
+        1.132267,
+        0.519465
+      ],
+      "name": "Fish_A_005",
+      "parent": "Fish_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        3.210909
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.101,
+        0.03025,
+        0.066
+      ],
+      "hidden_render": false,
+      "location": [
+        -1.117222,
+        1.207548,
+        0.596724
+      ],
+      "name": "Fish_A_006",
+      "parent": "Fish_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        3.951662
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.1212,
+        0.0363,
+        0.0696
+      ],
+      "hidden_render": false,
+      "location": [
+        -1.140833,
+        0.57757,
+        1.288691
+      ],
+      "name": "Fish_B_001",
+      "parent": "Fish_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        4.522209
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.1212,
+        0.0363,
+        0.0696
+      ],
+      "hidden_render": false,
+      "location": [
+        -1.81848,
+        0.484692,
+        0.828344
+      ],
+      "name": "Fish_B_002",
+      "parent": "Fish_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        4.380593
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.1212,
+        0.0363,
+        0.0696
+      ],
+      "hidden_render": false,
+      "location": [
+        -1.684169,
+        -0.578221,
+        0.603393
+      ],
+      "name": "Fish_B_003",
+      "parent": "Fish_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        5.062994
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.1212,
+        0.0363,
+        0.0696
+      ],
+      "hidden_render": false,
+      "location": [
+        -1.197836,
+        -0.705404,
+        0.635957
+      ],
+      "name": "Fish_B_004",
+      "parent": "Fish_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        5.20177
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.1212,
+        0.0363,
+        0.0696
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.53221,
+        -0.916876,
+        0.976348
+      ],
+      "name": "Fish_B_005",
+      "parent": "Fish_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        5.800813
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.0808,
+        0.0242,
+        0.048
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.434416,
+        -1.133561,
+        1.042731
+      ],
+      "name": "Fish_C_001",
+      "parent": "Fish_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        5.995508
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.0808,
+        0.0242,
+        0.048
+      ],
+      "hidden_render": false,
+      "location": [
+        0.270413,
+        -1.536492,
+        1.198945
+      ],
+      "name": "Fish_C_002",
+      "parent": "Fish_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        6.800417
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.0808,
+        0.0242,
+        0.048
+      ],
+      "hidden_render": false,
+      "location": [
+        0.78083,
+        -0.964025,
+        0.487609
+      ],
+      "name": "Fish_C_003",
+      "parent": "Fish_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        7.081333
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.0808,
+        0.0242,
+        0.048
+      ],
+      "hidden_render": false,
+      "location": [
+        1.16962,
+        -0.524251,
+        0.851141
+      ],
+      "name": "Fish_C_004",
+      "parent": "Fish_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        7.672412
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "Fish_Root",
+      "parent": "Scene_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "EMPTY"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.123155,
+        0.070402,
+        0.341678
+      ],
+      "hidden_render": false,
+      "location": [
+        1.473123,
+        0.122521,
+        0.370872
+      ],
+      "name": "Kelp_A_001",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.949708
+      ],
+      "scale": [
+        0.813519,
+        0.813519,
+        0.813519
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.140062,
+        0.080067,
+        0.388586
+      ],
+      "hidden_render": false,
+      "location": [
+        0.924902,
+        1.123519,
+        0.0
+      ],
+      "name": "Kelp_A_002",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        3.447333
+      ],
+      "scale": [
+        0.925204,
+        0.925204,
+        0.925204
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.146375,
+        0.083676,
+        0.4061
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.025969,
+        1.439672,
+        0.0
+      ],
+      "name": "Kelp_A_003",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        5.477323
+      ],
+      "scale": [
+        0.966905,
+        0.966905,
+        0.966905
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.133171,
+        0.076128,
+        0.369467
+      ],
+      "hidden_render": false,
+      "location": [
+        -1.06063,
+        1.01603,
+        0.0
+      ],
+      "name": "Kelp_A_004",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        2.632734
+      ],
+      "scale": [
+        0.879682,
+        0.879682,
+        0.879682
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.145377,
+        0.083105,
+        0.403332
+      ],
+      "hidden_render": false,
+      "location": [
+        -1.934222,
+        -0.059429,
+        0.0
+      ],
+      "name": "Kelp_A_005",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        5.766212
+      ],
+      "scale": [
+        0.960314,
+        0.960314,
+        0.960314
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.113837,
+        0.065075,
+        0.315826
+      ],
+      "hidden_render": false,
+      "location": [
+        -1.085068,
+        -0.753031,
+        0.300001
+      ],
+      "name": "Kelp_A_006",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        5.021336
+      ],
+      "scale": [
+        0.751966,
+        0.751966,
+        0.751966
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.155582,
+        0.088939,
+        0.431643
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.147518,
+        -1.246117,
+        0.0
+      ],
+      "name": "Kelp_A_007",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        4.927729
+      ],
+      "scale": [
+        1.027721,
+        1.027721,
+        1.027721
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.156058,
+        0.089211,
+        0.432963
+      ],
+      "hidden_render": false,
+      "location": [
+        1.346938,
+        -0.753342,
+        0.259999
+      ],
+      "name": "Kelp_A_008",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        4.775178
+      ],
+      "scale": [
+        1.030865,
+        1.030865,
+        1.030865
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.124603,
+        0.058301,
+        0.27985
+      ],
+      "hidden_render": false,
+      "location": [
+        1.553073,
+        0.774743,
+        0.0
+      ],
+      "name": "Kelp_B_001",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        5.193119
+      ],
+      "scale": [
+        0.823087,
+        0.823087,
+        0.823087
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.187028,
+        0.087509,
+        0.420051
+      ],
+      "hidden_render": false,
+      "location": [
+        0.756481,
+        0.85599,
+        0.219227
+      ],
+      "name": "Kelp_B_002",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        4.082026
+      ],
+      "scale": [
+        1.235445,
+        1.235445,
+        1.235445
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.132601,
+        0.062043,
+        0.297812
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.79553,
+        0.943805,
+        0.038248
+      ],
+      "name": "Kelp_B_003",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        1.840764
+      ],
+      "scale": [
+        0.875917,
+        0.875917,
+        0.875917
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.140318,
+        0.065653,
+        0.315143
+      ],
+      "hidden_render": false,
+      "location": [
+        -1.625275,
+        0.779763,
+        0.0
+      ],
+      "name": "Kelp_B_004",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        2.87871
+      ],
+      "scale": [
+        0.926892,
+        0.926892,
+        0.926892
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.153165,
+        0.071664,
+        0.343996
+      ],
+      "hidden_render": false,
+      "location": [
+        -1.575509,
+        -0.481983,
+        0.0
+      ],
+      "name": "Kelp_B_005",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.117526
+      ],
+      "scale": [
+        1.011753,
+        1.011753,
+        1.011753
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.168431,
+        0.078807,
+        0.378283
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.882097,
+        -1.04476,
+        0.0
+      ],
+      "name": "Kelp_B_006",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        3.496439
+      ],
+      "scale": [
+        1.112597,
+        1.112597,
+        1.112597
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.132348,
+        0.061925,
+        0.297244
+      ],
+      "hidden_render": false,
+      "location": [
+        0.335228,
+        -1.245681,
+        0.0
+      ],
+      "name": "Kelp_B_007",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        1.739921
+      ],
+      "scale": [
+        0.874247,
+        0.874247,
+        0.874247
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.159903,
+        0.074817,
+        0.35913
+      ],
+      "hidden_render": false,
+      "location": [
+        1.622586,
+        -0.225544,
+        0.0
+      ],
+      "name": "Kelp_B_008",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        3.176484
+      ],
+      "scale": [
+        1.056264,
+        1.056264,
+        1.056264
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hidden_render": false,
+      "location": [
+        -3.0,
+        -4.0,
+        5.0
+      ],
+      "name": "Key_Softbox",
+      "parent": null,
+      "rotation_euler": [
+        0.849142,
+        -0.0,
+        -0.643501
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "LIGHT"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "Reef_Root",
+      "parent": "Scene_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "EMPTY"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        3.5,
+        4.5
+      ],
+      "name": "Rim_Softbox",
+      "parent": null,
+      "rotation_euler": [
+        0.731397,
+        -0.0,
+        -3.141593
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "LIGHT"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.28704,
+        0.251917,
+        0.109241
+      ],
+      "hidden_render": false,
+      "location": [
+        2.010471,
+        -0.088935,
+        0.0
+      ],
+      "name": "Rock_Boulder_A_001",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.948264
+      ],
+      "scale": [
+        0.176196,
+        0.176196,
+        0.176196
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.147219,
+        0.129205,
+        0.056028
+      ],
+      "hidden_render": false,
+      "location": [
+        0.735471,
+        1.083926,
+        0.0
+      ],
+      "name": "Rock_Boulder_A_002",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        2.632318
+      ],
+      "scale": [
+        0.090368,
+        0.090368,
+        0.090368
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.245762,
+        0.21569,
+        0.093532
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.921175,
+        1.230383,
+        0.0
+      ],
+      "name": "Rock_Boulder_A_003",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.339247
+      ],
+      "scale": [
+        0.150858,
+        0.150858,
+        0.150858
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.161799,
+        0.142001,
+        0.061577
+      ],
+      "hidden_render": false,
+      "location": [
+        -1.664771,
+        0.056093,
+        0.0
+      ],
+      "name": "Rock_Boulder_A_004",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        3.985359
+      ],
+      "scale": [
+        0.099318,
+        0.099318,
+        0.099318
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.146653,
+        0.128708,
+        0.055813
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.786241,
+        -0.923373,
+        0.0
+      ],
+      "name": "Rock_Boulder_A_005",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.950426
+      ],
+      "scale": [
+        0.090021,
+        0.090021,
+        0.090021
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.183604,
+        0.161138,
+        0.069876
+      ],
+      "hidden_render": false,
+      "location": [
+        0.801481,
+        -0.979775,
+        0.0
+      ],
+      "name": "Rock_Boulder_A_006",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        2.182713
+      ],
+      "scale": [
+        0.112703,
+        0.112703,
+        0.112703
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.197747,
+        0.139121,
+        0.0888
+      ],
+      "hidden_render": false,
+      "location": [
+        1.428181,
+        0.464557,
+        0.0
+      ],
+      "name": "Rock_Boulder_B_001",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        3.047111
+      ],
+      "scale": [
+        0.111,
+        0.111,
+        0.111
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.31315,
+        0.220311,
+        0.140623
+      ],
+      "hidden_render": false,
+      "location": [
+        0.09337,
+        1.395241,
+        0.0
+      ],
+      "name": "Rock_Boulder_B_002",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        4.3385
+      ],
+      "scale": [
+        0.175779,
+        0.175779,
+        0.175779
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.30055,
+        0.211447,
+        0.134965
+      ],
+      "hidden_render": false,
+      "location": [
+        -1.81217,
+        0.539694,
+        0.0
+      ],
+      "name": "Rock_Boulder_B_003",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        5.013185
+      ],
+      "scale": [
+        0.168706,
+        0.168706,
+        0.168706
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.193807,
+        0.13635,
+        0.087031
+      ],
+      "hidden_render": false,
+      "location": [
+        -1.343001,
+        -0.381684,
+        0.0
+      ],
+      "name": "Rock_Boulder_B_004",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        1.019781
+      ],
+      "scale": [
+        0.108789,
+        0.108789,
+        0.108789
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.164424,
+        0.115677,
+        0.073836
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.260491,
+        -1.267346,
+        0.0
+      ],
+      "name": "Rock_Boulder_B_005",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        5.493592
+      ],
+      "scale": [
+        0.092295,
+        0.092295,
+        0.092295
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.296449,
+        0.208562,
+        0.133123
+      ],
+      "hidden_render": false,
+      "location": [
+        1.230111,
+        -0.627578,
+        0.0
+      ],
+      "name": "Rock_Boulder_B_006",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        6.239849
+      ],
+      "scale": [
+        0.166404,
+        0.166404,
+        0.166404
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        3.323191,
+        2.252578,
+        1.65
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "Rock_Peak_001",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        1.00102,
+        0.966512,
+        0.55
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.87,
+        0.03,
+        0.0
+      ],
+      "name": "Rock_Tier_001",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        1.255269,
+        0.767015,
+        0.451265
+      ],
+      "hidden_render": false,
+      "location": [
+        -1.02,
+        -0.55,
+        0.0
+      ],
+      "name": "Rock_Tier_002",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        1.014655,
+        0.864428,
+        0.46
+      ],
+      "hidden_render": false,
+      "location": [
+        1.03,
+        0.08,
+        0.0
+      ],
+      "name": "Rock_Tier_003",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        1.405363,
+        0.840598,
+        0.458371
+      ],
+      "hidden_render": false,
+      "location": [
+        1.04,
+        -0.52,
+        0.0
+      ],
+      "name": "Rock_Tier_004",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        1.434284,
+        0.789227,
+        0.49271
+      ],
+      "hidden_render": false,
+      "location": [
+        -0.2,
+        -0.86,
+        0.0
+      ],
+      "name": "Rock_Tier_005",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        1.164622,
+        0.942518,
+        0.567695
+      ],
+      "hidden_render": false,
+      "location": [
+        0.22,
+        0.82,
+        0.0
+      ],
+      "name": "Rock_Tier_006",
+      "parent": "Reef_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        4.5,
+        3.6,
+        0.0
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "Sand",
+      "parent": "Scene_Root",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "Scene_Root",
+      "parent": null,
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "EMPTY"
+    }
+  ],
+  "scene": {
+    "bounds": {
+      "dimensions": [
+        4.5,
+        3.6,
+        2.283329
+      ],
+      "max": [
+        2.25,
+        1.8,
+        2.268238
+      ],
+      "min": [
+        -2.25,
+        -1.8,
+        -0.015091
+      ]
+    },
+    "fps": 24.0,
+    "frame_end": 250,
+    "frame_start": 1,
+    "name": "Scene"
+  },
+  "schema_version": 3,
+  "totals": {
+    "actions": 0,
+    "armatures": 0,
+    "bones": 0,
+    "boundary_edges": 48,
+    "cameras": 1,
+    "constraints": 0,
+    "degenerate_faces": 0,
+    "edges": 57196,
+    "flat_polygons": 4882,
+    "geometry_nodes_modifiers": 0,
+    "images": 2,
+    "invalid_vertices": 0,
+    "isolated_vertices": 0,
+    "lights": 3,
+    "materials": 1,
+    "mesh_objects": 91,
+    "missing_material_faces": 0,
+    "node_materials": 1,
+    "non_manifold_edges": 48,
+    "objects": 99,
+    "polygons": 32918,
+    "refinement_modifiers": 0,
+    "rigid_body_objects": 0,
+    "shape_keys": 0,
+    "simulation_modifiers": 0,
+    "smooth_polygons": 28036,
+    "textured_materials": 1,
+    "triangles": 48508,
+    "uv_mapped_meshes": 91,
+    "vertices": 24849,
+    "weighted_meshes": 0,
+    "wire_edges": 0,
+    "zero_length_edges": 0
+  }
+}
