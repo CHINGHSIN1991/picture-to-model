@@ -1,0 +1,48 @@
+{
+  "blender": "5.2.0 LTS",
+  "engine": "BLENDER_EEVEE",
+  "render_samples": {
+    "taa_render_samples": 64,
+    "taa_samples": 16
+  },
+  "resolution": [
+    1024,
+    768
+  ],
+  "color_management": [
+    "AgX",
+    "AgX - Medium High Contrast"
+  ],
+  "packed_palette": true,
+  "material_count": 1,
+  "palette_pixels": [
+    64,
+    64
+  ],
+  "roughness": 0.550000011920929,
+  "metallic": 0.0,
+  "hierarchy_matches_approved_graybox": true,
+  "peak_height_m": 1.649999976158142,
+  "highest_coral_m": 1.1702131032943726,
+  "summit_clearance_m": 0.47978687286376953,
+  "all_meshes_have_palette_uvs": true,
+  "render_views": [
+    "hero",
+    "front",
+    "left",
+    "right",
+    "back",
+    "top"
+  ],
+  "character_views": [
+    "diver_front",
+    "diver_back",
+    "diver_side"
+  ],
+  "intentional_transforms": "Linked instances retain placement rotations and uniform scales; Diver root controls total body length.",
+  "source_sha256": {
+    "blender/scripts/02_detail.py": "df63f51928046d77f9c8f106fcf021b6bb27db809b85f4edb15785c4c7436364",
+    "blender/scripts/detail_geometry.py": "4f08c0d519101a23d263359c38fd11209ca05e8b45e08a6df8edba79a2c3735e"
+  },
+  "render_duration_seconds_approx": 5.5
+}

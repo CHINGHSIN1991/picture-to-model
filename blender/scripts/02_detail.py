@@ -1,4 +1,4 @@
-"""Step 04 detailed single-peak reef (reference: references/final-concept.png).
+"""Step 04–05 detailed and contact-corrected single-peak reef.
 
 Fully reproducible from an empty scene:
     blender --background --python blender/scripts/02_detail.py
@@ -26,6 +26,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import bmesh
 import bpy
 from mathutils import Matrix, Vector
+from mathutils.bvhtree import BVHTree
 
 # --------------------------------------------------------------------------
 # Parameters
@@ -73,6 +74,28 @@ CORALS = {
     "Coral_TubeB": [(-0.95, -0.15), (0.40, -0.45), (1.25, -0.70), (-0.40, 0.70), (1.35, 0.45), (-1.35, -0.55), (0.90, 0.55), (-0.10, -0.55)],
     "Coral_Plate": [(-0.70, 0.45), (0.95, 0.25), (-0.95, -0.65), (1.10, -0.55)],
     "Coral_Bush": [(-0.30, -0.95), (0.20, -0.70), (-1.10, -0.40), (1.30, 0.35), (0.60, 0.95), (-0.15, 1.05)],
+}
+# Step 05: nearby ledges selected from final-terrain footprint measurements.
+# Values are (dx, dy, additional yaw radians), relative to the approved layout.
+DECORATION_ADJUSTMENTS = {
+    "Coral_Bush_003": (.08, -.08, 0),
+    "Kelp_A_006": (-.10, 0, 0),
+    "Coral_TubeA_001": (-0.06, 0.14, 0.7),
+    "Coral_TubeA_002": (0.02, -0.18, 0.7),
+    "Coral_TubeA_003": (0.18, -0.16, 0),
+    "Coral_TubeA_004": (0.08, -0.1, -0.7),
+    "Coral_TubeA_005": (0.12, -0.02, -0.35),
+    "Coral_TubeA_006": (0.04, 0.06, -1.05),
+    "Coral_TubeA_007": (-0.16, 0.02, 0),
+    "Coral_TubeA_008": (0.02, -0.16, 1.05),
+    "Coral_TubeB_001": (-0.06, 0.0, 0),
+    "Coral_TubeB_002": (-0.14, 0.2, -0.35),
+    "Coral_TubeB_003": (0.2, -0.18, 0),
+    "Coral_TubeB_004": (0.1, -0.2, 0.7),
+    "Coral_TubeB_005": (0.1, 0.02, -0.35),
+    "Coral_TubeB_006": (0.0, 0.0, 0),
+    "Coral_TubeB_007": (-0.04, 0.14, 0.35),
+    "Coral_TubeB_008": (0.02, -0.26, 0.35),
 }
 BRANCH_A_HEIGHT = 0.52
 BRANCH_B_HEIGHT = 0.28
@@ -296,24 +319,66 @@ for i in range(BOULDER_COUNT):
     )
     rock_objects.append(obj)
 
+# Finish terrain before any decoration placement; roots must use the saved mesh.
+seen = set()
+for obj in rock_objects:
+    if obj.data in seen:
+        continue
+    seen.add(obj.data)
+    if obj.name == 'Sand':
+        refine_sand(obj.data)
+    else:
+        refine_rock(obj.data, main=obj.name == 'Rock_Peak_001')
+
 bpy.context.view_layer.update()
-depsgraph = bpy.context.evaluated_depsgraph_get()
+terrain_vertices, terrain_faces = [], []
+for obj in rock_objects:
+    offset = len(terrain_vertices)
+    terrain_vertices.extend(obj.matrix_world @ v.co for v in obj.data.vertices)
+    terrain_faces.extend([offset + i for i in p.vertices] for p in obj.data.polygons)
+terrain = BVHTree.FromPolygons(terrain_vertices, terrain_faces)
 
 
 def ground_z(x, y):
     """Highest rock/sand surface, unaffected by already placed decorations."""
-    heights = [0.0]
-    ray_origin = Vector((x, y, REEF_PEAK_HEIGHT + 5.0))
-    ray_direction = Vector((0, 0, -1))
-    for obj in rock_objects:
-        inverse = obj.matrix_world.inverted()
-        hit, point, _normal, _index = obj.ray_cast(
-            inverse @ ray_origin,
-            (inverse.to_3x3() @ ray_direction).normalized(),
-        )
-        if hit:
-            heights.append((obj.matrix_world @ point).z)
-    return max(heights)
+    point, _normal, _index, _distance = terrain.ray_cast(
+        Vector((x, y, REEF_PEAK_HEIGHT + 5.0)), Vector((0, 0, -1)))
+    if point is None:
+        raise ValueError(f'No terrain below decoration at {(x, y)}')
+    return point.z
+
+
+def seat_tube_cluster(obj):
+    """Seat every tube base, preserving shared mesh data and visible openings.
+
+    Each tube is a closed connected component. A shallow 3 mm embed at the
+    weakest supported base avoids the old center-only placement on ledge edges.
+    """
+    bm = bmesh.new()
+    bm.from_mesh(obj.data)
+    remaining = set(bm.verts)
+    transform = obj.rotation_euler.to_matrix() @ Matrix.Diagonal(obj.scale)
+    supports, lips = [], []
+    while remaining:
+        stack = [remaining.pop()]
+        component = []
+        while stack:
+            vertex = stack.pop()
+            component.append(vertex)
+            for edge in vertex.link_edges:
+                other = edge.other_vert(vertex)
+                if other in remaining:
+                    remaining.remove(other)
+                    stack.append(other)
+        low = min(v.co.z for v in component)
+        high = max(v.co.z for v in component)
+        roots = [transform @ v.co for v in component if v.co.z < low + .0001]
+        lips.extend(transform @ v.co for v in component if v.co.z > high - .0001)
+        supports.append(max(ground_z(obj.location.x + p.x, obj.location.y + p.y) - p.z for p in roots))
+    bm.free()
+    obj.location.z = min(supports) - .003
+    clearance = min(obj.location.z + p.z - ground_z(obj.location.x + p.x, obj.location.y + p.y) for p in lips)
+    assert clearance >= .045, (obj.name, 'buried tube opening', clearance)
 
 
 # --------------------------------------------------------------------------
@@ -333,10 +398,15 @@ for key, places in CORALS.items():
         s = rng.uniform(0.9, 1.1)
         if key == "Coral_BranchA" and i == 1:
             s *= 0.85
-        new_object(
-            f"{key}_{i + 1:03d}", coral_meshes[key], parent=reef_root,
-            location=(x, y, ground_z(x, y)), rotation=(0, 0, rng.uniform(0, math.tau)), scale=(s, s, s),
+        name = f"{key}_{i + 1:03d}"
+        dx, dy, yaw = DECORATION_ADJUSTMENTS.get(name, (0, 0, 0))
+        x, y = x + dx, y + dy
+        obj = new_object(
+            name, coral_meshes[key], parent=reef_root,
+            location=(x, y, ground_z(x, y) - .003), rotation=(0, 0, rng.uniform(0, math.tau) + yaw), scale=(s, s, s),
         )
+        if key.startswith('Coral_Tube'):
+            seat_tube_cluster(obj)
 
 # --------------------------------------------------------------------------
 # Build: kelp
@@ -352,9 +422,12 @@ for i in range(total_kelp):
     d = rng.uniform(*KELP_RING)
     x, y = math.cos(ang) * d * 0.95, math.sin(ang) * d * 0.70
     s = rng.uniform(KELP_HEIGHT[0], KELP_HEIGHT[1]) / 0.40
+    name = f"{key}_{i // 2 + 1:03d}"
+    dx, dy, yaw = DECORATION_ADJUSTMENTS.get(name, (0, 0, 0))
+    x, y = x + dx, y + dy
     new_object(
-        f"{key}_{i // 2 + 1:03d}", kelp_meshes[key], parent=reef_root,
-        location=(x, y, ground_z(x, y)), rotation=(0, 0, rng.uniform(0, math.tau)), scale=(s, s, s),
+        name, kelp_meshes[key], parent=reef_root,
+        location=(x, y, ground_z(x, y) - .003), rotation=(0, 0, rng.uniform(0, math.tau) + yaw), scale=(s, s, s),
     )
 
 # --------------------------------------------------------------------------
@@ -395,18 +468,8 @@ for key, count in FISH_COUNTS.items():
         fish_index += 1
 
 # --------------------------------------------------------------------------
-# Surface finish and the single palette material
+# Single palette material (terrain was finished before decoration placement)
 # --------------------------------------------------------------------------
-seen = set()
-for obj in scene.objects:
-    if obj.type != 'MESH' or obj.data in seen:
-        continue
-    seen.add(obj.data)
-    if obj.name.startswith('Rock_'):
-        refine_rock(obj.data, main=obj.name == 'Rock_Peak_001')
-    elif obj.name == 'Sand':
-        refine_sand(obj.data)
-
 build_palette(scene, Path(ROOT) / 'blender/textures/reef_palette.png')
 # Remove prototype data released by organic union operations.
 for mesh in list(bpy.data.meshes):

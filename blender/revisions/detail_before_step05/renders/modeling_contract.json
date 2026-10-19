@@ -1,0 +1,53 @@
+{
+  "stage": "Step 04 detailed model with visual checks",
+  "reference": "references/final-concept.png",
+  "base_source": "blender/scripts/01_graybox.py",
+  "critical": [
+    "preserve one summit and approved broad base",
+    "refine every visible family",
+    "keep animated groups and linked duplicates",
+    "single packed 64x64 atlas, one Principled material"
+  ],
+  "budgets": {
+    "scene_triangles_max": 100000,
+    "unique_triangles_max": 40000,
+    "fish_variant_triangles_max": 400
+  },
+  "style": "explicitly low-poly, colorful toy-like coral reef",
+  "character": "static suited diver, continuous wetsuit, separate tank/mask/fins, no Blender animation",
+  "reference_observations": [
+    "single blue rock peak offset right",
+    "warm sand on terraces and seabed",
+    "red branching coral below summit, hollow colored tubes and ruffled plates",
+    "green curved kelp",
+    "diver with fitted yellow cylinder, goggles, bent limbs and blue fins"
+  ],
+  "uncertainties": [
+    "rear anatomy and hidden reef surfaces inferred from the supplied concept; no calibrated multiview reference"
+  ],
+  "deliverables": [
+    "blender/scripts/02_detail.py",
+    "blender/scripts/detail_geometry.py",
+    "blender/scenes/02_detail.blend",
+    "blender/textures/reef_palette.png",
+    "blender/renders/final/"
+  ],
+  "export": "GLB production export belongs to Step 06; this stage validates authored geometry and exportable material setup",
+  "render": {
+    "views": [
+      "hero",
+      "front",
+      "left",
+      "right",
+      "back",
+      "top"
+    ],
+    "resolution": [
+      1024,
+      768
+    ],
+    "engine": "Eevee",
+    "lighting": "three area softboxes",
+    "color_management": "AgX medium high contrast"
+  }
+}

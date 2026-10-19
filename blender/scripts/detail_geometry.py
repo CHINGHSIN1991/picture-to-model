@@ -390,6 +390,11 @@ def refine_sand(mesh):
         edge_distance = max(0, 1 - math.sqrt((v.co.x / 2.25) ** 2 + (v.co.y / 1.8) ** 2))
         v.co.z = -.012 * edge_distance * (.5 + .5 * math.sin(v.co.x * 5 + v.co.y * 4))
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    # An open surface has no enclosed volume to establish outward winding.
+    # Explicitly face the visible seabed upward (also correct with backface culling).
+    for face in bm.faces:
+        if face.normal.z < 0:
+            face.normal_flip()
     bm.to_mesh(mesh); bm.free()
     for p in mesh.polygons:
         p.material_index = C['sand']
