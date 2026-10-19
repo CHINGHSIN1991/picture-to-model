@@ -1,0 +1,523 @@
+{
+  "names_preserved": true,
+  "parenting_preserved": true,
+  "non_sand_geometry_and_uvs_preserved": true,
+  "sand_vertex_positions_preserved": true,
+  "sand_winding_repair": "Open seabed explicitly faces upward; position and triangle count remain unchanged.",
+  "shared_mesh_assignments_preserved": true,
+  "material_assignments_preserved": true,
+  "non_decoration_transforms_preserved": true,
+  "aggregate_bounds_within_1cm_preserved": true,
+  "bounds_tolerance_reason": "Allow shallow root embedding below the uneven seabed; X/Y extent and top height are unchanged.",
+  "before_bounds": {
+    "min": [
+      -2.25,
+      -1.7999999523162842,
+      -0.01509133167564869
+    ],
+    "max": [
+      2.25,
+      1.7999999523162842,
+      2.268237829208374
+    ]
+  },
+  "after_bounds": {
+    "min": [
+      -2.25,
+      -1.7999999523162842,
+      -0.020220886915922165
+    ],
+    "max": [
+      2.25,
+      1.7999999523162842,
+      2.268237829208374
+    ]
+  },
+  "changed_placements": [
+    "Coral_Brain_001",
+    "Coral_BranchA_001",
+    "Coral_BranchA_002",
+    "Coral_BranchB_001",
+    "Coral_BranchB_002",
+    "Coral_BranchB_003",
+    "Coral_BranchB_004",
+    "Coral_BranchB_005",
+    "Coral_BranchB_006",
+    "Coral_Bush_001",
+    "Coral_Bush_002",
+    "Coral_Bush_003",
+    "Coral_Bush_004",
+    "Coral_Bush_005",
+    "Coral_Bush_006",
+    "Coral_Plate_001",
+    "Coral_Plate_002",
+    "Coral_Plate_003",
+    "Coral_Plate_004",
+    "Coral_TubeA_001",
+    "Coral_TubeA_002",
+    "Coral_TubeA_003",
+    "Coral_TubeA_004",
+    "Coral_TubeA_005",
+    "Coral_TubeA_006",
+    "Coral_TubeA_007",
+    "Coral_TubeA_008",
+    "Coral_TubeB_001",
+    "Coral_TubeB_002",
+    "Coral_TubeB_003",
+    "Coral_TubeB_004",
+    "Coral_TubeB_005",
+    "Coral_TubeB_006",
+    "Coral_TubeB_007",
+    "Coral_TubeB_008",
+    "Kelp_A_001",
+    "Kelp_A_002",
+    "Kelp_A_003",
+    "Kelp_A_004",
+    "Kelp_A_005",
+    "Kelp_A_006",
+    "Kelp_A_007",
+    "Kelp_A_008",
+    "Kelp_B_001",
+    "Kelp_B_002",
+    "Kelp_B_003",
+    "Kelp_B_004",
+    "Kelp_B_005",
+    "Kelp_B_006",
+    "Kelp_B_007",
+    "Kelp_B_008"
+  ],
+  "baseline_contact_summary": {
+    "decoration_surface_intersections": [
+      {
+        "objects": [
+          "Coral_Brain_001",
+          "Coral_TubeA_001"
+        ],
+        "triangle_pairs": 82
+      },
+      {
+        "objects": [
+          "Coral_BranchA_001",
+          "Coral_Bush_003"
+        ],
+        "triangle_pairs": 155
+      },
+      {
+        "objects": [
+          "Coral_BranchB_003",
+          "Coral_TubeA_007"
+        ],
+        "triangle_pairs": 199
+      },
+      {
+        "objects": [
+          "Coral_BranchB_006",
+          "Coral_TubeA_002"
+        ],
+        "triangle_pairs": 90
+      },
+      {
+        "objects": [
+          "Coral_Plate_001",
+          "Coral_TubeA_002"
+        ],
+        "triangle_pairs": 38
+      },
+      {
+        "objects": [
+          "Coral_Plate_001",
+          "Coral_TubeB_004"
+        ],
+        "triangle_pairs": 12
+      },
+      {
+        "objects": [
+          "Coral_Plate_003",
+          "Coral_TubeA_001"
+        ],
+        "triangle_pairs": 16
+      },
+      {
+        "objects": [
+          "Coral_Plate_003",
+          "Kelp_A_006"
+        ],
+        "triangle_pairs": 46
+      },
+      {
+        "objects": [
+          "Coral_Plate_004",
+          "Coral_TubeA_004"
+        ],
+        "triangle_pairs": 56
+      },
+      {
+        "objects": [
+          "Coral_Plate_004",
+          "Coral_TubeB_003"
+        ],
+        "triangle_pairs": 188
+      },
+      {
+        "objects": [
+          "Coral_TubeA_006",
+          "Coral_TubeB_007"
+        ],
+        "triangle_pairs": 187
+      }
+    ],
+    "unsupported_components": [
+      {
+        "object": "Coral_Brain_001",
+        "component": 0,
+        "minimum_root_gap_m": 0.001392364501953125,
+        "maximum_root_gap_m": 0.001392364501953125
+      },
+      {
+        "object": "Coral_TubeA_001",
+        "component": 4,
+        "minimum_root_gap_m": 0.03888106346130371,
+        "maximum_root_gap_m": 0.1281130313873291,
+        "minimum_lip_clearance_m": 0.30888450145721436
+      },
+      {
+        "object": "Coral_TubeA_001",
+        "component": 5,
+        "minimum_root_gap_m": 0.08363795280456543,
+        "maximum_root_gap_m": 0.21043753623962402,
+        "minimum_lip_clearance_m": 0.33202064037323
+      },
+      {
+        "object": "Coral_TubeA_001",
+        "component": 6,
+        "minimum_root_gap_m": 0.018604516983032227,
+        "maximum_root_gap_m": 0.12831473350524902,
+        "minimum_lip_clearance_m": 0.381780743598938
+      },
+      {
+        "object": "Coral_TubeA_002",
+        "component": 0,
+        "minimum_root_gap_m": 0.011480331420898438,
+        "maximum_root_gap_m": 0.0698695182800293,
+        "minimum_lip_clearance_m": 0.2733752727508545
+      },
+      {
+        "object": "Coral_TubeA_002",
+        "component": 1,
+        "minimum_root_gap_m": 0.0431056022644043,
+        "maximum_root_gap_m": 0.12073945999145508,
+        "minimum_lip_clearance_m": 0.2880241870880127
+      },
+      {
+        "object": "Coral_TubeA_002",
+        "component": 2,
+        "minimum_root_gap_m": 0.006145477294921875,
+        "maximum_root_gap_m": 0.12496614456176758,
+        "minimum_lip_clearance_m": 0.2224271297454834
+      },
+      {
+        "object": "Coral_TubeA_003",
+        "component": 4,
+        "minimum_root_gap_m": 0.06504780054092407,
+        "maximum_root_gap_m": 0.07327276468276978,
+        "minimum_lip_clearance_m": 0.33845627307891846
+      },
+      {
+        "object": "Coral_TubeA_004",
+        "component": 2,
+        "minimum_root_gap_m": 0.09234261512756348,
+        "maximum_root_gap_m": 0.19702839851379395,
+        "minimum_lip_clearance_m": 0.3127358853816986
+      },
+      {
+        "object": "Coral_TubeA_005",
+        "component": 0,
+        "minimum_root_gap_m": 0.07037177681922913,
+        "maximum_root_gap_m": 0.16682544350624084,
+        "minimum_lip_clearance_m": 0.4079204797744751
+      },
+      {
+        "object": "Coral_TubeA_005",
+        "component": 6,
+        "minimum_root_gap_m": 0.07033362984657288,
+        "maximum_root_gap_m": 0.15364089608192444,
+        "minimum_lip_clearance_m": 0.4775266647338867
+      },
+      {
+        "object": "Coral_TubeA_008",
+        "component": 1,
+        "minimum_root_gap_m": 0.07015112042427063,
+        "maximum_root_gap_m": 0.41692283749580383,
+        "minimum_lip_clearance_m": 0.32515889406204224
+      },
+      {
+        "object": "Coral_TubeA_008",
+        "component": 2,
+        "minimum_root_gap_m": 0.022693902254104614,
+        "maximum_root_gap_m": 0.4042203724384308,
+        "minimum_lip_clearance_m": 0.24409258365631104
+      },
+      {
+        "object": "Coral_TubeB_002",
+        "component": 5,
+        "minimum_root_gap_m": 0.03185087442398071,
+        "maximum_root_gap_m": 0.17045074701309204,
+        "minimum_lip_clearance_m": 0.17662709951400757
+      },
+      {
+        "object": "Coral_TubeB_008",
+        "component": 5,
+        "minimum_root_gap_m": 0.03872239589691162,
+        "maximum_root_gap_m": 0.16389310359954834,
+        "minimum_lip_clearance_m": 0.18754363059997559
+      },
+      {
+        "object": "Kelp_A_002",
+        "component": 0,
+        "minimum_root_gap_m": 0.0019183158874511719,
+        "maximum_root_gap_m": 0.0019731521606445312
+      },
+      {
+        "object": "Kelp_A_002",
+        "component": 1,
+        "minimum_root_gap_m": 0.0019183158874511719,
+        "maximum_root_gap_m": 0.0019731521606445312
+      },
+      {
+        "object": "Kelp_A_002",
+        "component": 2,
+        "minimum_root_gap_m": 0.0019183158874511719,
+        "maximum_root_gap_m": 0.0019731521606445312
+      },
+      {
+        "object": "Kelp_A_007",
+        "component": 0,
+        "minimum_root_gap_m": 0.002533435821533203,
+        "maximum_root_gap_m": 0.0026841163635253906
+      },
+      {
+        "object": "Kelp_A_007",
+        "component": 1,
+        "minimum_root_gap_m": 0.002533435821533203,
+        "maximum_root_gap_m": 0.0026841163635253906
+      },
+      {
+        "object": "Kelp_A_007",
+        "component": 2,
+        "minimum_root_gap_m": 0.002533435821533203,
+        "maximum_root_gap_m": 0.0026841163635253906
+      },
+      {
+        "object": "Kelp_B_004",
+        "component": 0,
+        "minimum_root_gap_m": 0.0018262863159179688,
+        "maximum_root_gap_m": 0.0019216537475585938
+      },
+      {
+        "object": "Kelp_B_004",
+        "component": 1,
+        "minimum_root_gap_m": 0.0018262863159179688,
+        "maximum_root_gap_m": 0.0019216537475585938
+      },
+      {
+        "object": "Kelp_B_004",
+        "component": 2,
+        "minimum_root_gap_m": 0.0018262863159179688,
+        "maximum_root_gap_m": 0.0019216537475585938
+      },
+      {
+        "object": "Kelp_B_005",
+        "component": 0,
+        "minimum_root_gap_m": 0.0020112991333007812,
+        "maximum_root_gap_m": 0.0020623207092285156
+      },
+      {
+        "object": "Kelp_B_005",
+        "component": 1,
+        "minimum_root_gap_m": 0.0020112991333007812,
+        "maximum_root_gap_m": 0.0020623207092285156
+      },
+      {
+        "object": "Kelp_B_005",
+        "component": 2,
+        "minimum_root_gap_m": 0.0020112991333007812,
+        "maximum_root_gap_m": 0.0020623207092285156
+      },
+      {
+        "object": "Kelp_B_006",
+        "component": 0,
+        "minimum_root_gap_m": 0.0015606880187988281,
+        "maximum_root_gap_m": 0.0016508102416992188
+      },
+      {
+        "object": "Kelp_B_006",
+        "component": 1,
+        "minimum_root_gap_m": 0.0015606880187988281,
+        "maximum_root_gap_m": 0.0016508102416992188
+      },
+      {
+        "object": "Kelp_B_006",
+        "component": 2,
+        "minimum_root_gap_m": 0.0015606880187988281,
+        "maximum_root_gap_m": 0.0016508102416992188
+      },
+      {
+        "object": "Kelp_B_007",
+        "component": 0,
+        "minimum_root_gap_m": 0.0018000602722167969,
+        "maximum_root_gap_m": 0.0018901824951171875
+      },
+      {
+        "object": "Kelp_B_007",
+        "component": 1,
+        "minimum_root_gap_m": 0.0018000602722167969,
+        "maximum_root_gap_m": 0.0018901824951171875
+      },
+      {
+        "object": "Kelp_B_007",
+        "component": 2,
+        "minimum_root_gap_m": 0.0018000602722167969,
+        "maximum_root_gap_m": 0.0018901824951171875
+      },
+      {
+        "object": "Kelp_B_008",
+        "component": 0,
+        "minimum_root_gap_m": 0.0026140213012695312,
+        "maximum_root_gap_m": 0.002704143524169922
+      },
+      {
+        "object": "Kelp_B_008",
+        "component": 1,
+        "minimum_root_gap_m": 0.0026140213012695312,
+        "maximum_root_gap_m": 0.002704143524169922
+      },
+      {
+        "object": "Kelp_B_008",
+        "component": 2,
+        "minimum_root_gap_m": 0.0026140213012695312,
+        "maximum_root_gap_m": 0.002704143524169922
+      }
+    ],
+    "buried_tube_openings": [
+      {
+        "object": "Coral_TubeA_003",
+        "component": 0,
+        "minimum_root_gap_m": -0.20871824026107788,
+        "maximum_root_gap_m": -0.09207719564437866,
+        "minimum_lip_clearance_m": -0.05804938077926636
+      },
+      {
+        "object": "Coral_TubeA_004",
+        "component": 4,
+        "minimum_root_gap_m": -0.19007611274719238,
+        "maximum_root_gap_m": 0.007634878158569336,
+        "minimum_lip_clearance_m": -0.00861746072769165
+      },
+      {
+        "object": "Coral_TubeA_004",
+        "component": 5,
+        "minimum_root_gap_m": -0.20868611335754395,
+        "maximum_root_gap_m": -0.011591672897338867,
+        "minimum_lip_clearance_m": -0.05315876007080078
+      },
+      {
+        "object": "Coral_TubeA_006",
+        "component": 1,
+        "minimum_root_gap_m": -0.33063921332359314,
+        "maximum_root_gap_m": -0.02431139349937439,
+        "minimum_lip_clearance_m": -0.10297727584838867
+      },
+      {
+        "object": "Coral_TubeA_006",
+        "component": 2,
+        "minimum_root_gap_m": -0.3706448972225189,
+        "maximum_root_gap_m": -0.03821501135826111,
+        "minimum_lip_clearance_m": -0.1962515115737915
+      },
+      {
+        "object": "Coral_TubeA_008",
+        "component": 4,
+        "minimum_root_gap_m": -0.3062245547771454,
+        "maximum_root_gap_m": -0.11489459872245789,
+        "minimum_lip_clearance_m": -0.07855439186096191
+      },
+      {
+        "object": "Coral_TubeA_008",
+        "component": 5,
+        "minimum_root_gap_m": -0.33380767703056335,
+        "maximum_root_gap_m": -0.12816736102104187,
+        "minimum_lip_clearance_m": -0.12014740705490112
+      },
+      {
+        "object": "Coral_TubeB_002",
+        "component": 1,
+        "minimum_root_gap_m": -0.057099759578704834,
+        "maximum_root_gap_m": -0.009493768215179443,
+        "minimum_lip_clearance_m": 0.037899553775787354
+      },
+      {
+        "object": "Coral_TubeB_002",
+        "component": 3,
+        "minimum_root_gap_m": -0.09070199728012085,
+        "maximum_root_gap_m": -0.009413659572601318,
+        "minimum_lip_clearance_m": 0.007532596588134766
+      },
+      {
+        "object": "Coral_TubeB_004",
+        "component": 5,
+        "minimum_root_gap_m": -0.11033129692077637,
+        "maximum_root_gap_m": -0.010834932327270508,
+        "minimum_lip_clearance_m": -0.0402674674987793
+      },
+      {
+        "object": "Coral_TubeB_005",
+        "component": 0,
+        "minimum_root_gap_m": -0.30026086419820786,
+        "maximum_root_gap_m": 0.0571238175034523,
+        "minimum_lip_clearance_m": -0.15913447737693787
+      },
+      {
+        "object": "Coral_TubeB_005",
+        "component": 1,
+        "minimum_root_gap_m": -0.18562110513448715,
+        "maximum_root_gap_m": 0.057063259184360504,
+        "minimum_lip_clearance_m": -0.10108229517936707
+      },
+      {
+        "object": "Coral_TubeB_005",
+        "component": 5,
+        "minimum_root_gap_m": -0.3374865874648094,
+        "maximum_root_gap_m": 0.05763021856546402,
+        "minimum_lip_clearance_m": -0.2030147761106491
+      },
+      {
+        "object": "Coral_TubeB_007",
+        "component": 4,
+        "minimum_root_gap_m": -0.14340776205062866,
+        "maximum_root_gap_m": -0.015830934047698975,
+        "minimum_lip_clearance_m": -0.10768473148345947
+      },
+      {
+        "object": "Coral_TubeB_007",
+        "component": 5,
+        "minimum_root_gap_m": -0.26698583364486694,
+        "maximum_root_gap_m": -0.018567979335784912,
+        "minimum_lip_clearance_m": -0.18510866165161133
+      },
+      {
+        "object": "Coral_TubeB_008",
+        "component": 1,
+        "minimum_root_gap_m": -0.09492838382720947,
+        "maximum_root_gap_m": 0.010906100273132324,
+        "minimum_lip_clearance_m": 0.015803217887878418
+      },
+      {
+        "object": "Coral_TubeB_008",
+        "component": 3,
+        "minimum_root_gap_m": -0.11667263507843018,
+        "maximum_root_gap_m": -0.042269349098205566,
+        "minimum_lip_clearance_m": 0.008781075477600098
+      }
+    ]
+  }
+}

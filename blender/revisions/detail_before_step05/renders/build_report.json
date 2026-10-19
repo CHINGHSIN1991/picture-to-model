@@ -1,0 +1,54 @@
+{
+  "blender": "5.2.0 LTS",
+  "engine": "BLENDER_EEVEE",
+  "resolution": [
+    1024,
+    768
+  ],
+  "color_management": "AgX / Medium High Contrast",
+  "mesh_objects": 91,
+  "unique_meshes": 26,
+  "triangles": 49420,
+  "unique_triangles": 16690,
+  "groups": {
+    "sand": {
+      "objects": 1,
+      "triangles": 768,
+      "unique_triangles": 768
+    },
+    "rocks": {
+      "objects": 7,
+      "triangles": 2272,
+      "unique_triangles": 2272
+    },
+    "boulders": {
+      "objects": 12,
+      "triangles": 2544,
+      "unique_triangles": 424
+    },
+    "coral": {
+      "objects": 35,
+      "triangles": 32388,
+      "unique_triangles": 7098
+    },
+    "kelp": {
+      "objects": 16,
+      "triangles": 3648,
+      "unique_triangles": 456
+    },
+    "diver": {
+      "objects": 5,
+      "triangles": 5340,
+      "unique_triangles": 5180
+    },
+    "fish": {
+      "objects": 15,
+      "triangles": 2460,
+      "unique_triangles": 492
+    }
+  },
+  "materials": 1,
+  "texture": "blender/textures/reef_palette.png",
+  "preview_only": false,
+  "checks": "budget, single summit, hierarchy, shared variants and palette UVs passed"
+}

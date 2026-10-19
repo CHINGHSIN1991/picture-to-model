@@ -1,0 +1,65 @@
+{
+  "stage": "Step 05 critique before repair",
+  "reference": "references/final-concept.png",
+  "invariants": [
+    "single summit 1.65m",
+    "rock and sand geometry",
+    "diver and fish transforms",
+    "names and parents",
+    "one packed atlas/material",
+    "shared mesh per variant",
+    "same cameras/lighting"
+  ],
+  "requirements": [
+    {
+      "id": "silhouette",
+      "status": "pass",
+      "evidence": "renders/contact_sheet.png",
+      "observation": "One central peak; lower shoulders and coral silhouettes stay below summit."
+    },
+    {
+      "id": "proportions",
+      "status": "pass",
+      "evidence": "renders/hero.png",
+      "observation": "Approved graybox proportions retained; intentionally small fish and 0.6m diver."
+    },
+    {
+      "id": "materials_lighting",
+      "status": "pass",
+      "evidence": "renders/contact_sheet.png",
+      "observation": "Coral families and facets distinguishable in all six views; no clipped highlights."
+    },
+    {
+      "id": "required_parts",
+      "status": "pass",
+      "evidence": [
+        "renders/contact_sheet.png",
+        "renders/diver_side.png"
+      ],
+      "observation": "All planned families and diver equipment visible."
+    },
+    {
+      "id": "ground_contact",
+      "status": "fail",
+      "evidence": [
+        "renders/left.png",
+        "renders/right.png",
+        "renders/root_contacts.json"
+      ],
+      "observation": "Eight tube clusters contain wholly unsupported tube bases, worst minimum root gap 0.09234m. Grounding only cluster origin ignores footprint; placement also precedes surface refinement."
+    },
+    {
+      "id": "normals_intersections",
+      "status": "unclear",
+      "evidence": "renders/contact_sheet.png",
+      "observation": "No obvious backfaces, but component winding and burial need geometric audit."
+    },
+    {
+      "id": "structure_budget",
+      "status": "pass",
+      "evidence": "renders/metrics.json",
+      "observation": "49420 scene triangles; 16690 unique; linked variants and hierarchy retained."
+    }
+  ],
+  "optional_tool_limit": "Rust quality_report runtime unavailable; use independent Blender inspector and source-owned geometric audit."
+}

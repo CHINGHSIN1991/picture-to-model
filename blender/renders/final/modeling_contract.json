@@ -1,12 +1,15 @@
 {
-  "stage": "Step 04 detailed model with visual checks",
+  "stage": "Step 05 render, inspect and contact repair",
   "reference": "references/final-concept.png",
   "base_source": "blender/scripts/01_graybox.py",
   "critical": [
     "preserve one summit and approved broad base",
     "refine every visible family",
     "keep animated groups and linked duplicates",
-    "single packed 64x64 atlas, one Principled material"
+    "single packed 64x64 atlas, one Principled material",
+    "root every coral/kelp component on the final terrain",
+    "keep tube openings visible and eliminate decoration surface intersections",
+    "upward-facing open seabed"
   ],
   "budgets": {
     "scene_triangles_max": 100000,
@@ -30,7 +33,8 @@
     "blender/scripts/detail_geometry.py",
     "blender/scenes/02_detail.blend",
     "blender/textures/reef_palette.png",
-    "blender/renders/final/"
+    "blender/renders/final/",
+    "blender/scripts/03_inspect.py"
   ],
   "export": "GLB production export belongs to Step 06; this stage validates authored geometry and exportable material setup",
   "render": {

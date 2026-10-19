@@ -1,0 +1,151 @@
+{
+  "date": "2026-10-19",
+  "stage": "Step 05",
+  "review_type": "Separate creator self-critique followed by independent Blender asset inspection",
+  "contract": "modeling_contract.json",
+  "candidate_evidence": "blender/revisions/detail_before_step05/",
+  "candidate_critique": "blender/revisions/detail_before_step05/renders/critique.json",
+  "selected_defects": [
+    "unsupported tube roots",
+    "tube openings buried by steep terrain",
+    "decoration surface intersections",
+    "downward-facing open sand normals"
+  ],
+  "source_cause": "Original placement sampled only the cluster origin before terrain refinement; this ignored the separate tube base footprints. Open-surface normal recalculation did not guarantee upward sand winding.",
+  "source_repair": [
+    "Finish terrain before placement; raycast exact final terrain without a z=0 clamp.",
+    "Use fixed, reviewed local offsets/yaws; seat each tube cluster from its weakest-supported base with 3mm embedding and assert lip clearance >=45mm.",
+    "Move one bush and one kelp to remove remaining surface crossings.",
+    "Explicitly orient sand faces upward."
+  ],
+  "requirement_ledger": [
+    {
+      "id": "silhouette",
+      "before": "pass",
+      "after": "pass",
+      "evidence": [
+        "hero.png",
+        "contact_sheet.png",
+        "scene_comparison.json"
+      ],
+      "finding": "Single 1.65m peak and broad base preserved; actual rock geometry unchanged. Highest coral 1.394m remains 0.256m below summit."
+    },
+    {
+      "id": "proportions",
+      "before": "pass",
+      "after": "pass",
+      "evidence": [
+        "hero.png",
+        "left.png",
+        "right.png",
+        "top.png"
+      ],
+      "finding": "Diver, fish and rock proportions unchanged. Two tube clusters moved onto upper ledges; others repositioned locally for fit, without new peaks."
+    },
+    {
+      "id": "materials_lighting",
+      "before": "pass",
+      "after": "pass",
+      "evidence": [
+        "contact_sheet.png",
+        "render_manifest.json"
+      ],
+      "finding": "Distinct warm corals, blue facets and green kelp remain readable under the same three-light Eevee setup."
+    },
+    {
+      "id": "required_parts",
+      "before": "pass",
+      "after": "pass",
+      "evidence": [
+        "contact_sheet.png",
+        "diver_side.png",
+        "hierarchy.txt"
+      ],
+      "finding": "All 91 mesh objects retained; coral families, kelp, fish and diver equipment visible."
+    },
+    {
+      "id": "ground_contact",
+      "before": "fail",
+      "after": "pass",
+      "evidence": [
+        "left.png",
+        "right.png",
+        "back.png",
+        "technical_checks.json"
+      ],
+      "finding": "171 sampled component bases have contact; no wholly unsupported tube base remains. Tube lips clear final terrain by at least 0.045m."
+    },
+    {
+      "id": "normals",
+      "before": "fail",
+      "after": "pass",
+      "evidence": [
+        "technical_checks.json",
+        "hero.png"
+      ],
+      "finding": "Open sand mesh explicitly wound upward; no inconsistent manifold winding or inward closed component detected."
+    },
+    {
+      "id": "intersections",
+      "before": "fail",
+      "after": "pass",
+      "evidence": [
+        "top.png",
+        "left.png",
+        "back.png",
+        "technical_checks.json"
+      ],
+      "finding": "11 baseline decoration-pair surface overlaps reduced to zero. Intentional rooted terrain embedding and assembled diver joints are excluded from decoration-pair testing."
+    },
+    {
+      "id": "structure_budget",
+      "before": "pass",
+      "after": "pass",
+      "evidence": [
+        "metrics.json",
+        "scene_comparison.json"
+      ],
+      "finding": "49420 scene triangles, 16690 unique, 26 shared/unique meshes, 1 packed atlas/material; names, parents, non-decoration transforms and non-sand geometry/UVs preserved."
+    }
+  ],
+  "invariant_results": {
+    "names_preserved": true,
+    "parenting_preserved": true,
+    "non_sand_geometry_and_uvs_preserved": true,
+    "sand_vertex_positions_preserved": true,
+    "shared_mesh_assignments_preserved": true,
+    "material_assignments_preserved": true,
+    "non_decoration_transforms_preserved": true,
+    "aggregate_bounds_within_1cm_preserved": true
+  },
+  "bounds_note": "Aggregate X/Y and upper Z bounds unchanged; shallow below-sand root embedding lowers the lower Z bound by about 5.1mm, within the recorded 1cm tolerance.",
+  "before": {
+    "decoration_surface_intersections": 11,
+    "unsupported_components": 36,
+    "buried_tube_openings": 17
+  },
+  "after": {
+    "unsupported_components": 0,
+    "buried_tube_openings": 0,
+    "decoration_surface_intersections": 0
+  },
+  "tool_limit": "Optional Rust quality_report/compare_scenes runtime is not built. Used Blender inspector plus source-owned read-only mesh, BVH contact and snapshot regression audits; no runtime installation required.",
+  "evidence_limits": [
+    "Visual review uses the single supplied concept; rear surfaces are inferred, not matched to calibrated reference views.",
+    "Root sampling and pairwise decoration BVH overlap are bounded checks, not a mathematical proof against every self-intersection.",
+    "Production GLB export, fresh import and Three.js validation remain Step 06\u201307."
+  ],
+  "final_evidence": [
+    "blender/scenes/02_detail.blend",
+    "blender/renders/final/contact_sheet.png",
+    "blender/renders/final/technical_checks.json",
+    "blender/renders/final/metrics.json",
+    "blender/renders/final/scene_comparison.json"
+  ],
+  "source_sha256": {
+    "blender/scripts/02_detail.py": "6d8610dc208b1d7d4577ca0e8ad72608627f6e9e3ca887f270455353fe68d888",
+    "blender/scripts/detail_geometry.py": "aed1dc86e86835a90c3f886f4058ce067191f39dce46057ae8f3c96b1e9b752d",
+    "blender/scripts/03_inspect.py": "84df411203fd5dfbf88a36ea39dde336acd43b378b98683093c7e13582790d65"
+  },
+  "decision": "retain_repair"
+}

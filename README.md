@@ -47,7 +47,7 @@ blender --background --python blender/scripts/smoke-test.py
 會產生 `blender/renders/smoke-test.png` 與 `blender/scenes/smoke-test.blend`。
 經 Codex + Blender Agent Studio 的版本請用 [roadmap/00-environment-setup.md](roadmap/00-environment-setup.md) 內的 prompt。
 
-## 細部模型（Step 04）
+## 細部模型與渲染檢查（Step 04–05）
 
 ```bash
 blender --background --factory-startup --threads 2 --python-exit-code 1 --python blender/scripts/02_detail.py
@@ -57,6 +57,23 @@ blender --background --factory-startup --threads 2 --python-exit-code 1 --python
 `blender/scenes/02_detail.blend`、`blender/textures/reef_palette.png`、
 `blender/renders/final/` 六視角與潛水員近照。64×64 色票會封裝在 `.blend` 內。
 面數與分組報告位於 `blender/renders/final/build_report.json`。
+
+目前已完成 Step 05：修正珊瑚／海草接合與穿插，以及沙地朝下的法線。
+單一主峰、物件階層與共用網格保留，場景維持 49,420 triangles。
+
+- [主視角](blender/renders/final/hero.png)
+- [六視角總覽](blender/renders/final/contact_sheet.png)（上排 hero / front / left，下排 right / back / top）
+- [檢查報告](blender/renders/final/final_report.md)
+- [修正前快照](blender/revisions/detail_before_step05/)
+
+重新載入場景執行接合、法線、材質與回歸檢查：
+
+```bash
+blender --background --factory-startup --threads 2 --python-exit-code 1 --python blender/scripts/03_inspect.py
+```
+
+此檢查使用保存的 Step 04 快照比對，輸出 `technical_checks.json`、
+`scene_comparison.json` 與 `render_manifest.json`。下一階段為 Step 06：匯出並驗證 GLB。
 
 ## 原則
 

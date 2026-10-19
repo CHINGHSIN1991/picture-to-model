@@ -113,6 +113,13 @@ Scene_Root
 | Fish | 長 0.08–0.12 m |
 | Diver 懸浮位置 | 礁石主峰上方約 0.4 m,偏左 0.3 m |
 
+## Step 05 接合修正（2026-10-19）
+
+岩面與沙地先完成細修，再依最終表面放置珊瑚與海草。管狀叢逐管檢查根部支撐，
+固定的位置／旋轉微調集中在 `02_detail.py` 的 `DECORATION_ADJUSTMENTS`；共用網格不拆開。
+管口至少露出岩面 4.5 cm，主峰維持 1.65 m，最高珊瑚約 1.394 m。
+沙地是開放表面，明確指定朝上的法線。完整量測與視覺紀錄見 `renders/final/final_report.md`。
+
 ## Animation plan
 
 正式的 group / mode / 參數表在 `PROJECT_SPEC.md`「動畫方式」,這裡只列 Blender 端要為它準備的結構。
