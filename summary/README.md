@@ -11,7 +11,7 @@ roadmap 是「該怎麼做」,這裡是「實際做了什麼、結果如何、�
 | 03 | [Graybox](03-graybox.md) | 完成 | 單峰山體重建,7,786 tri,91 物件 / 26 unique meshes |
 | 04 | [完整模型](04-detailed-model.md) | 完成 | 49,420 tri / 16,690 unique,一張 64×64 色票、一個材質 |
 | 05 | [Render 檢查與修正](05-render-and-inspect.md) | 完成 | 接合 / 互穿 / 法線問題歸零,回歸比對全通過 |
-| 06 | 匯出 GLB | 未開始 | — |
+| 06 | [匯出 GLB](06-export-glb.md) | 完成 | 0.625 MB、95 nodes / 26 meshes，重新匯入與 validator 通過 |
 | 07–17 | Web 階段 | 未開始 | — |
 
 ## 跨 step 的共同 takeaway

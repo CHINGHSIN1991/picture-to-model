@@ -58,7 +58,7 @@ blender --background --factory-startup --threads 2 --python-exit-code 1 --python
 `blender/renders/final/` 六視角與潛水員近照。64×64 色票會封裝在 `.blend` 內。
 面數與分組報告位於 `blender/renders/final/build_report.json`。
 
-目前已完成 Step 05：修正珊瑚／海草接合與穿插，以及沙地朝下的法線。
+Step 05 已完成：修正珊瑚／海草接合與穿插，以及沙地朝下的法線。
 單一主峰、物件階層與共用網格保留，場景維持 49,420 triangles。
 
 - [主視角](blender/renders/final/hero.png)
@@ -73,7 +73,26 @@ blender --background --factory-startup --threads 2 --python-exit-code 1 --python
 ```
 
 此檢查使用保存的 Step 04 快照比對，輸出 `technical_checks.json`、
-`scene_comparison.json` 與 `render_manifest.json`。下一階段為 Step 06：匯出並驗證 GLB。
+`scene_comparison.json` 與 `render_manifest.json`。
+
+## Web 模型匯出（Step 06）
+
+已產出 [reef.glb](export/reef.glb)：625,268 bytes（0.625 MB），49,420 triangles、
+91 個網格節點共用 26 份幾何、一個材質及一張內嵌 64×64 色票。
+重新匯入的幾何、階層、材質與九個視角均通過比對；glTF Validator 為 0 errors / 0 warnings。
+
+```bash
+blender --background --factory-startup --threads 2 --python-exit-code 1 --python blender/scripts/03_export.py
+npm ci --prefix tools/gltf
+npm --prefix tools/gltf run validate
+```
+
+- [匯出前後主視角比對](blender/renders/export/hero_comparison.png)（左：原場景，右：GLB 重新匯入）
+- [重新匯入六視角總覽](blender/renders/export/contact_sheet.png)
+- [Asset 報告](export/REPORT.md) · [Step 06 總結](summary/06-export-glb.md)
+
+匯出檔保留獨立互動節點；網頁端 instancing 與實際 draw calls 會在後續 Web 階段處理。
+下一步為 Step 07：建立最小 Three.js viewer。GLB 與渲染影像依既有 `.gitignore` 規則由腳本重建。
 
 ## 原則
 

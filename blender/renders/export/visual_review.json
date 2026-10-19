@@ -1,0 +1,53 @@
+{
+  "date": "2026-10-20",
+  "stage": "Step 06",
+  "artifact": "export/reef.glb",
+  "glb_sha256": "0abac7e125dc80f48b6c6c23b81fe5fe865725f3d6936e78903f6c36380cd2a5",
+  "opened_images": [
+    "blender/renders/export/hero_comparison.png",
+    "blender/renders/export/contact_sheet.png",
+    "blender/renders/export/diver_side.png"
+  ],
+  "comparison_layout": "hero_comparison.png: authored scene on left, fresh GLB import on right",
+  "findings": [
+    {
+      "requirement": "single-peak silhouette and proportions",
+      "status": "pass",
+      "evidence": [
+        "hero_comparison.png",
+        "contact_sheet.png"
+      ],
+      "observation": "Single summit, broad base and relative diver/fish size agree with the authored render."
+    },
+    {
+      "requirement": "material colors and normals",
+      "status": "pass",
+      "evidence": [
+        "hero_comparison.png",
+        "contact_sheet.png"
+      ],
+      "observation": "Blue facets, colored coral, kelp and sand retain their appearance; no visible missing texture, shading seam or crack."
+    },
+    {
+      "requirement": "orientation and placement",
+      "status": "pass",
+      "evidence": [
+        "contact_sheet.png"
+      ],
+      "observation": "All six views maintain the same orientation, roots and placement."
+    },
+    {
+      "requirement": "diver equipment and separate fins",
+      "status": "pass",
+      "evidence": [
+        "diver_side.png",
+        "../../../export/roundtrip_checks.json"
+      ],
+      "observation": "Body, mask, straps and fins retain shape and attachment; names/parents and independent fin nodes also verified numerically."
+    }
+  ],
+  "nine_render_comparisons_pass": true,
+  "largest_mean_absolute_rgb_delta": 1.1136593229821301e-06,
+  "decision": "accept_export",
+  "remaining_stage": "Step 07: actual browser loading and viewer interaction; runtime batching/performance belongs to later Web stages."
+}

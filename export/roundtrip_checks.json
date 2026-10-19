@@ -1,0 +1,590 @@
+{
+  "glb_sha256": "0abac7e125dc80f48b6c6c23b81fe5fe865725f3d6936e78903f6c36380cd2a5",
+  "source_sha256": "ca845f4ea3422bfa3c82efc0050e293d47c350d9967f77ec7ff33563a75b9194",
+  "fresh_process": true,
+  "empty_scene_before_import": true,
+  "import_merge_vertices": false,
+  "geometry_tolerance_m": 1e-05,
+  "measurements": [
+    {
+      "object": "Coral_Brain_001",
+      "matrix_max_error": 2.9802322387695312e-08,
+      "world_vertex_max_distance_m": 5.960464477539063e-08
+    },
+    {
+      "object": "Coral_BranchA_001",
+      "matrix_max_error": 1.1920928955078125e-07,
+      "world_vertex_max_distance_m": 1.3328003944934608e-07
+    },
+    {
+      "object": "Coral_BranchA_002",
+      "matrix_max_error": 2.9802322387695312e-08,
+      "world_vertex_max_distance_m": 1.2287812012345967e-07
+    },
+    {
+      "object": "Coral_BranchB_001",
+      "matrix_max_error": 8.940696716308594e-08,
+      "world_vertex_max_distance_m": 6.664001972467304e-08
+    },
+    {
+      "object": "Coral_BranchB_002",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Coral_BranchB_003",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Coral_BranchB_004",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Coral_BranchB_005",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Coral_BranchB_006",
+      "matrix_max_error": 1.4901161193847656e-08,
+      "world_vertex_max_distance_m": 5.960464477539063e-08
+    },
+    {
+      "object": "Coral_Bush_001",
+      "matrix_max_error": 8.940696716308594e-08,
+      "world_vertex_max_distance_m": 1.2287812012345967e-07
+    },
+    {
+      "object": "Coral_Bush_002",
+      "matrix_max_error": 3.5762786865234375e-07,
+      "world_vertex_max_distance_m": 8.429369557916289e-08
+    },
+    {
+      "object": "Coral_Bush_003",
+      "matrix_max_error": 5.960464477539063e-08,
+      "world_vertex_max_distance_m": 1.1920928955078125e-07
+    },
+    {
+      "object": "Coral_Bush_004",
+      "matrix_max_error": 5.960464477539063e-08,
+      "world_vertex_max_distance_m": 1.2287812012345967e-07
+    },
+    {
+      "object": "Coral_Bush_005",
+      "matrix_max_error": 5.960464477539063e-08,
+      "world_vertex_max_distance_m": 1.3328003944934608e-07
+    },
+    {
+      "object": "Coral_Bush_006",
+      "matrix_max_error": 5.960464477539063e-08,
+      "world_vertex_max_distance_m": 1.1944189282075968e-07
+    },
+    {
+      "object": "Coral_Plate_001",
+      "matrix_max_error": 5.960464477539063e-08,
+      "world_vertex_max_distance_m": 6.664001972467304e-08
+    },
+    {
+      "object": "Coral_Plate_002",
+      "matrix_max_error": 1.1920928955078125e-07,
+      "world_vertex_max_distance_m": 1.2287812012345967e-07
+    },
+    {
+      "object": "Coral_Plate_003",
+      "matrix_max_error": 1.1920928955078125e-07,
+      "world_vertex_max_distance_m": 1.3328003944934608e-07
+    },
+    {
+      "object": "Coral_Plate_004",
+      "matrix_max_error": 5.960464477539063e-08,
+      "world_vertex_max_distance_m": 1.2287812012345967e-07
+    },
+    {
+      "object": "Coral_TubeA_001",
+      "matrix_max_error": 5.960464477539063e-08,
+      "world_vertex_max_distance_m": 8.429369557916289e-08
+    },
+    {
+      "object": "Coral_TubeA_002",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Coral_TubeA_003",
+      "matrix_max_error": 1.4901161193847656e-07,
+      "world_vertex_max_distance_m": 1.3328003944934608e-07
+    },
+    {
+      "object": "Coral_TubeA_004",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Coral_TubeA_005",
+      "matrix_max_error": 2.9802322387695312e-08,
+      "world_vertex_max_distance_m": 1.1920928955078125e-07
+    },
+    {
+      "object": "Coral_TubeA_006",
+      "matrix_max_error": 1.1920928955078125e-07,
+      "world_vertex_max_distance_m": 1.2287812012345967e-07
+    },
+    {
+      "object": "Coral_TubeA_007",
+      "matrix_max_error": 1.4156103134155273e-07,
+      "world_vertex_max_distance_m": 1.2287812012345967e-07
+    },
+    {
+      "object": "Coral_TubeA_008",
+      "matrix_max_error": 1.1920928955078125e-07,
+      "world_vertex_max_distance_m": 8.429369557916289e-08
+    },
+    {
+      "object": "Coral_TubeB_001",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Coral_TubeB_002",
+      "matrix_max_error": 5.960464477539063e-08,
+      "world_vertex_max_distance_m": 4.214684778958144e-08
+    },
+    {
+      "object": "Coral_TubeB_003",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Coral_TubeB_004",
+      "matrix_max_error": 2.9802322387695312e-08,
+      "world_vertex_max_distance_m": 6.664001972467304e-08
+    },
+    {
+      "object": "Coral_TubeB_005",
+      "matrix_max_error": 1.1920928955078125e-07,
+      "world_vertex_max_distance_m": 1.3328003944934608e-07
+    },
+    {
+      "object": "Coral_TubeB_006",
+      "matrix_max_error": 1.1920928955078125e-07,
+      "world_vertex_max_distance_m": 1.3328003944934608e-07
+    },
+    {
+      "object": "Coral_TubeB_007",
+      "matrix_max_error": 5.960464477539063e-08,
+      "world_vertex_max_distance_m": 8.429369557916289e-08
+    },
+    {
+      "object": "Coral_TubeB_008",
+      "matrix_max_error": 1.1548399925231934e-07,
+      "world_vertex_max_distance_m": 6.365778659755961e-08
+    },
+    {
+      "object": "Diver",
+      "matrix_max_error": 2.9802322387695312e-08
+    },
+    {
+      "object": "Diver_Body",
+      "matrix_max_error": 2.9802322387695312e-08,
+      "world_vertex_max_distance_m": 2.3853496600168e-07
+    },
+    {
+      "object": "Diver_Fin_L",
+      "matrix_max_error": 3.725290298461914e-08,
+      "world_vertex_max_distance_m": 1.2881322675184492e-07
+    },
+    {
+      "object": "Diver_Fin_R",
+      "matrix_max_error": 5.960464477539063e-08,
+      "world_vertex_max_distance_m": 1.49197759924391e-07
+    },
+    {
+      "object": "Diver_Mask",
+      "matrix_max_error": 2.9802322387695312e-08,
+      "world_vertex_max_distance_m": 1.053671194739536e-08
+    },
+    {
+      "object": "Diver_Tank",
+      "matrix_max_error": 2.9802322387695312e-08,
+      "world_vertex_max_distance_m": 3.332000986233652e-08
+    },
+    {
+      "object": "Fish_A_001",
+      "matrix_max_error": 1.862645149230957e-08,
+      "world_vertex_max_distance_m": 1.862645149230957e-09
+    },
+    {
+      "object": "Fish_A_002",
+      "matrix_max_error": 5.960464477539063e-08,
+      "world_vertex_max_distance_m": 1.1920928955078125e-07
+    },
+    {
+      "object": "Fish_A_003",
+      "matrix_max_error": 1.1920928955078125e-07,
+      "world_vertex_max_distance_m": 5.960464477539063e-08
+    },
+    {
+      "object": "Fish_A_004",
+      "matrix_max_error": 1.4901161193847656e-08,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Fish_A_005",
+      "matrix_max_error": 5.960464477539063e-08,
+      "world_vertex_max_distance_m": 1.4901161193847656e-08
+    },
+    {
+      "object": "Fish_A_006",
+      "matrix_max_error": 5.960464477539063e-08,
+      "world_vertex_max_distance_m": 1.1920928955078125e-07
+    },
+    {
+      "object": "Fish_B_001",
+      "matrix_max_error": 1.4901161193847656e-08,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Fish_B_002",
+      "matrix_max_error": 2.9802322387695312e-08,
+      "world_vertex_max_distance_m": 1.1920928955078125e-07
+    },
+    {
+      "object": "Fish_B_003",
+      "matrix_max_error": 2.9802322387695312e-08,
+      "world_vertex_max_distance_m": 5.960464477539063e-08
+    },
+    {
+      "object": "Fish_B_004",
+      "matrix_max_error": 8.940696716308594e-08,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Fish_B_005",
+      "matrix_max_error": 2.9802322387695312e-08,
+      "world_vertex_max_distance_m": 5.960464477539063e-08
+    },
+    {
+      "object": "Fish_C_001",
+      "matrix_max_error": 5.960464477539063e-08,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Fish_C_002",
+      "matrix_max_error": 5.960464477539063e-08,
+      "world_vertex_max_distance_m": 2.9802322387695312e-08
+    },
+    {
+      "object": "Fish_C_003",
+      "matrix_max_error": 5.960464477539063e-08,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Fish_C_004",
+      "matrix_max_error": 1.1920928955078125e-07,
+      "world_vertex_max_distance_m": 1.1920928955078125e-07
+    },
+    {
+      "object": "Fish_Root",
+      "matrix_max_error": 0.0
+    },
+    {
+      "object": "Kelp_A_001",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Kelp_A_002",
+      "matrix_max_error": 5.960464477539063e-08,
+      "world_vertex_max_distance_m": 1.1920928955078125e-07
+    },
+    {
+      "object": "Kelp_A_003",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Kelp_A_004",
+      "matrix_max_error": 1.7881393432617188e-07,
+      "world_vertex_max_distance_m": 1.1920928955078125e-07
+    },
+    {
+      "object": "Kelp_A_005",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Kelp_A_006",
+      "matrix_max_error": 8.940696716308594e-08,
+      "world_vertex_max_distance_m": 1.1920928955078125e-07
+    },
+    {
+      "object": "Kelp_A_007",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Kelp_A_008",
+      "matrix_max_error": 1.1920928955078125e-07,
+      "world_vertex_max_distance_m": 1.1920928955078125e-07
+    },
+    {
+      "object": "Kelp_B_001",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Kelp_B_002",
+      "matrix_max_error": 1.7881393432617188e-07,
+      "world_vertex_max_distance_m": 5.960464477539063e-08
+    },
+    {
+      "object": "Kelp_B_003",
+      "matrix_max_error": 1.4901161193847656e-08,
+      "world_vertex_max_distance_m": 5.960464477539063e-08
+    },
+    {
+      "object": "Kelp_B_004",
+      "matrix_max_error": 5.960464477539063e-08,
+      "world_vertex_max_distance_m": 1.1920928955078125e-07
+    },
+    {
+      "object": "Kelp_B_005",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Kelp_B_006",
+      "matrix_max_error": 1.1920928955078125e-07,
+      "world_vertex_max_distance_m": 1.1920928955078125e-07
+    },
+    {
+      "object": "Kelp_B_007",
+      "matrix_max_error": 7.450580596923828e-08,
+      "world_vertex_max_distance_m": 1.1920928955078125e-07
+    },
+    {
+      "object": "Kelp_B_008",
+      "matrix_max_error": 3.725290298461914e-09,
+      "world_vertex_max_distance_m": 1.4901161193847656e-08
+    },
+    {
+      "object": "Reef_Root",
+      "matrix_max_error": 0.0
+    },
+    {
+      "object": "Rock_Boulder_A_001",
+      "matrix_max_error": 7.450580596923828e-09,
+      "world_vertex_max_distance_m": 2.3844768293201923e-07
+    },
+    {
+      "object": "Rock_Boulder_A_002",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Rock_Boulder_A_003",
+      "matrix_max_error": 1.4901161193847656e-08,
+      "world_vertex_max_distance_m": 1.1920928955078125e-07
+    },
+    {
+      "object": "Rock_Boulder_A_004",
+      "matrix_max_error": 7.450580596923828e-09,
+      "world_vertex_max_distance_m": 1.1922384146600962e-07
+    },
+    {
+      "object": "Rock_Boulder_A_005",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Rock_Boulder_A_006",
+      "matrix_max_error": 7.450580596923828e-09,
+      "world_vertex_max_distance_m": 1.1920928955078125e-07
+    },
+    {
+      "object": "Rock_Boulder_B_001",
+      "matrix_max_error": 1.4901161193847656e-08,
+      "world_vertex_max_distance_m": 1.2287812012345967e-07
+    },
+    {
+      "object": "Rock_Boulder_B_002",
+      "matrix_max_error": 7.450580596923828e-09,
+      "world_vertex_max_distance_m": 1.2013700256829907e-07
+    },
+    {
+      "object": "Rock_Boulder_B_003",
+      "matrix_max_error": 1.1175870895385742e-08,
+      "world_vertex_max_distance_m": 1.3328003944934608e-07
+    },
+    {
+      "object": "Rock_Boulder_B_004",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Rock_Boulder_B_005",
+      "matrix_max_error": 7.450580596923828e-09,
+      "world_vertex_max_distance_m": 1.1920928955078125e-07
+    },
+    {
+      "object": "Rock_Boulder_B_006",
+      "matrix_max_error": 4.656612873077393e-10,
+      "world_vertex_max_distance_m": 1.1920928955078125e-07
+    },
+    {
+      "object": "Rock_Peak_001",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Rock_Tier_001",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Rock_Tier_002",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Rock_Tier_003",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Rock_Tier_004",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Rock_Tier_005",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Rock_Tier_006",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Sand",
+      "matrix_max_error": 0.0,
+      "world_vertex_max_distance_m": 0.0
+    },
+    {
+      "object": "Scene_Root",
+      "matrix_max_error": 0.0
+    }
+  ],
+  "source_bounds_blender_z_up": {
+    "min": [
+      -2.25,
+      -1.7999999523162842,
+      -0.020220886915922165
+    ],
+    "max": [
+      2.25,
+      1.7999999523162842,
+      2.2222225666046143
+    ]
+  },
+  "import_bounds_blender_z_up": {
+    "min": [
+      -2.25,
+      -1.7999999523162842,
+      -0.020220886915922165
+    ],
+    "max": [
+      2.25,
+      1.7999999523162842,
+      2.2222225666046143
+    ]
+  },
+  "triangles": 49420,
+  "shared_mesh_groups_preserved": true,
+  "material": {
+    "name": "Reef_Palette",
+    "roughness": 0.550000011920929,
+    "metallic": 0.0,
+    "image_size": [
+      64,
+      64
+    ],
+    "image_count": 1,
+    "pixels_sha256": "b1783be15de3a4526d42a5ca1ec4c13b8e5741fe2da072536060675f03f23979"
+  },
+  "errors": [],
+  "render_settings": {
+    "engine": "BLENDER_EEVEE",
+    "resolution_x": 1024,
+    "resolution_y": 768,
+    "samples": 64,
+    "view_transform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": 0.0,
+    "gamma": 1.0
+  },
+  "render_comparisons": {
+    "hero": {
+      "mean_absolute_rgb_delta_0_to_1": 9.889955663311412e-07,
+      "fraction_pixels_delta_over_0_05": 0.0,
+      "source_sha256": "82c044de64c28d78cfc84e35c9a149c0f14db90fc9fe9de8fa7438c550ad3753",
+      "import_sha256": "2aa5b45d5bdc74013dd0edb45f953db234ce29f5799acec486ce7d12e1dbd1b6"
+    },
+    "front": {
+      "mean_absolute_rgb_delta_0_to_1": 1.1136593229821301e-06,
+      "fraction_pixels_delta_over_0_05": 0.0,
+      "source_sha256": "28a77eb57b39bb1d8d8f75752ba8a30960d0bd6255c9407f166cecc943d6bce6",
+      "import_sha256": "d5b298a2807cecb3a71c3f8465aad9d0b5b1b98b7a958ffb9c85e27260a7d42f"
+    },
+    "left": {
+      "mean_absolute_rgb_delta_0_to_1": 9.391303024131048e-07,
+      "fraction_pixels_delta_over_0_05": 0.0,
+      "source_sha256": "268dd833a2939b954773c480fe622b26d09dd9a429f9d14a9926f1d01d1be411",
+      "import_sha256": "c0b2f6e6ceb62698509d2b925e876fbeaa84bc69cb91897dbfc972a8ac1d8791"
+    },
+    "right": {
+      "mean_absolute_rgb_delta_0_to_1": 1.018914872474852e-06,
+      "fraction_pixels_delta_over_0_05": 0.0,
+      "source_sha256": "545208d037403e714d5163aedac8c8cb16a8230c31009ea2fbf0984ea450aa8d",
+      "import_sha256": "14982f2b6bb4461372ad4ce0d6bdd151e4c60ab8339558ba1dbbf4428eb0659b"
+    },
+    "back": {
+      "mean_absolute_rgb_delta_0_to_1": 7.064254532451741e-07,
+      "fraction_pixels_delta_over_0_05": 0.0,
+      "source_sha256": "dfe5cb6e06d1add35efbea17181a946205d25a6bb16fafcbb1a97092e1e94bab",
+      "import_sha256": "6493f039be5b79e6debb489aa7660e481af01139c4038bb7e6005b5524a56c3a"
+    },
+    "top": {
+      "mean_absolute_rgb_delta_0_to_1": 9.7736040061136e-07,
+      "fraction_pixels_delta_over_0_05": 0.0,
+      "source_sha256": "e67355cb9dd47cce9857c4638878d410a86be62c5f36079265db1882f3e9c2b6",
+      "import_sha256": "f072c40bba447011d63967492ae4f372e74e93593accac243edba4f03a3b989a"
+    },
+    "diver_front": {
+      "mean_absolute_rgb_delta_0_to_1": 1.0205770877291798e-06,
+      "fraction_pixels_delta_over_0_05": 0.0,
+      "source_sha256": "83af7d20734c2e88055f1374c83810969c2b65782ca5941d11a7888cd0094d4e",
+      "import_sha256": "fd5cebc6189913b8fb55c5cda89830489b2bab92e5cb865d58e1d4c20079ae06"
+    },
+    "diver_back": {
+      "mean_absolute_rgb_delta_0_to_1": 9.158598572867049e-07,
+      "fraction_pixels_delta_over_0_05": 0.0,
+      "source_sha256": "3995423082db65ea2fc2553315d7583aa037e127b98d7177d8e8cde86a377c49",
+      "import_sha256": "c4f6f78e114da525a44d08161a339cb9287ddb0a734d92409be8dcdd7a4cfbb5"
+    },
+    "diver_side": {
+      "mean_absolute_rgb_delta_0_to_1": 4.920045739709167e-07,
+      "fraction_pixels_delta_over_0_05": 0.0,
+      "source_sha256": "d61051d69fa3709dcd8c88c29abb3f4122127b4153c65e62c438a23e649c0b03",
+      "import_sha256": "4edb19f93f3ade72ff3b0a06e081b1fc7941000dfd6bb71c9b64522e7de8aac6"
+    }
+  },
+  "render_difference_gates": {
+    "mean_absolute_rgb_delta_max": 0.005,
+    "fraction_pixels_delta_over_0_05_max": 0.02
+  },
+  "passed": true
+}

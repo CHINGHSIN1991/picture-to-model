@@ -28,3 +28,6 @@ web/.vite/
 # Python
 __pycache__/
 *.pyc
+
+# Asset validation tooling
+tools/gltf/node_modules/

@@ -1,0 +1,52 @@
+{
+  "validatorVersion": "2.0.0-dev.3.10",
+  "assetSha256": "0abac7e125dc80f48b6c6c23b81fe5fe865725f3d6936e78903f6c36380cd2a5",
+  "uri": "reef.glb",
+  "mimeType": "model/gltf-binary",
+  "validatedAt": "2026-10-19T16:13:09.029Z",
+  "issues": {
+    "numErrors": 0,
+    "numWarnings": 0,
+    "numInfos": 0,
+    "numHints": 0,
+    "messages": [],
+    "truncated": false
+  },
+  "info": {
+    "version": "2.0",
+    "generator": "Khronos glTF Blender I/O v5.2.39",
+    "resources": [
+      {
+        "pointer": "/buffers/0",
+        "mimeType": "application/gltf-buffer",
+        "storage": "glb",
+        "byteLength": 586192
+      },
+      {
+        "pointer": "/images/0",
+        "mimeType": "image/png",
+        "storage": "buffer-view",
+        "image": {
+          "width": 64,
+          "height": 64,
+          "format": "rgba",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      }
+    ],
+    "animationCount": 0,
+    "materialCount": 1,
+    "hasMorphTargets": false,
+    "hasSkins": false,
+    "hasTextures": true,
+    "hasDefaultScene": true,
+    "drawCallCount": 26,
+    "totalVertexCount": 15252,
+    "totalTriangleCount": 16690,
+    "maxUVs": 1,
+    "maxInfluences": 0,
+    "maxAttributes": 3
+  }
+}

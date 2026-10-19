@@ -1,0 +1,11 @@
+{
+  "name": "reef-gltf-validation",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate": "node validate.mjs"
+  },
+  "dependencies": {
+    "gltf-validator": "2.0.0-dev.3.10"
+  }
+}

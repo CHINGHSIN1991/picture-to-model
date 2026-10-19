@@ -12,3 +12,5 @@ Step 05 complete. Retain the repaired candidate (`iteration_review.json`).
 - No pending jobs or known blocking defects. Optional Rust analysis runtime unavailable; Blender-native audits used successfully.
 
 Next action: Step 06 — export the production GLB, fresh-import it, and check hierarchy/materials/file size. No production GLB was exported in Step 05.
+
+Follow-up (2026-10-20): Step 06 completed; accepted GLB and handoff are recorded in `export/REPORT.md` and `export/work_state.md`. Current next stage: Step 07, minimal Three.js viewer.
