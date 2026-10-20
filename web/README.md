@@ -1,4 +1,4 @@
-# Reef viewer — Step 07–08
+# Reef viewer — Step 07–09
 
 只用來檢查 `export/reef.glb` 的 Vue 3 + Vite + TypeScript + Three.js 頁面。
 
@@ -88,6 +88,17 @@ GSAP 依 roadmap 安裝，這一步尚未使用，也不會打包進頁面。
 目前主 JS 約 708 kB（gzip 約 188 kB），debug chunk 約 35.5 kB（gzip 約 10.1 kB）；
 Vite 仍會提示主 chunk 超過 500 kB，
 後續網站與效能階段再規劃載入策略。
+
+## 網站 Mockup 截圖(Step 09)
+
+```bash
+bun run mockups            # 全部
+bun run mockups homepage-01
+```
+
+用已安裝的 Chrome 開啟 `../mockups/src/homepage-0N.html`,輸出整頁 PNG 到 `../mockups/`
+(桌機 1440 寬與手機 390 寬各一張)並寫 `render-report.json`。
+HTML 參照 `blender/renders/mockup/` 的透明 render,先跑 `blender/scripts/04_mockup_renders.py`。
 
 ## 視覺基準
 
