@@ -111,7 +111,20 @@ Production build 與四項 Chrome 瀏覽器測試通過，95 個 node 的名稱�
 - [使用與驗證方式](web/README.md)
 - [Step 07 總結與實際截圖](summary/07-minimal-threejs-viewer.md)
 
-下一步為 Step 08：瀏覽器端光線與材質氣氛調整。
+## 瀏覽器水下調光（Step 08）
+
+已加入藍色水域、右上主光、冷色輪廓光、淡霧、水紋及微量珊瑚自發光。
+所有參數集中在 `web/src/three/lightingConfig.ts`。
+在 viewer 網址加上 `?debug` 可開啟調光面板與 FPS，並將設定輸出成 JSON。
+
+Build 與七項瀏覽器測試通過；Apple M4 / Metal 在 1440×900、DPR 1.5、
+開啟動畫及調光面板的 10 秒量測平均為 60.0 FPS。
+
+- [Step 08 總結與比較圖](summary/08-web-lighting.md)
+- [瀏覽器主視角](web/screenshots/lighting-v1.png)
+- [效能量測報告](web/screenshots/lighting-report.json)
+
+下一步為 Step 09：網站 mockup。
 
 ## 原則
 

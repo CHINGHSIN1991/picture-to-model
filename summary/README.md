@@ -2,7 +2,7 @@
 
 每份文件對應一個 roadmap step,內容固定為四節:**這一步做了什麼 / 產出 / 技術說明 / Takeaway**。
 roadmap 是「該怎麼做」,這裡是「實際做了什麼、結果如何、學到什麼」。
-每份開頭的「代表結果」放一張代表圖與一段代表程式碼或資料;圖片縮圖集中在 [assets/](assets/),原檔仍在 `blender/renders/`。
+每份開頭的「代表結果」放一張代表圖與一段代表程式碼或資料;圖片集中在 [assets/](assets/),原檔在 `blender/renders/` 或 `web/screenshots/`。
 
 | Step | 總結 | 狀態 | 關鍵結果 |
 |---|---|---|---|
@@ -14,7 +14,8 @@ roadmap 是「該怎麼做」,這裡是「實際做了什麼、結果如何、�
 | 05 | [Render 檢查與修正](05-render-and-inspect.md) | 完成 | 接合 / 互穿 / 法線問題歸零,回歸比對全通過 |
 | 06 | [匯出 GLB](06-export-glb.md) | 完成 | 0.625 MB、95 nodes / 26 meshes，重新匯入與 validator 通過 |
 | 07 | [最小 Three.js Viewer](07-minimal-threejs-viewer.md) | 完成 | 全螢幕模型檢視、相機取景、OrbitControls、四項瀏覽器測試通過 |
-| 08–17 | Web 後續階段 | 未開始 | — |
+| 08 | [瀏覽器水下調光](08-web-lighting.md) | 完成 | 集中 config、debug 調光面板、水光與霧氣，M4 / Metal 實測 60 FPS |
+| 09–17 | Web 後續階段 | 未開始 | — |
 
 ## 跨 step 的共同 takeaway
 

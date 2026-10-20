@@ -1,0 +1,37 @@
+{
+  "measuredAt": "2026-10-20T15:10:39.201Z",
+  "baseUrl": "http://127.0.0.1:5173",
+  "browser": "155.0.8059.80",
+  "headless": true,
+  "method": "10-second requestAnimationFrame sample after 2-second warmup, with GUI/stats and animated lighting; default browser GPU selection",
+  "performance": {
+    "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+    "viewport": [
+      1440,
+      900
+    ],
+    "buffer": [
+      2160,
+      1350
+    ],
+    "devicePixelRatio": 1.5,
+    "debugAndStatsEnabled": true,
+    "animated": true,
+    "frames": 601,
+    "durationMs": 10016.2,
+    "averageFps": 60.00279547133643,
+    "medianFrameMs": 16.69999999999891,
+    "p95FrameMs": 16.799999999999272,
+    "framesOver25Ms": 0
+  },
+  "hardwareRenderer": true,
+  "glbSha256": "0abac7e125dc80f48b6c6c23b81fe5fe865725f3d6936e78903f6c36380cd2a5",
+  "configSha256": "a52d51b1777633f24c16016c637257104a8021e488fe2bddb6ff5036fa9a397b",
+  "errors": [],
+  "screenshots": {
+    "lighting-v1.png": "183874d9c20af88ef56da639ff1d3e40e0ea2766f8897d3d566277a2b5e90c47",
+    "lighting-mobile.png": "679af81c1cccd49157188d1320ee213fbc4866cf7750135ae6946fc5abdf1d2c",
+    "lighting-debug.png": "946e2e08f34f7b252f5a4f9b6a0e7059a36830f7e03a31b89c090f672a6bc78d"
+  }
+}
