@@ -3,6 +3,51 @@
 對應 roadmap:[roadmap/04-detailed-model.md](../roadmap/04-detailed-model.md)
 狀態:完成(2026-10-16 建模完成,2026-10-18 commit `39fc7c9`);修正前快照保存在 `blender/revisions/detail_before_step05/`
 
+## 代表結果
+
+![detail hero](assets/04-detail-hero.png)
+
+hero 視角:同一個單峰山體,換上細分切面、沙色平台、有機珊瑚、帶狀海草與三盞 softbox 的 Eevee 打光。
+
+| 潛水員近照 | 64×64 色票(放大 4 倍) |
+|---|---|
+| ![diver side](assets/04-detail-diver-side.png) | ![palette](assets/04-palette-256.png) |
+
+左:融合成連續潛水衣的身體,背帶貼著表面走,面鏡、氣瓶、呼吸管、蛙鞋是獨立零件。
+右:全場景唯一的貼圖,8×8 格、25 個色塊,每個面的 UV 指到一格的中心。
+
+代表程式碼:有機融合三部曲([detail_geometry.py](../blender/scripts/detail_geometry.py) `fuse`)
+
+```python
+mod = obj.modifiers.new('OrganicUnion', 'REMESH')
+mod.mode, mod.voxel_size = 'VOXEL', voxel
+bpy.ops.object.modifier_apply(modifier=mod.name)
+mod = obj.modifiers.new('JointRelax', 'SMOOTH')
+mod.factor, mod.iterations = 0.65, 3
+bpy.ops.object.modifier_apply(modifier=mod.name)
+count = sum(len(p.vertices) - 2 for p in obj.data.polygons)
+mod = obj.modifiers.new('WebBudget', 'DECIMATE')
+mod.ratio = min(1.0, triangles / max(count, 1))   # 預算是輸入,不是結果
+bpy.ops.object.modifier_apply(modifier=mod.name)
+```
+
+代表資料:[build_report.json](../blender/renders/final/build_report.json) 的分組面數
+
+```json
+{
+  "mesh_objects": 91, "unique_meshes": 26,
+  "triangles": 49420, "unique_triangles": 16690,
+  "groups": {
+    "coral": {"objects": 35, "triangles": 32388, "unique_triangles": 7098},
+    "diver": {"objects": 5,  "triangles": 5340,  "unique_triangles": 5180},
+    "kelp":  {"objects": 16, "triangles": 3648,  "unique_triangles": 456},
+    "fish":  {"objects": 15, "triangles": 2460,  "unique_triangles": 492}
+  },
+  "materials": 1,
+  "checks": "budget, single summit, hierarchy, shared variants and palette UVs passed"
+}
+```
+
 ## 這一步做了什麼
 
 1. 從 `01_graybox.py` 分出 `02_detail.py`(入口、參數、擺放、render、報告)與 `detail_geometry.py`(每個零件的細模 builder、色票、岩面 / 沙地細修)。

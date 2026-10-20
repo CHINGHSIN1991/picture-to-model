@@ -3,6 +3,31 @@
 對應 roadmap:[roadmap/00-environment-setup.md](../roadmap/00-environment-setup.md)
 狀態:完成(2026-10-08 建立目錄骨架;smoke test 於 Step 03 前通過)
 
+## 代表結果
+
+![smoke test render](assets/00-smoke-test.png)
+
+512×512 的 smoke test render:一顆 cube、一盞 sun、沒有 world,所以背景全黑。這張圖只證明一件事:headless Blender 能從空場景建物件並寫出 PNG。
+
+代表程式碼:render engine fallback([smoke-test.py:49-54](../blender/scripts/smoke-test.py#L49-L54))
+
+```python
+for engine in ("BLENDER_EEVEE_NEXT", "BLENDER_EEVEE", "BLENDER_WORKBENCH"):
+    try:
+        scene.render.engine = engine
+        break
+    except TypeError:
+        continue
+```
+
+執行成功時的終端輸出:
+
+```
+SMOKE_TEST_OK blender=5.2.0 LTS engine=BLENDER_EEVEE
+  render: .../blender/renders/smoke-test.png
+  blend:  .../blender/scenes/smoke-test.blend
+```
+
 ## 這一步做了什麼
 
 1. 安裝 pipeline 需要的工具:Blender 5.2 LTS、Codex CLI、Bun、Blender Agent Studio plugin,並 clone `blender-to-web` 作為參考(與本 repo 同層)。

@@ -3,6 +3,43 @@
 對應 roadmap:[roadmap/02-pick-reference-and-analyze.md](../roadmap/02-pick-reference-and-analyze.md)
 狀態:完成(2026-10-09;2026-10-15 補上 PROJECT_SPEC 分離專案值;2026-10-16 / 10-19 依 Step 03、05 回寫兩段)
 
+## 代表結果
+
+這一步沒有新的圖,產出是兩份規格文件。代表資料是 MODEL_PLAN 的物件階層,以及 PROJECT_SPEC 把它對應到 Web 端的群組表。
+
+物件階層(節錄自 [blender/MODEL_PLAN.md](../blender/MODEL_PLAN.md)):
+
+```
+Scene_Root
+├─ Sand
+├─ Reef_Root                      (empty,原點在礁石底部中心)
+│  ├─ Rock_Peak_001               主山體,獨立 mesh
+│  ├─ Rock_Tier_001 … 006         坡腳岩
+│  ├─ Rock_Boulder_A/B_001 …      散石,2 variant,instancing
+│  ├─ Coral_BranchA_001 … 002     大型紅樹枝珊瑚
+│  ├─ Coral_TubeA_001 … ~008      管狀叢 variant A
+│  ├─ Coral_Plate_001 … 004       盤狀珊瑚
+│  └─ Kelp_A_001 … ~008
+├─ Diver                          (empty,原點在胸口)
+│  ├─ Diver_Body / Diver_Tank / Diver_Mask
+│  └─ Diver_Fin_L / Diver_Fin_R
+└─ Fish_Root
+   └─ Fish_A/B/C_001 …            3 variant,instancing
+```
+
+零件群組表(節錄自 [PROJECT_SPEC.md](../PROJECT_SPEC.md)):
+
+| group | match | instancing | origin | 逐件動畫 mode |
+|---|---|---|---|---|
+| `rocks` | `/^Rock_(Peak\|Tier)_/` | 否 | 底面中心 | `stack` |
+| `boulders` | `/^Rock_Boulder_/` | 是 | 底面中心 | `explode`(未定) |
+| `corals` | `/^Coral_/` | 是 | 接觸點 | `grow` |
+| `kelp` | `/^Kelp_/` | 是 | 根部 | `grow` |
+| `fish` | `/^Fish_/` | 是 | 身體中心 | `orbit` |
+| `diver` | `/^Diver$/` | 否 | 胸口 | `path` |
+
+這張表同時是 Blender 腳本的命名規範、Three.js 的 node 比對規則,以及 Step 13 動畫 config 的來源。
+
 ## 這一步做了什麼
 
 1. 把 `concept-01.png` **複製**為 `references/final-concept.png`,成為之後所有 render 比對的唯一標準。

@@ -3,6 +3,45 @@
 對應 roadmap:[roadmap/05-render-and-inspect.md](../roadmap/05-render-and-inspect.md)
 狀態:完成(2026-10-19,commit `7ae67a5`)
 
+## 代表結果
+
+![left view before / after](assets/05-left-before-after.png)
+
+左視角,同相機同打光:左邊是 Step 04 基準,右邊是修正後。差異刻意很小,因為山體、潛水員、魚都沒動,只有珊瑚與海草的擺放變了。看前景左側的橘色管叢:修正前整叢跨出平台邊緣,外側幾根懸空;修正後整叢以最弱支撐的那根為準坐進岩面,另外兩叢管珊瑚移到上層平台。
+
+![final contact sheet](assets/05-final-contact-sheet.png)
+
+最終六視角。這組影像的 SHA-256 與來源腳本、`.blend` 的 hash 一起記錄在 `render_manifest.json`。
+
+代表程式碼:每根管子各自量支撐,整叢只動 transform([02_detail.py](../blender/scripts/02_detail.py) `seat_tube_cluster`)
+
+```python
+for component in connected_components(bm):          # 一根管子 = 一個 component
+    low  = min(v.co.z for v in component)
+    high = max(v.co.z for v in component)
+    roots = [transform @ v.co for v in component if v.co.z < low + .0001]
+    lips.extend(transform @ v.co for v in component if v.co.z > high - .0001)
+    supports.append(max(ground_z(obj.location.x + p.x, obj.location.y + p.y) - p.z for p in roots))
+obj.location.z = min(supports) - .003               # 以最弱支撐的那根為準,淺埋 3 mm
+clearance = min(obj.location.z + p.z - ground_z(...) for p in lips)
+assert clearance >= .045, (obj.name, 'buried tube opening', clearance)
+```
+
+代表資料:[iteration_review.json](../blender/renders/final/iteration_review.json) 的修正前後
+
+```json
+{
+  "before": {"unsupported_components": 36, "buried_tube_openings": 17, "decoration_surface_intersections": 11},
+  "after":  {"unsupported_components": 0,  "buried_tube_openings": 0,  "decoration_surface_intersections": 0},
+  "invariant_results": {
+    "names_preserved": true, "parenting_preserved": true,
+    "non_sand_geometry_and_uvs_preserved": true, "shared_mesh_assignments_preserved": true,
+    "non_decoration_transforms_preserved": true, "aggregate_bounds_within_1cm_preserved": true
+  },
+  "decision": "retain_repair"
+}
+```
+
 ## 這一步做了什麼
 
 1. 先把 Step 04 的來源、場景、色票、報告、影像整包複製到 `blender/revisions/detail_before_step05/` 當基準。

@@ -3,6 +3,44 @@
 對應 roadmap:[roadmap/03-graybox.md](../roadmap/03-graybox.md)
 狀態:完成(第一版 2026-10-15,commit `e6c3428`;單峰重建 2026-10-16,commit `3072e43`)
 
+## 代表結果
+
+![graybox before / after](assets/03-graybox-before-after.png)
+
+同一個相機、同樣的 Workbench 設定:左邊是被退回的第一版(多座岩柱、側邊珊瑚與山頂等高),右邊是單峰重建版(一個連續山體、坡腳壓低、珊瑚移到低坡)。
+
+![graybox contact sheet](assets/03-graybox-contact-sheet.png)
+
+六視角(上排 hero / front / left,下排 right / back / top)。灰色單色、cavity、outline,只看輪廓與比例。
+
+代表程式碼:主山體「只有一個頂點」的結構保證([01_graybox.py](../blender/scripts/01_graybox.py) `build_mountain`)
+
+```python
+for level, radius in MOUNTAIN_PROFILE:
+    for i, (angle, irregularity, height_offset) in enumerate(directions):
+        r = radius * irregularity * terrain_rng.uniform(0.89, 1.10)
+        if previous_radii is not None:
+            # Every section narrows upward; no unsupported skirt at the foot.
+            r = min(r, previous_radii[i] - 0.04)
+        ...
+summit = bm.verts.new((*PEAK_OFFSET, REEF_PEAK_HEIGHT))
+for i in range(MOUNTAIN_SEGMENTS):
+    bm.faces.new((rings[-1][i], rings[-1][(i + 1) % MOUNTAIN_SEGMENTS], summit))
+```
+
+代表資料:[single_peak_checks.json](../blender/renders/graybox/single_peak_checks.json)
+
+```json
+{
+  "single_summit_vertices": 1,
+  "peak_height_m": 1.65,
+  "foothill_objects": 6,
+  "max_coral_height_m": 1.158,
+  "summit_clearance_over_corals_m": 0.492,
+  "hierarchy_check": "pass"
+}
+```
+
 ## 這一步做了什麼
 
 1. 依 MODEL_PLAN 的階層、命名、origin 規則,用 bmesh 從空場景建出全部零件的**簡單 primitive 佔位**:主山體、6 塊坡腳岩、12 顆散石、7 類珊瑚、海草、潛水員(5 個子物件)、15 隻魚。

@@ -3,6 +3,23 @@
 對應 roadmap:[roadmap/01-concept-images.md](../roadmap/01-concept-images.md)
 狀態:完成(2026-10-09)
 
+## 代表結果
+
+![final concept](assets/01-final-concept.png)
+
+唯一的概念圖:鈷藍岩塊堆成單峰錐形,五類彩色珊瑚貼在各層平台,潛水員懸浮在左上,魚群環繞中層。氣泡、光束、焦散都在圖裡,但評估時已標為「不做 geometry」。
+
+代表資料:評估表中「幾何複雜度警訊」的處理決定(節錄自 [references/evaluation.md](../references/evaluation.md))
+
+| 元素 | 概念圖裡的樣子 | 決定 |
+|---|---|---|
+| 樹枝狀紅珊瑚 | 左右各一大叢 + 數叢小的 | 2 個低模 variant,linked duplicate |
+| 腦珊瑚 | 中央粉紅,滿布溝紋 | 球體變形,溝紋不刻 |
+| 管狀珊瑚叢 | 約 10 叢,每叢 5–8 根 | 2 個 variant,instancing |
+| 海草 | 約 15 株,S 型 | 2 個 variant;擺動留給 Three.js |
+| 氣泡、光束、焦散、細石 | 氛圍 | 不做 geometry |
+| 魚群 | 約 15 隻、3 種 | 3 個 variant,各 ≤ 400 tri |
+
 ## 這一步做了什麼
 
 1. 定下主題:**潛水員 + 錐狀珊瑚礁,low-poly 玩具感**。

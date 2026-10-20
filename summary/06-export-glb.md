@@ -3,6 +3,40 @@
 對應 roadmap：[roadmap/06-export-glb.md](../roadmap/06-export-glb.md)
 狀態：完成（2026-10-20）
 
+## 代表結果
+
+![hero comparison](assets/06-glb-hero-comparison.png)
+
+同相機、同打光:左邊是原 `.blend` 場景,右邊是把 `export/reef.glb` 在另一個全新 Blender 程序 import 後的 render。九張影像的平均 RGB 差都在 1e-6 等級,肉眼無法分辨,這就是「GLB 存活」的證據。
+
+代表程式碼:匯出呼叫([03_export.py](../blender/scripts/03_export.py) `export_asset`),只選 `Scene_Root` 子樹,不帶相機、燈光、動畫
+
+```python
+bpy.ops.export_scene.gltf(
+    filepath=str(GLB), export_format='GLB', use_selection=True, use_visible=True,
+    use_renderable=True, export_yup=True, export_apply=True,
+    export_shared_accessors=True, export_texcoords=True, export_normals=True,
+    export_materials='EXPORT', export_image_format='AUTO',
+    export_cameras=False, export_lights=False, export_animations=False,
+    export_skins=False, export_morph=False, export_gpu_instances=False,
+    ...
+)
+```
+
+代表資料:[export/asset_manifest.json](../export/asset_manifest.json)
+
+```json
+{
+  "asset": "reef.glb", "bytes": 625268, "up_axis": "+Y",
+  "nodes": 95, "mesh_nodes": 91, "meshes": 26,
+  "triangles": 49420, "unique_triangles": 16690,
+  "materials": 1, "textures": 1, "texture_size": [64, 64],
+  "animations": 0, "cameras": 0, "lights": 0,
+  "extensions_used": [], "draco": false, "embedded_resources_only": true,
+  "excluded_objects": ["Camera", "Key_Softbox", "Fill_Softbox", "Rim_Softbox"]
+}
+```
+
 ## 這一步做了什麼
 
 1. 讀取通過 Step 05 的場景，核對驗證紀錄與檔案 SHA-256。
