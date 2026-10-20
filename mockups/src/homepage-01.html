@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Picture to Model mockup 01 — 編輯排版</title>
+<link rel="stylesheet" href="base.css">
+<style>
+  body { font-family: "Avenir Next", "PingFang TC", "Noto Sans TC", sans-serif;
+    background: linear-gradient(180deg, #1d6fc4 0%, #0f4ea6 22%, #0a3a86 55%, #072a66 100%); }
+  h1, h2 { font-family: "Baskerville", "Songti TC", "Noto Serif TC", serif; font-weight: 400; line-height: 1.08; }
+  .rays { position: absolute; inset: 0; pointer-events: none; z-index: 0;
+    background: repeating-linear-gradient(104deg, rgba(255,255,255,.08) 0 34px, rgba(255,255,255,0) 34px 150px);
+    -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,.9), rgba(0,0,0,0) 70%); mask-image: linear-gradient(180deg, rgba(0,0,0,.9), rgba(0,0,0,0) 70%); }
+  .copy { width: 520px; }
+  .copy h1 { font-size: 84px; margin: 22px 0 28px; letter-spacing: -.01em; }
+  .copy h2 { font-size: 60px; margin: 18px 0 24px; }
+  .copy p { font-size: 18px; line-height: 1.75; opacity: .86; max-width: 440px; }
+  .copy .actions { display: flex; gap: 14px; margin-top: 40px; }
+  .num { position: absolute; z-index: 1; font-family: "Baskerville", serif; font-size: 300px; line-height: 1; color: rgba(255,255,255,.07); }
+  .rule { width: 56px; height: 1px; background: rgba(255,255,255,.6); margin-bottom: 22px; }
+  .stats { display: flex; gap: 40px; margin-top: 36px; }
+  .stats div b { display: block; font-family: "Baskerville", serif; font-size: 40px; font-weight: 400; }
+  .stats div span { font-size: 12px; letter-spacing: .2em; opacity: .7; text-transform: uppercase; }
+  #s1 .copy { left: 96px; top: 210px; } #s1 .model { width: 1060px; right: -120px; top: 20px; }
+  #s2 .copy { right: 120px; top: 230px; } #s2 .model { width: 800px; left: -20px; top: 120px; } #s2 .num { left: 80px; top: 60px; }
+  #s2 .prop.input { left: 96px; top: 190px; }
+  #s3 .copy { left: 110px; top: 210px; } #s3 .model { width: 1000px; right: -60px; top: 0; } #s3 .num { right: 60px; top: 40px; }
+  #s3 .prop.code { left: 110px; top: 620px; }
+  #s4 .copy { right: 120px; top: 200px; } #s4 .model { width: 940px; left: -70px; top: 30px; } #s4 .num { left: 90px; top: 40px; }
+  #s4 .prop.panel { right: 120px; top: 560px; }
+  #s5 .copy { left: 110px; top: 200px; } #s5 .model { width: 860px; right: 60px; top: 70px; } #s5 .num { right: 60px; top: 40px; }
+  #s5 .prop.chips { left: 110px; top: 610px; }
+  #s6 { background: linear-gradient(180deg, rgba(7,42,102,0) 0%, #041c47 100%); }
+  #s6 .copy { left: 50%; top: 150px; transform: translateX(-50%); width: 760px; text-align: center; }
+  #s6 .copy p { max-width: none; } #s6 .actions { justify-content: center; }
+  #s6 .model { width: 900px; left: 50%; bottom: -260px; transform: translateX(-50%); }
+  #s6 .footer { position: absolute; left: 0; right: 0; bottom: 0; }
+  @media (max-width: 640px) {
+    .copy h1 { font-size: 48px; } .copy h2 { font-size: 38px; } .copy p { font-size: 16px; }
+    .num { font-size: 160px; left: 12px !important; right: auto !important; top: 44px !important; }
+    #s6 .copy { text-align: left; } #s6 .actions { justify-content: flex-start; flex-wrap: wrap; }
+    #s6 .footer { position: static; margin-top: 24px; }
+  }
+</style>
+</head>
+<body>
+<section class="section" id="s1">
+  <div class="rays"></div>
+  <nav class="nav"><span>Picture to Model</span><ul><li>流程</li><li>建模</li><li>調光</li><li>互動</li><li>開始使用</li></ul></nav>
+  <div class="copy">
+    <div class="eyebrow">Picture to Model · 圖轉 3D 平台</div>
+    <h1>一張圖,<br>變成會動的<br>3D 網站</h1>
+    <p>上傳一張概念圖,平台幫你建模、調光、匯出,放進網站。下面這座珊瑚礁,就是從一張圖開始的。</p>
+    <div class="actions"><a class="btn primary">上傳第一張圖</a><a class="btn">看示範</a></div>
+  </div>
+  <div class="model"><img src="../../blender/renders/mockup/s1_hero.png" alt=""></div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<section class="section" id="s2">
+  <div class="num">01</div>
+  <div class="prop input"><div class="label">輸入 · 概念圖</div><img src="../../references/final-concept.png" alt=""><div class="arrow"></div></div>
+  <div class="copy">
+    <div class="rule"></div>
+    <div class="eyebrow">01 · 上傳</div>
+    <h2>從一張圖<br>開始</h2>
+    <p>平台讀圖,分析輪廓、比例與零件,先堆出 graybox 的山體,確認剪影之後才加細節。你不用開 Blender。</p>
+    <div class="stats"><div><b>1</b><span>張圖</span></div><div><b>7,786</b><span>graybox tri</span></div><div><b>6</b><span>視角檢查</span></div></div>
+  </div>
+  <div class="model"><img src="../../blender/renders/mockup/s2_rocks.png" alt=""></div>
+</section>
+
+<section class="section" id="s3">
+  <div class="num">02</div>
+  <div class="copy">
+    <div class="rule"></div>
+    <div class="eyebrow">02 · 建模</div>
+    <h2>每個零件<br>都是程式碼</h2>
+    <p>模型不是一次性的 .blend,而是能從空場景重建的 Python。說「珊瑚再多一點」,平台改程式、重生成、重新匯出,網頁自動更新。</p>
+    <div class="stats"><div><b>91</b><span>零件</span></div><div><b>1</b><span>材質</span></div><div><b>0.6 MB</b><span>GLB</span></div></div>
+  </div>
+  <div class="prop code"><div class="label">model.spec.json</div><pre><span class="k">"corals"</span>: { <span class="k">"count"</span>: <span class="n">35</span>, <span class="k">"variants"</span>: <span class="n">5</span>,
+            <span class="k">"mode"</span>: <span class="s">"grow"</span> },
+<span class="k">"kelp"</span>:   { <span class="k">"count"</span>: <span class="n">16</span>, <span class="k">"mode"</span>: <span class="s">"grow"</span> },
+<span class="k">"palette"</span>: <span class="s">"64x64"</span></pre></div>
+  <div class="model"><img src="../../blender/renders/mockup/s3_life.png" alt=""></div>
+</section>
+
+<section class="section" id="s4">
+  <div class="num">03</div>
+  <div class="copy">
+    <div class="rule"></div>
+    <div class="eyebrow">03 · 調光</div>
+    <h2>材質、光線、相機,<br>全是設定檔</h2>
+    <p>在瀏覽器裡拖一下滑桿,場景立刻改變。每個參數都是 JSON,可以存下來、分享、套到下一個模型。</p>
+  </div>
+  <div class="prop panel"><div class="label">lighting.json</div>
+    <div class="row"><span>曝光</span><div class="bar"><i style="width:52%"></i></div><span>1.00</span></div>
+    <div class="row"><span>主光</span><div class="bar"><i style="width:66%"></i></div><span>3.3</span></div>
+    <div class="row"><span>霧氣</span><div class="bar"><i style="width:30%"></i></div><span>0.18</span></div>
+    <div class="row"><span>水色</span><div><span class="swatch" style="background:#1d6fc4"></span><span class="swatch" style="background:#072a66"></span></div><span>#1d6f</span></div>
+  </div>
+  <div class="model"><img src="../../blender/renders/mockup/s4_diver.png" alt=""></div>
+</section>
+
+<section class="section" id="s5">
+  <div class="num">04</div>
+  <div class="copy">
+    <div class="rule"></div>
+    <div class="eyebrow">04 · 互動</div>
+    <h2>放進網站,<br>就會動</h2>
+    <p>捲動時模型穿過頁面,零件依設定堆起、長出、環繞;游標跟隨、手機靜態 fallback、離開畫面暫停,全部內建。</p>
+  </div>
+  <div class="prop chips"><span class="on">scroll 敘事</span><span class="on">游標跟隨</span><span class="on">逐件動畫</span><span>手機 fallback</span><span>離開畫面暫停</span><span>DPR 上限</span></div>
+  <div class="model"><img src="../../blender/renders/mockup/s5_fish.png" alt=""></div>
+</section>
+
+<section class="section" id="s6">
+  <div class="copy">
+    <div class="eyebrow">從圖到網站,一條流程</div>
+    <h2>用你的下一張圖<br>試試看</h2>
+    <p>概念圖 → 可重現的 Blender 模型 → 驗證過的 GLB → 可調光、可捲動的 Three.js 網站。每一步都留下可重跑的檔案。</p>
+    <div class="actions"><a class="btn primary">上傳一張圖</a><a class="btn">看完整流程</a></div>
+  </div>
+  <div class="model"><img src="../../blender/renders/mockup/s6_cta.png" alt=""></div>
+  <div class="footer"><span>© 2026 Picture to Model</span><span>Image → Blender → GLB → Three.js</span></div>
+</section>
+</body>
+</html>

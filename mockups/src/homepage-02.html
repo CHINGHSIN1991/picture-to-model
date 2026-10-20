@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Picture to Model mockup 02 — 流程卡片</title>
+<link rel="stylesheet" href="base.css">
+<style>
+  body { font-family: "Avenir Next", "PingFang TC", "Noto Sans TC", sans-serif; background: #0d3f8c; }
+  h1, h2 { font-weight: 600; line-height: 1.1; letter-spacing: -.01em; }
+  .water { background: linear-gradient(180deg, #3aa0e6 0%, #1d6fc4 40%, #0f4ea6 100%); }
+  .sand { background: linear-gradient(180deg, #f6efdc 0%, #efe3c4 100%); color: #10306a; }
+  .sand .model img { filter: drop-shadow(0 40px 50px rgba(60, 50, 10, .25)); }
+  .sand .prop { background: rgba(16,48,106,.9); }
+  .card { position: absolute; z-index: 2; width: 420px; padding: 34px 36px 36px; border-radius: 22px;
+    background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.32); backdrop-filter: blur(18px); }
+  .sand .card { background: rgba(255,255,255,.72); border-color: rgba(16,48,106,.12); }
+  .card .eyebrow { font-size: 12px; } .card h2 { font-size: 38px; margin: 14px 0 14px; }
+  .card p { font-size: 16px; line-height: 1.7; opacity: .86; }
+  .step { position: absolute; z-index: 3; top: 40px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; align-items: center; font-size: 12px; letter-spacing: .2em; }
+  .step i { width: 28px; height: 2px; background: currentColor; opacity: .3; } .step i.on { opacity: 1; }
+  .hero-copy { position: absolute; z-index: 2; left: 50%; top: 110px; transform: translateX(-50%); width: 860px; text-align: center; }
+  .hero-copy h1 { font-size: 66px; margin: 18px 0 20px; white-space: nowrap; }
+  .hero-copy p { font-size: 19px; line-height: 1.7; opacity: .9; max-width: 640px; margin: 0 auto; }
+  .hero-copy .actions { display: flex; gap: 14px; justify-content: center; margin-top: 34px; }
+  .chips { display: flex; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
+  .chips span { padding: 6px 12px; border-radius: 999px; border: 1px solid currentColor; font-size: 12px; letter-spacing: .1em; opacity: .8; }
+  #s1 .model { width: 1100px; left: 50%; bottom: -340px; transform: translateX(-50%); }
+  #s2 .model { width: 900px; left: 50%; top: 80px; transform: translateX(-26%); } #s2 .card { left: 96px; top: 330px; }
+  #s2 .prop.input { left: 96px; top: 100px; width: 420px; display: flex; gap: 14px; align-items: center; }
+  #s2 .prop.input img { width: 150px; margin: 0; } #s2 .prop.input .label { white-space: nowrap; }
+  #s3 .model { width: 1040px; left: 50%; top: 0; transform: translateX(-72%); } #s3 .card { right: 72px; top: 170px; }
+  #s3 .prop.code { right: 72px; top: 560px; width: 420px; }
+  #s4 .model { width: 1020px; left: 50%; top: 10px; transform: translateX(-34%); } #s4 .card { left: 96px; top: 170px; }
+  #s4 .prop.panel { left: 96px; top: 560px; }
+  #s5 .model { width: 900px; left: 50%; top: 60px; transform: translateX(-62%); } #s5 .card { right: 96px; top: 200px; }
+  #s5 .prop.chips { right: 96px; top: 600px; width: 420px; }
+  #s6 .model { width: 820px; left: 50%; top: 250px; transform: translateX(-50%); }
+  #s6 .hero-copy { top: 110px; } #s6 .hero-copy h2 { font-size: 54px; margin: 16px 0 18px; }
+  #s6 .footer { position: absolute; left: 0; right: 0; bottom: 0; }
+  @media (max-width: 640px) {
+    .hero-copy { position: static; width: auto; transform: none; text-align: left; } .hero-copy h1 { font-size: 44px; }
+    .hero-copy p { max-width: none; } .hero-copy .actions { justify-content: flex-start; flex-wrap: wrap; }
+    .card { position: static; width: auto; } .card h2 { font-size: 32px; }
+    .step { display: none; } #s6 .footer { position: static; margin-top: 24px; }
+    #s2 .prop.input { flex-direction: column; align-items: stretch; } #s2 .prop.input img { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<section class="section water" id="s1">
+  <nav class="nav"><span>Picture to Model</span><ul><li>流程</li><li>建模</li><li>調光</li><li>互動</li><li>開始使用</li></ul></nav>
+  <div class="hero-copy">
+    <div class="eyebrow">Picture to Model · 圖轉 3D 平台</div>
+    <h1>一張圖,變成會動的 3D 網站</h1>
+    <p>上傳一張概念圖,平台幫你建模、調光、匯出,放進網站。下面這座珊瑚礁,就是從一張圖開始的。</p>
+    <div class="actions"><a class="btn primary">上傳第一張圖</a><a class="btn">看示範</a></div>
+  </div>
+  <div class="model"><img src="../../blender/renders/mockup/s1_hero.png" alt=""></div>
+</section>
+
+<section class="section sand" id="s2">
+  <div class="step"><i class="on"></i><i></i><i></i><i></i><span>01 / 04</span></div>
+  <div class="prop input"><div class="label">輸入 · 概念圖</div><img src="../../references/final-concept.png" alt=""></div>
+  <div class="card">
+    <div class="eyebrow">01 · 上傳 Upload</div>
+    <h2>從一張圖開始</h2>
+    <p>平台讀圖,分析輪廓、比例與零件,先堆出 graybox 的山體,確認剪影之後才加細節。你不用開 Blender。</p>
+    <div class="chips"><span>1 張圖</span><span>7,786 tri graybox</span><span>6 視角檢查</span></div>
+  </div>
+  <div class="model"><img src="../../blender/renders/mockup/s2_rocks.png" alt=""></div>
+</section>
+
+<section class="section water" id="s3">
+  <div class="step"><i class="on"></i><i class="on"></i><i></i><i></i><span>02 / 04</span></div>
+  <div class="card">
+    <div class="eyebrow">02 · 建模 Reproducible model</div>
+    <h2>每個零件都是程式碼</h2>
+    <p>模型不是一次性的 .blend,而是能從空場景重建的 Python。說「珊瑚再多一點」,平台改程式、重生成、重新匯出,網頁自動更新。</p>
+    <div class="chips"><span>91 零件</span><span>1 材質</span><span>0.6 MB GLB</span></div>
+  </div>
+  <div class="prop code"><div class="label">model.spec.json</div><pre><span class="k">"corals"</span>: { <span class="k">"count"</span>: <span class="n">35</span>, <span class="k">"variants"</span>: <span class="n">5</span>,
+            <span class="k">"mode"</span>: <span class="s">"grow"</span> },
+<span class="k">"kelp"</span>:   { <span class="k">"count"</span>: <span class="n">16</span>, <span class="k">"mode"</span>: <span class="s">"grow"</span> },
+<span class="k">"palette"</span>: <span class="s">"64x64"</span></pre></div>
+  <div class="model"><img src="../../blender/renders/mockup/s3_life.png" alt=""></div>
+</section>
+
+<section class="section sand" id="s4">
+  <div class="step"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><span>03 / 04</span></div>
+  <div class="card">
+    <div class="eyebrow">03 · 調光 Controls</div>
+    <h2>材質、光線、相機,全是設定檔</h2>
+    <p>在瀏覽器裡拖一下滑桿,場景立刻改變。每個參數都是 JSON,可以存下來、分享、套到下一個模型。</p>
+  </div>
+  <div class="prop panel"><div class="label">lighting.json</div>
+    <div class="row"><span>曝光</span><div class="bar"><i style="width:52%"></i></div><span>1.00</span></div>
+    <div class="row"><span>主光</span><div class="bar"><i style="width:66%"></i></div><span>3.3</span></div>
+    <div class="row"><span>霧氣</span><div class="bar"><i style="width:30%"></i></div><span>0.18</span></div>
+    <div class="row"><span>水色</span><div><span class="swatch" style="background:#1d6fc4"></span><span class="swatch" style="background:#072a66"></span></div><span>#1d6f</span></div>
+  </div>
+  <div class="model"><img src="../../blender/renders/mockup/s4_diver.png" alt=""></div>
+</section>
+
+<section class="section water" id="s5">
+  <div class="step"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><span>04 / 04</span></div>
+  <div class="card">
+    <div class="eyebrow">04 · 互動 In the browser</div>
+    <h2>放進網站,就會動</h2>
+    <p>捲動時模型穿過頁面,零件依設定堆起、長出、環繞;游標跟隨、手機靜態 fallback、離開畫面暫停,全部內建。</p>
+  </div>
+  <div class="prop chips"><span class="on">scroll 敘事</span><span class="on">游標跟隨</span><span class="on">逐件動畫</span><span>手機 fallback</span><span>離開畫面暫停</span><span>DPR 上限</span></div>
+  <div class="model"><img src="../../blender/renders/mockup/s5_fish.png" alt=""></div>
+</section>
+
+<section class="section sand" id="s6">
+  <div class="hero-copy">
+    <div class="eyebrow">從圖到網站,一條流程</div>
+    <h2>用你的下一張圖試試看</h2>
+    <p>概念圖 → 可重現的 Blender 模型 → 驗證過的 GLB → 可調光、可捲動的 Three.js 網站。每一步都留下可重跑的檔案。</p>
+    <div class="actions"><a class="btn primary" style="background:#10306a;color:#fff;border-color:#10306a">上傳一張圖</a><a class="btn" style="border-color:#10306a">看完整流程</a></div>
+  </div>
+  <div class="model"><img src="../../blender/renders/mockup/s6_cta.png" alt=""></div>
+  <div class="footer"><span>© 2026 Picture to Model</span><span>Image → Blender → GLB → Three.js</span></div>
+</section>
+</body>
+</html>

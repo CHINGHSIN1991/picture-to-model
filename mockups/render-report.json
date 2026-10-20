@@ -1,0 +1,27 @@
+{
+  "renderedAt": "2026-10-20T15:56:33.554Z",
+  "pages": [
+    {
+      "file": "homepage-02.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": [
+        1440,
+        5400
+      ]
+    },
+    {
+      "file": "homepage-02-mobile.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "page": [
+        390,
+        5508
+      ]
+    }
+  ]
+}

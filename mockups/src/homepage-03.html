@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Picture to Model mockup 03 — 流程儀表</title>
+<link rel="stylesheet" href="base.css">
+<style>
+  body { font-family: "Avenir Next", "PingFang TC", "Noto Sans TC", sans-serif;
+    background: linear-gradient(180deg, #1a6fc9 0%, #0c3f8f 18%, #072b66 45%, #041a45 75%, #020d28 100%); }
+  h1, h2 { font-family: "Avenir Next Condensed", "Avenir Next", "PingFang TC", sans-serif; font-weight: 600; line-height: 1.0; letter-spacing: .01em; text-transform: uppercase; }
+  .mono { font-family: "SF Mono", Menlo, monospace; font-size: 12px; letter-spacing: .2em; opacity: .7; }
+  .gauge { position: absolute; z-index: 3; left: 64px; top: 0; bottom: 0; width: 140px; display: flex; flex-direction: column; justify-content: space-between; padding: 110px 0 60px; }
+  .gauge .tick { display: flex; align-items: center; gap: 12px; font-family: "SF Mono", Menlo, monospace; font-size: 11px; opacity: .45; white-space: nowrap; }
+  .gauge .tick::before { content: ""; width: 24px; height: 1px; background: #fff; flex: none; }
+  .gauge .tick.on { opacity: 1; color: #ffd166; } .gauge .tick.on::before { width: 40px; background: #ffd166; }
+  .cap { position: absolute; z-index: 2; left: 220px; bottom: 110px; width: 460px; }
+  .cap h2 { font-size: 60px; margin: 14px 0 18px; }
+  .cap p { font-size: 16px; line-height: 1.7; opacity: .82; max-width: 380px; }
+  .depth { position: absolute; z-index: 2; left: 220px; top: 110px; }
+  .depth b { display: block; font-family: "Avenir Next Condensed", sans-serif; font-size: 120px; font-weight: 600; line-height: .95; }
+  .depth span { font-family: "SF Mono", Menlo, monospace; font-size: 12px; letter-spacing: .3em; opacity: .6; }
+  .glow { position: absolute; left: 50%; top: 50%; width: 1200px; height: 800px; transform: translate(-50%,-50%); border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(90,170,255,.22), rgba(90,170,255,0)); pointer-events: none; }
+  .hero { position: absolute; z-index: 2; left: 220px; top: 170px; width: 720px; }
+  .hero h1 { font-size: 118px; margin: 14px 0 22px; }
+  .hero p { font-size: 18px; line-height: 1.7; opacity: .85; max-width: 480px; }
+  .hero .actions { display: flex; gap: 14px; margin-top: 36px; }
+  .prop.right { right: 72px; bottom: 110px; }
+  #s1 .model { width: 1120px; right: -200px; top: 60px; }
+  #s2 .model { width: 860px; left: 50%; top: 60px; transform: translateX(-16%); } #s2 .prop.input { left: 220px; top: 300px; }
+  #s3 .model { width: 900px; left: 50%; top: 20px; transform: translateX(-18%); }
+  #s4 .model { width: 880px; left: 50%; top: 40px; transform: translateX(-16%); }
+  #s5 .model { width: 820px; left: 50%; top: 70px; transform: translateX(-14%); }
+  #s6 .model { width: 820px; left: 50%; top: 220px; transform: translateX(-50%); }
+  #s6 { background: linear-gradient(0deg, #020d28 0%, #0b3b84 100%); }
+  #s6 .hero { left: 50%; top: 120px; transform: translateX(-50%); width: 800px; text-align: center; }
+  #s6 .hero h2 { font-size: 72px; margin: 14px 0 18px; } #s6 .hero p { max-width: none; } #s6 .actions { justify-content: center; }
+  #s6 .footer { position: absolute; left: 0; right: 0; bottom: 0; }
+  @media (max-width: 640px) {
+    .gauge { display: none; } .depth { position: static; margin-bottom: 8px; } .depth b { font-size: 64px; }
+    .cap { position: static; width: auto; } .cap h2 { font-size: 42px; } .hero { position: static; width: auto; } .hero h1 { font-size: 56px; }
+    #s6 .hero { text-align: left; transform: none; } #s6 .hero h2 { font-size: 44px; } #s6 .actions { justify-content: flex-start; flex-wrap: wrap; }
+    #s6 .footer { position: static; margin-top: 24px; }
+  }
+</style>
+</head>
+<body>
+<section class="section" id="s1">
+  <div class="glow"></div>
+  <nav class="nav"><span>Picture to Model</span><ul><li>流程</li><li>建模</li><li>調光</li><li>互動</li><li>開始使用</li></ul></nav>
+  <div class="hero">
+    <div class="mono">PICTURE TO MODEL · 圖轉 3D 平台</div>
+    <h1>Image<br>to Web 3D</h1>
+    <p>上傳一張概念圖,平台幫你建模、調光、匯出,放進網站。這座珊瑚礁就是從一張圖開始的。</p>
+    <div class="actions"><a class="btn primary">上傳第一張圖</a><a class="btn">看示範</a></div>
+  </div>
+  <div class="model"><img src="../../blender/renders/mockup/s1_hero.png" alt=""></div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<section class="section" id="s2">
+  <div class="gauge"><div class="tick on">01 上傳</div><div class="tick">02 建模</div><div class="tick">03 調光</div><div class="tick">04 互動</div><div class="tick">05 上線</div></div>
+  <div class="depth"><b>01</b><span>UPLOAD · 上傳</span></div>
+  <div class="prop input"><div class="label">輸入 · 概念圖</div><img src="../../references/final-concept.png" alt=""><div class="arrow"></div></div>
+  <div class="model"><img src="../../blender/renders/mockup/s2_rocks.png" alt=""></div>
+  <div class="cap"><div class="mono">01 · UPLOAD</div><h2>從一張圖<br>開始</h2><p>平台讀圖,分析輪廓、比例與零件,先堆出 graybox 的山體,確認剪影之後才加細節。</p></div>
+</section>
+
+<section class="section" id="s3">
+  <div class="gauge"><div class="tick">01 上傳</div><div class="tick on">02 建模</div><div class="tick">03 調光</div><div class="tick">04 互動</div><div class="tick">05 上線</div></div>
+  <div class="depth"><b>02</b><span>MODEL · 建模</span></div>
+  <div class="model"><img src="../../blender/renders/mockup/s3_life.png" alt=""></div>
+  <div class="prop code right"><div class="label">model.spec.json</div><pre><span class="k">"corals"</span>: { <span class="k">"count"</span>: <span class="n">35</span>, <span class="k">"mode"</span>: <span class="s">"grow"</span> },
+<span class="k">"kelp"</span>:   { <span class="k">"count"</span>: <span class="n">16</span>, <span class="k">"mode"</span>: <span class="s">"grow"</span> },
+<span class="k">"palette"</span>: <span class="s">"64x64"</span></pre></div>
+  <div class="cap"><div class="mono">02 · REPRODUCIBLE</div><h2>每個零件<br>都是程式碼</h2><p>模型是能從空場景重建的 Python。說「珊瑚再多一點」,平台改程式、重生成、重新匯出。</p></div>
+</section>
+
+<section class="section" id="s4">
+  <div class="gauge"><div class="tick">01 上傳</div><div class="tick">02 建模</div><div class="tick on">03 調光</div><div class="tick">04 互動</div><div class="tick">05 上線</div></div>
+  <div class="depth"><b>03</b><span>CONTROLS · 調光</span></div>
+  <div class="model"><img src="../../blender/renders/mockup/s4_diver.png" alt=""></div>
+  <div class="prop panel right"><div class="label">lighting.json</div>
+    <div class="row"><span>曝光</span><div class="bar"><i style="width:52%"></i></div><span>1.00</span></div>
+    <div class="row"><span>主光</span><div class="bar"><i style="width:66%"></i></div><span>3.3</span></div>
+    <div class="row"><span>霧氣</span><div class="bar"><i style="width:30%"></i></div><span>0.18</span></div>
+    <div class="row"><span>水色</span><div><span class="swatch" style="background:#1d6fc4"></span><span class="swatch" style="background:#072a66"></span></div><span>#1d6f</span></div>
+  </div>
+  <div class="cap"><div class="mono">03 · CONTROLS</div><h2>光線與材質<br>全是設定檔</h2><p>在瀏覽器裡拖一下滑桿,場景立刻改變。每個參數都是 JSON,可以存下來、分享、套到下一個模型。</p></div>
+</section>
+
+<section class="section" id="s5">
+  <div class="gauge"><div class="tick">01 上傳</div><div class="tick">02 建模</div><div class="tick">03 調光</div><div class="tick on">04 互動</div><div class="tick">05 上線</div></div>
+  <div class="depth"><b>04</b><span>INTERACTION · 互動</span></div>
+  <div class="model"><img src="../../blender/renders/mockup/s5_fish.png" alt=""></div>
+  <div class="prop chips right"><span class="on">scroll 敘事</span><span class="on">游標跟隨</span><span class="on">逐件動畫</span><span>手機 fallback</span><span>離開畫面暫停</span><span>DPR 上限</span></div>
+  <div class="cap"><div class="mono">04 · INTERACTION</div><h2>放進網站<br>就會動</h2><p>捲動時模型穿過頁面,零件依設定堆起、長出、環繞;游標跟隨與手機 fallback 全部內建。</p></div>
+</section>
+
+<section class="section" id="s6">
+  <div class="hero">
+    <div class="mono">05 · SHIP · 上線</div>
+    <h2>用下一張圖試試看</h2>
+    <p>概念圖 → 可重現的 Blender 模型 → 驗證過的 GLB → 可調光、可捲動的 Three.js 網站。每一步都留下可重跑的檔案。</p>
+    <div class="actions"><a class="btn primary">上傳一張圖</a><a class="btn">看完整流程</a></div>
+  </div>
+  <div class="model"><img src="../../blender/renders/mockup/s6_cta.png" alt=""></div>
+  <div class="footer"><span>© 2026 Picture to Model</span><span>Image → Blender → GLB → Three.js</span></div>
+</section>
+</body>
+</html>

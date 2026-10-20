@@ -1,0 +1,54 @@
+/* Shared reset + tokens for the Step 09 mockups. Each homepage-0N.html adds its own identity. */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; }
+body { width: 100%; overflow-x: hidden; color: #fff; }
+img { display: block; max-width: none; }
+a { color: inherit; text-decoration: none; }
+.section { position: relative; width: 100%; height: 100vh; min-height: 720px; overflow: hidden; }
+.model { position: absolute; pointer-events: none; }
+.model img { width: 100%; height: auto; filter: drop-shadow(0 40px 60px rgba(0, 10, 40, .45)); }
+.copy { position: absolute; z-index: 2; }
+.eyebrow { font-size: 13px; letter-spacing: .32em; text-transform: uppercase; opacity: .78; }
+.btn { display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 26px; border-radius: 999px;
+  font-size: 15px; letter-spacing: .08em; border: 1px solid rgba(255,255,255,.55); }
+.btn.primary { background: #fff; color: #0b2a66; border-color: #fff; }
+.nav { position: absolute; z-index: 5; top: 0; left: 0; right: 0; display: flex; justify-content: space-between;
+  align-items: center; padding: 30px 64px; font-size: 13px; letter-spacing: .2em; text-transform: uppercase; }
+.nav ul { display: flex; gap: 36px; list-style: none; opacity: .85; }
+.scroll-hint { position: absolute; left: 50%; bottom: 36px; transform: translateX(-50%); font-size: 12px;
+  letter-spacing: .3em; opacity: .6; text-transform: uppercase; z-index: 2; }
+.footer { display: flex; justify-content: space-between; padding: 28px 64px; font-size: 12px; letter-spacing: .15em; opacity: .6; }
+@media (max-width: 640px) {
+  .section { height: auto; min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-start; padding: 96px 20px 48px; }
+  .copy { position: static; width: auto !important; max-width: none !important; transform: none !important; }
+  .model { position: static; width: 112% !important; max-width: none !important; align-self: center; margin: 12px 0 0; transform: none !important; }
+  .nav { padding: 20px 20px; } .nav ul { display: none; }
+  .scroll-hint { display: none; }
+  .footer { padding: 24px 20px; flex-direction: column; gap: 8px; }
+}
+
+/* Product-page UI props shared by the three variants */
+.prop { position: absolute; z-index: 3; border-radius: 16px; background: rgba(6, 24, 64, .62); border: 1px solid rgba(255,255,255,.22);
+  backdrop-filter: blur(14px); color: #fff; box-shadow: 0 30px 60px rgba(0, 10, 40, .35); }
+.prop .label { font-size: 11px; letter-spacing: .24em; text-transform: uppercase; opacity: .7; }
+.prop.input { width: 236px; padding: 14px; }
+.prop.input img { width: 100%; border-radius: 10px; margin-top: 10px; }
+.prop.input .arrow { position: absolute; right: -46px; top: 50%; width: 36px; height: 1px; background: rgba(255,255,255,.6); }
+.prop.input .arrow::after { content: ""; position: absolute; right: -1px; top: -4px; border: 4px solid transparent; border-left: 7px solid rgba(255,255,255,.7); }
+.prop.code { width: 330px; padding: 16px 18px; font-family: "SF Mono", Menlo, monospace; font-size: 12.5px; line-height: 1.6; }
+.prop.code pre { margin-top: 10px; white-space: pre; }
+.prop.code .k { color: #9ed0ff; } .prop.code .s { color: #ffd166; } .prop.code .n { color: #ff9ecb; }
+.prop.panel { width: 300px; padding: 18px 20px; }
+.prop.panel .row { display: grid; grid-template-columns: 70px 1fr 48px; align-items: center; gap: 12px; margin-top: 14px; font-size: 12.5px; }
+.prop.panel .row span:last-child { text-align: right; font-family: "SF Mono", Menlo, monospace; opacity: .8; }
+.prop.panel .bar { position: relative; height: 3px; border-radius: 2px; background: rgba(255,255,255,.22); }
+.prop.panel .bar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 2px; background: #ffd166; }
+.prop.panel .bar i::after { content: ""; position: absolute; right: -6px; top: -5px; width: 13px; height: 13px; border-radius: 50%; background: #fff; }
+.prop.panel .swatch { display: inline-block; width: 14px; height: 14px; border-radius: 4px; vertical-align: middle; margin-right: 6px; border: 1px solid rgba(255,255,255,.4); }
+.prop.chips { display: flex; flex-wrap: wrap; gap: 8px; width: 360px; padding: 14px 16px; }
+.prop.chips span { padding: 6px 11px; border-radius: 999px; border: 1px solid rgba(255,255,255,.35); font-size: 12px; letter-spacing: .06em; }
+.prop.chips span.on { background: #ffd166; color: #0b2a66; border-color: #ffd166; }
+@media (max-width: 640px) {
+  .prop { position: static !important; transform: none !important; margin: 16px 0 0; width: auto !important; }
+  .prop.input .arrow { display: none; } .prop.input img { max-height: 160px; object-fit: cover; }
+}
