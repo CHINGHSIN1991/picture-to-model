@@ -1,0 +1,152 @@
+{
+  "blend": "blender/scenes/02_detail.blend",
+  "resolution": [
+    1600,
+    1200
+  ],
+  "samples": 32,
+  "film_transparent": true,
+  "sections": [
+    {
+      "file": "s1_hero.png",
+      "rotation_y_deg": 0.0,
+      "azimuth_deg": -12.0,
+      "elevation_deg": 17.0,
+      "distance": 6.8,
+      "lens_mm": 50.0,
+      "target": [
+        0.0,
+        0.0,
+        0.8
+      ],
+      "groups_at_rest": [
+        "boulders",
+        "corals",
+        "diver",
+        "fish",
+        "kelp",
+        "rocks"
+      ],
+      "groups_departed": [],
+      "hidden_meshes": 0
+    },
+    {
+      "file": "s2_rocks.png",
+      "rotation_y_deg": -35.0,
+      "azimuth_deg": 23.0,
+      "elevation_deg": 21.0,
+      "distance": 6.46,
+      "lens_mm": 50.0,
+      "target": [
+        0.0,
+        0.0,
+        0.7
+      ],
+      "groups_at_rest": [
+        "boulders",
+        "rocks"
+      ],
+      "groups_departed": [
+        "corals",
+        "diver",
+        "fish",
+        "kelp"
+      ],
+      "hidden_meshes": 71
+    },
+    {
+      "file": "s3_life.png",
+      "rotation_y_deg": -100.0,
+      "azimuth_deg": 88.0,
+      "elevation_deg": 13.0,
+      "distance": 5.44,
+      "lens_mm": 50.0,
+      "target": [
+        0.0,
+        0.0,
+        0.7
+      ],
+      "groups_at_rest": [
+        "boulders",
+        "corals",
+        "kelp",
+        "rocks"
+      ],
+      "groups_departed": [
+        "diver",
+        "fish"
+      ],
+      "hidden_meshes": 20
+    },
+    {
+      "file": "s4_diver.png",
+      "rotation_y_deg": -160.0,
+      "azimuth_deg": 148.0,
+      "elevation_deg": 9.0,
+      "distance": 6.256,
+      "lens_mm": 50.0,
+      "target": [
+        0.0,
+        0.0,
+        1.05
+      ],
+      "groups_at_rest": [
+        "boulders",
+        "corals",
+        "diver",
+        "kelp",
+        "rocks"
+      ],
+      "groups_departed": [
+        "fish"
+      ],
+      "hidden_meshes": 15
+    },
+    {
+      "file": "s5_fish.png",
+      "rotation_y_deg": -230.0,
+      "azimuth_deg": 218.0,
+      "elevation_deg": 26.0,
+      "distance": 7.48,
+      "lens_mm": 50.0,
+      "target": [
+        0.0,
+        0.0,
+        0.8
+      ],
+      "groups_at_rest": [
+        "boulders",
+        "corals",
+        "diver",
+        "fish",
+        "kelp",
+        "rocks"
+      ],
+      "groups_departed": [],
+      "hidden_meshes": 0
+    },
+    {
+      "file": "s6_cta.png",
+      "rotation_y_deg": -360.0,
+      "azimuth_deg": 348.0,
+      "elevation_deg": 30.0,
+      "distance": 7.82,
+      "lens_mm": 50.0,
+      "target": [
+        0.0,
+        0.0,
+        0.7
+      ],
+      "groups_at_rest": [
+        "boulders",
+        "corals",
+        "diver",
+        "fish",
+        "kelp",
+        "rocks"
+      ],
+      "groups_departed": [],
+      "hidden_meshes": 0
+    }
+  ]
+}
