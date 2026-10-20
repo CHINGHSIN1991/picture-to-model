@@ -16,7 +16,7 @@ blender/
   renders/graybox/    graybox 多角度 render(Step 03)
   renders/final/      完整模型 render(Step 05)
 export/               驗證過的 <asset>.glb(Step 06)
-mockups/              網站 mockup 圖(Step 09)
+mockups/              網站 mockup 圖與 SECTIONS.md(Step 09);src/ 是 HTML 來源
 web/                  Vue 3 + Vite + Three.js 專案(Step 07 起)
 ```
 
@@ -124,7 +124,24 @@ Build 與七項瀏覽器測試通過；Apple M4 / Metal 在 1440×900、DPR 1.5�
 - [瀏覽器主視角](web/screenshots/lighting-v1.png)
 - [效能量測報告](web/screenshots/lighting-report.json)
 
-下一步為 Step 09：網站 mockup。
+## 網站 Mockup(Step 09)
+
+沒有使用影像生成;改以 Blender 透明背景 render 出六個 section 的零件狀態與角度,
+再用三種 HTML 版面合成整頁圖,由 Chrome 截成桌機(1440 寬)與手機(390 寬)PNG。
+網站定位是**圖轉 3D 平台的產品頁**,珊瑚礁是示範 asset;六段為 Hero、上傳、建模、調光、互動、CTA,
+四個流程段各用一個零件動畫演示。選定 `homepage-01`(編輯排版):模型左右交替穿過六段,繞行一整圈回到 Hero 角度。
+
+```bash
+blender --background --factory-startup --threads 2 --python-exit-code 1 --python blender/scripts/04_mockup_renders.py
+cd web && bun run mockups
+```
+
+- [選定的 mockup](mockups/final-homepage.png) · [手機直式](mockups/final-homepage-mobile.png)
+- [三張候選](mockups/)(`homepage-01/02/03.png`)· [HTML 來源](mockups/src/)
+- [SECTIONS.md](mockups/SECTIONS.md):六段的模型位置、累計旋轉、縮放、相機仰角與零件 `t`
+- [Step 09 總結](summary/09-website-mockup.md)
+
+下一步為 Step 10：依 mockup 實作網站。
 
 ## 原則
 

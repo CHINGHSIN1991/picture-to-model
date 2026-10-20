@@ -14,7 +14,7 @@ roadmap 文件中的 `<asset>` 等佔位符一律查這裡。
 | 主題 | 潛水員 + 錐狀珊瑚礁,low-poly 玩具感 | Step 01 prompt |
 | reference | `references/final-concept.png` | Step 02 起所有比對 |
 | model plan | [blender/MODEL_PLAN.md](blender/MODEL_PLAN.md) | Step 02–06 |
-| sections | `mockups/SECTIONS.md`(Step 09 產出後才有) | Step 10–12 |
+| sections | [mockups/SECTIONS.md](mockups/SECTIONS.md)(6 段,Step 09) | Step 10–12 |
 | 網頁 stack | Vue 3 + Vite + TypeScript + Three.js + GSAP | Step 07–17 |
 
 ## 零件群組(part groups)
@@ -50,9 +50,9 @@ mode 目錄與 `t`(departure:0 = rest,1 = 離開狀態)的定義見 [roadmap/13]
 | `corals` + `kelp` | `grow` | `order random`、`stagger 0.03`、`overshoot 0.15` | 依序長出(`t: 1 → 0`) |
 | `diver` | `path` | `offsets [[-1.0, 3.0, 0.5], [-0.5, 1.2, 0.3], [0, 0, 0]]` | 從畫面頂沿曲線下潛到定位(`t: 1 → 0`) |
 | `fish` | `orbit` | `center [0, 0.8, 0]`、`axis [0, 1, 0]`、`angle 2π` | 進場環繞(`t: 1 → 0`) |
-| `boulders` + `corals` + `kelp` + `fish` | `explode` | `distance 0.8`、`jitter 0.3`;`rocks` 不散開,留在原地當錨 | **未定**:只有在 `SECTIONS.md` 某個 section 真的需要「散開 / 重組」時才啟用,否則刪掉這列 |
 
 哪個 section 用哪個 group 的哪個 `t`,寫在 `mockups/SECTIONS.md`(Step 09)。
+`explode` mode 在 Step 09 確認沒有任何 section 需要,已移除;`boulders` 全程 `t = 0`,與沙地一起當錨。
 
 ### Idle(時間驅動,不經 scroll,不經 PartAnimator)
 
@@ -71,5 +71,7 @@ mode 目錄與 `t`(departure:0 = rest,1 = 離開狀態)的定義見 [roadmap/13]
 
 ## Sections(Step 09 產出後填)
 
-section **數量不固定**,由 mockup 決定;每個 section 的 3D 狀態寫在 `mockups/SECTIONS.md`,
-欄位含「零件狀態」(每個 group 的 `t`)。Step 10 的元件名稱、Step 12 的 `config/sections.ts` 都從那裡來。
+網站是**圖轉 3D 平台的產品頁**,珊瑚礁是示範 asset。Step 09 選定 `mockups/homepage-01.png`(編輯排版),
+共 **6 個 section**:Hero、上傳、建模、調光、互動、CTA;四個流程段各用一個零件 mode 演示(stack / grow / path / orbit)。
+每段的模型位置、累計旋轉(0° → −360°,繞一圈)、縮放、相機仰角與零件 `t` 寫在 [mockups/SECTIONS.md](mockups/SECTIONS.md);
+Step 10 的元件名稱、Step 12 的 `config/sections.ts` 都從那裡來。
