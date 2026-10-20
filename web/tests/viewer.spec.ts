@@ -17,6 +17,8 @@ test('loads the audited GLB, preserves hierarchy and supports orbit, zoom and re
     }
   })
   const response = page.waitForResponse((response) => response.url().endsWith('/models/reef.glb'))
+  // Isolate camera movement from the animated water when comparing screenshots.
+  await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
   expect(checksum(await (await response).body())).toBe(checksum(bytes))
   await expect(page.locator('main')).toHaveAttribute('data-state', 'ready')

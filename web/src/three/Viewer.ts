@@ -3,10 +3,13 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { createRenderer } from './createRenderer'
 import { createScene } from './createScene'
 import { disposeModel, loadModel } from './loadModel'
+import { createLighting } from './createLighting'
+import { createWaterMaterials } from './createWaterMaterials'
 
 export function mountViewer(container: HTMLElement) {
   const renderer = createRenderer()
   const scene = createScene()
+  const lighting = createLighting(scene, renderer)
   // Blender hero: 50 mm lens, 36 mm sensor, 4:3 frame.
   const camera = new PerspectiveCamera(MathUtils.radToDeg(2 * Math.atan(27 / 100)), 1, 0.01, 100)
   const controls = new OrbitControls(camera, renderer.domElement)
@@ -17,6 +20,7 @@ export function mountViewer(container: HTMLElement) {
   let disposed = false
   let asset: Awaited<ReturnType<typeof loadModel>> | undefined
   let lastFitDistance = 0
+  let debug: { update(): void; dispose(): void } | undefined
   const framingPoints: Vector3[] = []
   const azimuth = MathUtils.degToRad(-12)
   const elevation = MathUtils.degToRad(17)
@@ -61,13 +65,15 @@ export function mountViewer(container: HTMLElement) {
   window.addEventListener('resize', resize)
   resize()
 
-  const ready = loadModel().then((loaded) => {
+  const ready = loadModel().then(async (loaded) => {
     if (disposed) {
       disposeModel(loaded.model)
       return
     }
     asset = loaded
     scene.add(loaded.model)
+    const waterMaterials = createWaterMaterials(loaded.model, lighting.config)
+    waterMaterials.apply()
     controls.target.copy(new Vector3(0, 0.8, 0).sub(loaded.center))
     const right = new Vector3().crossVectors(camera.up, heroDirection).normalize()
     const up = new Vector3().crossVectors(heroDirection, right).normalize()
@@ -83,9 +89,26 @@ export function mountViewer(container: HTMLElement) {
     })
     controls.minDistance = loaded.bounds.getBoundingSphere(new Sphere()).radius * 0.45
     resize()
-    renderer.setAnimationLoop(() => {
+    if (new URLSearchParams(window.location.search).has('debug')) {
+      const { createLightingDebug } = await import('./createLightingDebug')
+      if (disposed) return
+      debug = createLightingDebug(lighting.config, () => {
+        lighting.apply()
+        waterMaterials.apply()
+      })
+    }
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    let lastTime: number | undefined
+    let waterTime = 0
+    renderer.setAnimationLoop((time) => {
+      const delta = lastTime === undefined ? 0 : Math.min((time - lastTime) / 1000, 0.1)
+      lastTime = time
+      if (lighting.config.caustics.animated && !reducedMotion.matches) waterTime += delta * lighting.config.caustics.speed
       controls.update()
+      lighting.update(waterTime, controls.getDistance(), camera.aspect)
+      waterMaterials.update(waterTime)
       renderer.render(scene, camera)
+      debug?.update()
     })
   }).catch((error: unknown) => {
     dispose()
@@ -99,10 +122,9 @@ export function mountViewer(container: HTMLElement) {
     window.removeEventListener('resize', resize)
     renderer.setAnimationLoop(null)
     controls.dispose()
+    debug?.dispose()
     if (asset) disposeModel(asset.model)
-    scene.traverse((object) => {
-      if ('shadow' in object) (object as import('three').DirectionalLight).shadow?.dispose()
-    })
+    lighting.dispose()
     scene.clear()
     renderer.dispose()
     renderer.domElement.remove()
