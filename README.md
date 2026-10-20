@@ -17,7 +17,7 @@ blender/
   renders/final/      完整模型 render(Step 05)
 export/               驗證過的 <asset>.glb(Step 06)
 mockups/              網站 mockup 圖(Step 09)
-web/                  Vue 3 + Vite + Three.js 專案(Step 10)
+web/                  Vue 3 + Vite + Three.js 專案(Step 07 起)
 ```
 
 ## 環境(Step 00)
@@ -92,7 +92,26 @@ npm --prefix tools/gltf run validate
 - [Asset 報告](export/REPORT.md) · [Step 06 總結](summary/06-export-glb.md)
 
 匯出檔保留獨立互動節點；網頁端 instancing 與實際 draw calls 會在後續 Web 階段處理。
-下一步為 Step 07：建立最小 Three.js viewer。GLB 與渲染影像依既有 `.gitignore` 規則由腳本重建。
+GLB 與渲染影像依既有 `.gitignore` 規則由腳本重建。
+
+## 最小 Three.js Viewer（Step 07）
+
+已建立全螢幕模型檢視頁，包含基本燈光、與 Blender 接近的主視角、
+OrbitControls、響應式尺寸與 DPR 上限 1.5。
+
+```bash
+cd web
+bun install --frozen-lockfile
+bun run dev
+```
+
+啟動時自動同步 `export/reef.glb`。拖曳旋轉、滾輪縮放、右鍵平移。
+Production build 與四項 Chrome 瀏覽器測試通過，95 個 node 的名稱及父子關係均與 GLB 相符。
+
+- [使用與驗證方式](web/README.md)
+- [Step 07 總結與實際截圖](summary/07-minimal-threejs-viewer.md)
+
+下一步為 Step 08：瀏覽器端光線與材質氣氛調整。
 
 ## 原則
 

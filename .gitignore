@@ -15,10 +15,13 @@ blender/renders/**/*.exr
 export/*.glb
 !export/.gitkeep
 
-# Web (Vue 3 + Vite, Step 10)
+# Web (Vue 3 + Vite, Step 07 onward)
 web/node_modules/
 web/dist/
 web/.vite/
+web/public/models/*.glb
+web/test-results/
+web/playwright-report/
 
 # Secrets
 .env

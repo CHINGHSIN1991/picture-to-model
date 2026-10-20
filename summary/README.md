@@ -13,7 +13,8 @@ roadmap 是「該怎麼做」,這裡是「實際做了什麼、結果如何、�
 | 04 | [完整模型](04-detailed-model.md) | 完成 | 49,420 tri / 16,690 unique,一張 64×64 色票、一個材質 |
 | 05 | [Render 檢查與修正](05-render-and-inspect.md) | 完成 | 接合 / 互穿 / 法線問題歸零,回歸比對全通過 |
 | 06 | [匯出 GLB](06-export-glb.md) | 完成 | 0.625 MB、95 nodes / 26 meshes，重新匯入與 validator 通過 |
-| 07–17 | Web 階段 | 未開始 | — |
+| 07 | [最小 Three.js Viewer](07-minimal-threejs-viewer.md) | 完成 | 全螢幕模型檢視、相機取景、OrbitControls、四項瀏覽器測試通過 |
+| 08–17 | Web 後續階段 | 未開始 | — |
 
 ## 跨 step 的共同 takeaway
 
