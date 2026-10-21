@@ -13,12 +13,12 @@
 繞行一整圈(旋轉 Y 累計 0° → −360°),文字區固定 520 px 寬,UI 道具(輸入圖、設定檔、調光面板、功能 chips)放在文案同側。
 三張候選的桌機與手機版都在 [mockups/](../mockups/)。
 
-代表資料(節錄自 [mockups/SECTIONS.md](../mockups/SECTIONS.md)):
+代表資料（Step 09 當時的建議值；Step 10 校正後的現行值見 [mockups/SECTIONS.md](../mockups/SECTIONS.md)）：
 
 | # | Section | 平台階段 | 模型位置 | 旋轉 Y | 縮放 | 零件狀態(group: t) | UI 道具 |
 |---|---|---|---|---|---|---|---|
 | 1 | Hero | 一張圖,變成會動的 3D 網站 | 置中偏右 | 0° | 1.0 | 全部 0 | — |
-| 2 | 上傳 | 從一張圖開始(graybox) | 左側 | −35° | 1.0 | rocks 1→0(stack);其餘 1 | 概念圖輸入卡片 |
+| 2 | 上傳 | 從一張圖開始(graybox) | 左側 | −35° | 1.0 | rocks 1→0(stack);boulders 0;corals、kelp、diver、fish 1 | 概念圖輸入卡片 |
 | 3 | 建模 | 每個零件都是程式碼 | 右側 | −100° | 1.25 | corals、kelp 1→0(grow);diver、fish 1 | `model.spec.json` 卡片 |
 | 4 | 調光 | 材質、光線、相機是設定檔 | 置中偏左 | −160° | 1.1 | diver 1→0(path);fish 1 | `lighting.json` 滑桿面板 |
 | 5 | 互動 | 放進網站就會動 | 置中偏右 | −230° | 0.9 | fish 1→0(orbit) | 功能 chips |

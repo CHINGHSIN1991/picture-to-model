@@ -40,6 +40,10 @@ Scene_Root
 
 這張表同時是 Blender 腳本的命名規範、Three.js 的 node 比對規則,以及 Step 13 動畫 config 的來源。
 
+後續修正：上表保留 Step 02 當時的規劃。Step 09 確認 boulders 全程停在原位，取消其 explode；
+Step 10 把魚群 pattern 改為 `^Fish_[A-C]_`，避免納入 `Fish_Root` 容器。
+目前採用值見 [PROJECT_SPEC.md](../PROJECT_SPEC.md)，實作結果見 [Step 13](13-decomposable-model.md)。
+
 ## 這一步做了什麼
 
 1. 把 `concept-01.png` **複製**為 `references/final-concept.png`,成為之後所有 render 比對的唯一標準。
