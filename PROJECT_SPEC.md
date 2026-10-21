@@ -37,8 +37,13 @@ roadmap 文件中的 `<asset>` 等佔位符一律查這裡。
 
 | 對象 | mode | 參數 |
 |---|---|---|
-| 整體(`Reef_Root`) | `tilt` | `maxRotationX 0.08`、`maxRotationY 0.15`、`damping 0.08` |
+| 整體(`Reef_Root`) | `tilt` | `maxRotationX 0.08`、`maxRotationY 0.15`、`damping 0.08`、`stiffness 1` |
 | `fish` | `repel`(可選) | `radius 0.6`、`strength 0.3`:魚離游標遠一點 |
+
+Step 11 已實作 `tilt` / `none`，設定在 `web/src/three/config/pointer.ts`。
+`damping` 是 60 Hz 每幀補間比例，`stiffness` 是反應速度倍率；用時間校正的指數阻尼，無超越最大角度的回彈。
+偏移加在 `Model_Root` 包裝節點上，讓整個 `Reef_Root` 隨 section 一起傾斜，保留 GLB 原始 transform。
+視窗離開／失焦時平滑回正；減少動態效果與純觸控裝置停用。魚群 `repel` 尚未實作。
 
 ### 逐件動畫(Step 12 / 13)
 

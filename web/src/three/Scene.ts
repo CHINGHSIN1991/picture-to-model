@@ -7,6 +7,7 @@ import { createCameraController } from './CameraController'
 import { collectFramingPoints } from './framing'
 import { loadModel, type Model } from './Model'
 import { heroState, type SectionState } from './config/sections'
+import { InteractionController } from './InteractionController'
 
 export interface SceneOptions {
   modelUrl?: string
@@ -16,11 +17,11 @@ export interface SceneOptions {
   state?: SectionState
 }
 
-/** The only object Vue talks to. It takes a container element and numbers; it never reads the DOM beyond sizing. */
+/** The only object Vue talks to. Takes a container and numbers; input listeners live in the controller. */
 export interface SceneHandle {
   ready: Promise<void>
   setSectionState(state: SectionState): void
-  /** Normalised pointer (−1…1). Stored for Step 11; unused until then. */
+  /** Normalised pointer (−1…1); follows the same damping and motion preferences as window input. */
   setPointer(x: number, y: number): void
   pause(): void
   resume(): void
@@ -45,13 +46,23 @@ export function mountScene(container: HTMLElement, options: SceneOptions = {}): 
   let waterMaterials: ReturnType<typeof createWaterMaterials> | undefined
   let debug: { update(): void; dispose(): void } | undefined
   let state: SectionState = structuredClone(options.state ?? heroState)
-  const pointer = { x: 0, y: 0 }
+  const interaction = new InteractionController()
+
+  function applyRotation(delta: number) {
+    if (!model) return
+    const pointer = interaction.update(delta)
+    const x = MathUtils.degToRad(state.rotation[0]) + pointer.x
+    const y = MathUtils.degToRad(state.rotation[1]) + pointer.y
+    const z = MathUtils.degToRad(state.rotation[2])
+    if (model.root.rotation.x === x && model.root.rotation.y === y && model.root.rotation.z === z) return
+    model.root.rotation.set(x, y, z)
+    renderer.shadowMap.needsUpdate = true
+  }
 
   function applyState() {
     if (!model) return
     model.root.position.fromArray(state.position)
-    model.root.rotation.set(
-      MathUtils.degToRad(state.rotation[0]), MathUtils.degToRad(state.rotation[1]), MathUtils.degToRad(state.rotation[2]))
+    applyRotation(0)
     model.root.scale.setScalar(state.scale)
     model.root.updateMatrixWorld(true)
     cameraController.applyState(state)
@@ -79,6 +90,7 @@ export function mountScene(container: HTMLElement, options: SceneOptions = {}): 
   function frame(time: number) {
     const delta = lastTime === undefined ? 0 : Math.min((time - lastTime) / 1000, 0.1)
     lastTime = time
+    applyRotation(delta)
     if (lighting.config.caustics.animated && !reducedMotion.matches) waterTime += delta * lighting.config.caustics.speed
     lighting.update(waterTime, cameraController.distance, camera.aspect)
     waterMaterials?.update(waterTime)
@@ -117,6 +129,7 @@ export function mountScene(container: HTMLElement, options: SceneOptions = {}): 
     disposed = true
     observer.disconnect()
     window.removeEventListener('resize', resize)
+    interaction.dispose()
     renderer.setAnimationLoop(null)
     debug?.dispose()
     model?.dispose()
@@ -133,8 +146,7 @@ export function mountScene(container: HTMLElement, options: SceneOptions = {}): 
       applyState()
     },
     setPointer(x, y) {
-      pointer.x = x
-      pointer.y = y
+      interaction.setPointer(x, y)
     },
     pause() {
       paused = true
