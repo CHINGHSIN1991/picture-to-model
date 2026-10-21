@@ -11,7 +11,8 @@
     "test": "playwright test",
     "inspect:lighting": "node scripts/inspect-lighting.mjs",
     "mockups": "node scripts/render-mockups.mjs",
-    "inspect:landing": "node scripts/inspect-landing.mjs"
+    "inspect:landing": "node scripts/inspect-landing.mjs",
+    "inspect:pointer": "node scripts/inspect-pointer.mjs"
   },
   "dependencies": {
     "gsap": "3.15.0",

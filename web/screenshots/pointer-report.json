@@ -1,0 +1,29 @@
+{
+  "measuredAt": "2026-10-21T00:32:10.909Z",
+  "browser": "155.0.8059.85",
+  "baseUrl": "http://127.0.0.1:5175",
+  "method": "5-second RAF sample while synthetic mouse input continuously tilts the model; water animation and shadow updates enabled; default GPU",
+  "performance": {
+    "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+    "viewport": [
+      1440,
+      900
+    ],
+    "buffer": [
+      2160,
+      1350
+    ],
+    "frames": 301,
+    "averageFps": 60.00199342170836,
+    "p95FrameMs": 16.700000000000728
+  },
+  "screenshots": [
+    "pointer-neutral.png",
+    "pointer-top-left.png",
+    "pointer-top-right.png",
+    "pointer-bottom-right.png",
+    "pointer-bottom-left.png",
+    "pointer-returned.png"
+  ],
+  "errors": []
+}
