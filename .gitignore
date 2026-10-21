@@ -14,6 +14,8 @@ blender/renders/**/*.exr
 # Large binary outputs (keep the reproducible .py sources instead)
 export/*.glb
 !export/.gitkeep
+# reef.glb is committed so GitHub Pages CI can build the viewer
+!export/reef.glb
 
 # Web (Vue 3 + Vite, Step 07 onward)
 web/node_modules/
