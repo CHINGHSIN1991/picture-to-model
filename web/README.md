@@ -1,4 +1,4 @@
-# Picture to Model web — Step 07–13
+# Picture to Model web — Step 07–15
 
 Vue 3 + Vite + TypeScript + Three.js。`/` 是產品 landing page(Step 10),
 `/viewer.html` 是只用來檢查 `export/reef.glb` 的模型檢視頁(Step 07–08)。
@@ -24,6 +24,7 @@ bun run dev
 - `src/components/`：`SiteNav`、`HeroSection`、`UploadSection`、`ModelSection`、`ControlsSection`、`InteractionSection`、`CtaSection`。
 - `src/composables/useThreeScene.ts`：Vue ↔ Three 的唯一橋接，回傳 `status` 與 `setSectionState / setPointer / pause / resume`。
 - `src/three/Scene.ts`：renderer、場景、相機、render loop、生命週期；接收 container 與數值，將指標偏移加在 section 角度上。
+- `src/three/VisibilityController.ts`：合併內容區域、分頁可見性與手動暫停條件；只控制本場景。
 - `src/three/InteractionController.ts`：window 指標事件、時間校正阻尼、離開／失焦回正、動態偏好與事件清理。
 - `src/three/ScrollController.ts`：六個 ScrollTrigger、plain state 插值、停留距離、hash 導覽、resize 與 reduced-motion。
 - `src/three/PartAnimator.ts`：由 config 選擇零件動作，保存 rest transform、各自阻尼、固定順序與 stagger。
@@ -34,7 +35,7 @@ bun run dev
 - `src/landing.css`：版面與產品 UI 道具樣式；canvas `position: fixed; pointer-events: none`，section 疊在上面。
 
 開發用參數：`/?state=3` 固定第 3 段的完成狀態（含零件），不綁 scroll；`/?debug` 開調光面板。
-僅 dev 模式的 `/?inspect` 提供唯讀 `window.__reefScene` 快照（狀態、實際角度、零件變換、draw calls），供測試與截圖腳本使用。
+僅 dev 模式的 `/?inspect` 提供唯讀 `window.__reefScene` 快照（狀態、實際角度、零件變換、draw calls、rendering 暫停狀態／累計繪製幀數／水光時間／最後 delta），供測試與截圖腳本使用。
 `src/assets/final-concept-800.jpg` 是 `references/final-concept.png` 縮到 800 px 的版本，給第 2 段的輸入卡片用。
 
 ```bash
@@ -126,7 +127,30 @@ bun run inspect:scroll           # 需另一個終端機跑 bun run dev；需 de
 
 輸出六段末態與四段中間態截圖、`scroll-contact-sheet.png`、`instances-before/after.png`、
 `scroll-mobile.png` 與 `scroll-report.json`。量測包含水光、陰影與零件動畫下的 5 秒完整往返捲動。
-Step 14 的靜態 fallback 尚未實作，手機目前仍使用 WebGL。
+
+## 靜態 fallback 與可見性（Step 14–15）
+
+`useRenderMode` 在啟動時決定 live / static；小型觸控裝置、減少動態效果、省流量、WebGL 不可用或低效能訊號會使用 WebP。
+`?mode=live` / `?mode=static` 可覆寫；靜態模式不載入 Three、GSAP、GLB，也不建立可見性控制器。
+細節與生成方式見 [Step 14](../summary/14-mobile-fallback.md)。
+
+Live 場景透過 IntersectionObserver 觀察六個 `[data-has-3d]` wrapper，包含 sticky 停留距離。
+只要任一區域可見、document 為 visible、且未手動暫停，才啟動 Scene loop。
+`useThreeScene().resume()` 解除手動條件，仍須滿足兩個可見性條件；切換事件不會互相覆蓋暫停原因。
+暫停前以零 delta 同步最後畫面，恢復首幀也從零 delta 開始；水光、零件與指標阻尼都不補跑隱藏時間。
+
+目前六段都有 3D，包含 CTA footer。測試腳本另外插入純文字區域測試離屏，正式網站沒有這段內容。
+ScrollTrigger 保持事件驅動更新，沒有停止全域 GSAP ticker，因此其他元件動畫照常運作。
+獨立 `/viewer.html` 不使用這個 landing 可見性控制器。
+
+```bash
+bun run inspect:visibility       # 先跑 bun run dev；使用有桌面環境的 Chrome
+```
+
+預設 Chrome 路徑為 macOS 安裝位置，可用 `CHROME_PATH` 覆寫，`VIEWER_URL` 指定 dev server。
+腳本使用獨立暫存 profile 與 CDP `noDefaults` 避開 Playwright 的強制 focus，實際切換分頁並記錄 trace。
+結果是 `screenshots/visibility-report.json`、`visibility-contact-sheet.png` 與 `visibility-trace.json.gz`。
+將 trace 解壓後匯入 DevTools Performance，對照 User Timing 標記與 Three.js `onAnimationFrame`。
 
 ## 驗證
 
@@ -147,12 +171,14 @@ PLAYWRIGHT_CHANNEL=chrome bun run test
 以及調光面板、設定匯出／重設、減少動畫偏好、卸載清理，共七項。
 Landing page：六個 section 順序與標題、固定且不攔截指標的單一 canvas、part group 數量、
 捲動後 canvas 不動、nav 連結、`?state=N`、手機寬度無橫向捲動、GLB 404 提示，共三項。
-截圖在 `test-results/`，供人工視覺審查；這不是正式 mobile fallback 或效能 audit。
+截圖在 `test-results/`，供人工視覺審查；完整效能 audit 留給 Step 17。
 
 `tests/pointer.spec.ts` 另外三項測試驗證阻尼、更新頻率一致性、角度上限、離開／失焦回正、
 停用模式、觸控裝置、非零 section 角度上的實際畫面變化、動態偏好即時切換、捲動及 nav。
 `tests/scroll.spec.ts` 三項涵蓋六段插值與停留、捲回 Hero 的精確還原、pointer 疊加、deep link、
-resize、動態偏好、清理，以及 instancing 前後 draw calls / transform / 像素誤差、換 mode 與 stagger；總計 **16 項**。
+resize、動態偏好、清理，以及 instancing 前後 draw calls / transform / 像素誤差、換 mode 與 stagger。
+`tests/fallback.spec.ts` 三項驗證模式判斷、靜態下載與模式覆寫。
+`tests/visibility.spec.ts` 三項驗證離屏、可見性條件交錯、背景載入、最後一幀、零 delta 恢復與清理；總計 **22 項**。
 
 在另一個終端機保持 `bun run dev` 運作，再執行：
 

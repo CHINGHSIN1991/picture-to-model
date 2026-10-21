@@ -93,3 +93,10 @@ Step 10 的元件名稱、Step 12 的 `config/sections.ts` 都從那裡來。
 Step 12 已接上六個 ScrollTrigger：每段以自己的 plain state 插值，區間不重疊；四個流程段各增加一個 viewport 的停留距離。
 CSS sticky 保持文案就位，這段距離只播放 `partsOnEnter → parts`；段落間改變整體位置、角度、縮放、相機與珊瑚 emissive。
 減少動態效果時移除停留距離，以最接近視窗中央的段落直接切換完整狀態。`?state=N` 保留固定預覽，不綁 scroll。
+
+### 可見性與動畫時間（Step 15）
+
+Live landing 的六個 `.story-step` 標記 `data-has-3d`，觀察範圍包含 sticky 停留距離。
+任一範圍可見、document 為 visible、且未手動暫停時才繪製。現有 CTA footer 仍有 3D，保持繪製。
+暫停時同步最後一幀但不推進動畫時間；恢復首幀 delta 為 0，水光與零件保留原相位。
+只控制本 Scene，不停止全域 GSAP ticker；靜態 fallback 不建立控制器。獨立 viewer 沿用原生命週期。

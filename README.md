@@ -185,7 +185,18 @@ Build 與 16 項瀏覽器測試通過；Apple M4 / Metal 在完整往返捲動�
 - [六段畫面總覽](web/screenshots/scroll-contact-sheet.png) · [效能與狀態報告](web/screenshots/scroll-report.json)
 - 重跑截圖：`cd web && bun run inspect:scroll`（需先啟動 dev server）
 
-下一步為 Step 14：手機靜態圖 fallback。
+## 手機靜態圖與可見性控制（Step 14–15）
+
+手機、減少動態效果與低效能裝置使用同一 renderer 產出的 WebP；靜態模式不載入 Three、GSAP 或 GLB。
+Live 模式合併 3D 區域、分頁可見性與手動暫停條件；暫停前同步最後畫面，恢復首幀的 delta 為 0。
+Chrome trace 確認離屏及背景分頁的取樣期間沒有繪製、沒有 Three.js 動畫回呼，水光時間停止。
+Build 與全部 22 項瀏覽器測試通過。
+
+- [Step 14 總結](summary/14-mobile-fallback.md) · [Step 15 總結](summary/15-offscreen-pause.md)
+- [可見性驗證總覽](web/screenshots/visibility-contact-sheet.png) · [量測報告](web/screenshots/visibility-report.json)
+- 重跑：`cd web && bun run inspect:visibility`（先啟動 dev server；使用有桌面環境的 Chrome）
+
+下一步為 Step 16：集中 DPR 上限設定並正式驗收。
 
 ## 原則
 

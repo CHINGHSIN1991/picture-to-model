@@ -4,8 +4,8 @@
 roadmap 是「該怎麼做」,這裡是「實際做了什麼、結果如何、學到什麼」。
 每份開頭的「代表結果」放一張代表圖與一段代表程式碼或資料;圖片集中在 [assets/](assets/),原檔在 `blender/renders/` 或 `web/screenshots/`。
 
-截至 2026-10-21，Step 00–14 已完成；Step 13 是 Step 12 的前置依賴，兩步一併交付。
-Step 15–17 的文件記錄目前已有的基礎與缺口，尚未完成的工作不列為驗收結果。
+截至 2026-10-21，Step 00–15 已完成；Step 13 是 Step 12 的前置依賴，兩步一併交付。
+Step 16–17 的文件記錄目前已有的基礎與缺口，尚未完成的工作不列為驗收結果。
 各步的測試數、截圖與「下一步」保留當時紀錄；目前進度以本索引為準。
 
 | Step | 總結 | 狀態 | 關鍵結果 |
@@ -25,11 +25,11 @@ Step 15–17 的文件記錄目前已有的基礎與缺口，尚未完成的工�
 | 12 | [Scroll 敘事](12-scroll-storytelling.md) | 完成 | 六段可逆插值、四段停留、視角／發光／零件狀態與 reduced-motion |
 | 13 | [逐件動畫與 instancing](13-decomposable-model.md) | 完成（Step 12 前置依賴） | 四種零件動畫，75 個重複件合成 12 批，固定視角含陰影 draw calls 182 → 56 |
 | 14 | [手機靜態圖 fallback](14-mobile-fallback.md) | 完成 | 多訊號判斷 live / static，四張 WebP 由同一 renderer 擷取；手機 static 零 3D 請求，219 KB vs live 1000 KB |
-| 15 | [離開畫面暫停](15-offscreen-pause.md) | 部分基礎已存在 | Scene 有 pause / resume，尚未接上區域可見性與分頁隱藏控制 |
+| 15 | [離開畫面暫停](15-offscreen-pause.md) | 完成 | 區域／分頁／手動條件合併；實際 Chrome trace 確認離屏與背景分頁零繪製、零 Three rAF 回呼 |
 | 16 | [DPR 上限](16-dpr-limit.md) | 部分實作 | 已限制 1.5 並於 resize 重設；待集中 config 與正式驗收 |
 | 17 | [效能 Audit](17-performance-audit.md) | 尚未正式驗收 | 已有 GLB、draw calls、FPS 證據；缺完整 PERFORMANCE.md 與 Lighthouse |
 
-接續工作：[Step 15](15-offscreen-pause.md)。Step 15、16 完成後，再做 Step 17 的整體驗收。
+接續工作：[Step 16](16-dpr-limit.md)。DPR 正式確認後，再做 Step 17 的整體驗收。
 
 ## 跨 step 的共同 takeaway
 
