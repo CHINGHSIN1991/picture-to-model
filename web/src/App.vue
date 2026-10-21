@@ -36,7 +36,7 @@ const sectionComponents = [HeroSection, UploadSection, ModelSection, ControlsSec
     <p v-if="status === 'error'" class="scene-error" role="alert">{{ message }}</p>
     <SiteNav />
     <main ref="story">
-      <div v-for="(component, index) in sectionComponents" :key="sections[index]!.id" class="story-step">
+      <div v-for="(component, index) in sectionComponents" :key="sections[index]!.id" class="story-step" data-has-3d>
         <component :is="component" />
       </div>
     </main>

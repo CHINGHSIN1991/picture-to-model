@@ -33,6 +33,7 @@ export interface SceneHandle {
 }
 
 export interface SceneSnapshot {
+  rendering: { paused: boolean; frames: number; waterTime: number; lastDelta: number }
   state: SectionState
   rotation: number[]
   calls: number
@@ -55,6 +56,7 @@ export function mountScene(container: HTMLElement, options: SceneOptions = {}): 
 
   let disposed = false
   let paused = false
+  let initialized = false
   let model: Model | undefined
   let partAnimator: PartAnimator | undefined
   let instanceReport: ReturnType<Model['buildInstances']> | undefined
@@ -105,9 +107,16 @@ export function mountScene(container: HTMLElement, options: SceneOptions = {}): 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
   let lastTime: number | undefined
   let waterTime = 0
+  let frames = 0
+  let lastDelta = 0
   function frame(time: number) {
+    if (disposed || paused || !initialized) return
     const delta = lastTime === undefined ? 0 : Math.min((time - lastTime) / 1000, 0.1)
     lastTime = time
+    draw(delta)
+  }
+
+  function draw(delta: number) {
     const next = options.stateSource?.() ?? state
     const key = JSON.stringify(next)
     if (key !== appliedState) {
@@ -121,6 +130,8 @@ export function mountScene(container: HTMLElement, options: SceneOptions = {}): 
     lighting.update(waterTime, cameraController.distance, camera.aspect)
     waterMaterials?.update(waterTime)
     renderer.render(scene, camera)
+    frames++
+    lastDelta = delta
     debug?.update()
   }
 
@@ -150,6 +161,7 @@ export function mountScene(container: HTMLElement, options: SceneOptions = {}): 
         waterMaterials?.apply()
       })
     }
+    initialized = true
     if (!paused) renderer.setAnimationLoop(frame)
   }).catch((error: unknown) => {
     dispose()
@@ -159,6 +171,8 @@ export function mountScene(container: HTMLElement, options: SceneOptions = {}): 
   function dispose() {
     if (disposed) return
     disposed = true
+    paused = true
+    lastTime = undefined
     observer.disconnect()
     window.removeEventListener('resize', resize)
     interaction.dispose()
@@ -181,17 +195,22 @@ export function mountScene(container: HTMLElement, options: SceneOptions = {}): 
       interaction.setPointer(x, y)
     },
     pause() {
+      if (paused || disposed) return
       paused = true
       renderer.setAnimationLoop(null)
       lastTime = undefined
+      // Synchronise the latest scroll state once, without advancing animation time.
+      if (initialized) draw(0)
     },
     resume() {
       if (!paused || disposed) return
       paused = false
-      if (model) renderer.setAnimationLoop(frame)
+      lastTime = undefined
+      if (initialized) renderer.setAnimationLoop(frame)
     },
     inspect() {
       return {
+        rendering: { paused, frames, waterTime, lastDelta },
         state: structuredClone(state), rotation: model ? model.root.rotation.toArray().slice(0, 3) as number[] : [],
         calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, instances: instanceReport,
         parts: Object.fromEntries(Object.values(model?.groups ?? {}).flat().map((node) => [node.name, {

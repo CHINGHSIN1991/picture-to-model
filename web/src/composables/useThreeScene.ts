@@ -3,6 +3,7 @@ import type { SceneHandle, SceneOptions } from '../three/Scene'
 import type { SectionState } from '../three/config/sections'
 import type { ScrollController } from '../three/ScrollController'
 import type { RenderMode } from './useRenderMode'
+import { VisibilityController } from '../three/VisibilityController'
 
 export type SceneStatus = 'loading' | 'ready' | 'error'
 
@@ -16,6 +17,8 @@ export function useThreeScene(container: Ref<HTMLElement | undefined>, options: 
   const message = ref('')
   let handle: SceneHandle | undefined
   let scroll: ScrollController | undefined
+  let visibility: VisibilityController | undefined
+  let manualPaused = false
   let disposed = false
 
   onMounted(async () => {
@@ -33,6 +36,10 @@ export function useThreeScene(container: Ref<HTMLElement | undefined>, options: 
       if (disposed || !container.value) return
       if (scrollModule && story?.value) scroll = new scrollModule.ScrollController(story.value)
       handle = mountScene(container.value, { ...options, stateSource: scroll ? () => scroll!.getState() : undefined })
+      visibility = new VisibilityController(
+        story?.value ? [...story.value.querySelectorAll('[data-has-3d]')] : [container.value], handle,
+      )
+      if (manualPaused) visibility.pause()
       if (import.meta.env.DEV && new URLSearchParams(location.search).has('inspect')) {
         Object.defineProperty(window, '__reefScene', { configurable: true, get: () => handle?.inspect() })
       }
@@ -46,6 +53,8 @@ export function useThreeScene(container: Ref<HTMLElement | undefined>, options: 
 
   function fail(error: unknown) {
     if (disposed) return
+    visibility?.dispose()
+    handle?.dispose()
     scroll?.dispose()
     scroll = undefined
     console.error('[reef-landing]', error)
@@ -55,6 +64,7 @@ export function useThreeScene(container: Ref<HTMLElement | undefined>, options: 
 
   onBeforeUnmount(() => {
     disposed = true
+    visibility?.dispose()
     scroll?.dispose()
     handle?.dispose()
     handle = undefined
@@ -66,7 +76,7 @@ export function useThreeScene(container: Ref<HTMLElement | undefined>, options: 
     message: readonly(message),
     setSectionState: (state: SectionState) => handle?.setSectionState(state),
     setPointer: (x: number, y: number) => handle?.setPointer(x, y),
-    pause: () => handle?.pause(),
-    resume: () => handle?.resume(),
+    pause: () => { manualPaused = true; visibility?.pause() },
+    resume: () => { manualPaused = false; visibility?.resume() },
   }
 }
