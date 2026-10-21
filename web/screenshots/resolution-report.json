@@ -1,0 +1,242 @@
+{
+  "measuredAt": "2026-10-21T06:09:54.862Z",
+  "browser": "155.0.8059.85",
+  "baseUrl": "http://127.0.0.1:5177",
+  "method": "Chrome CDP device metrics: DPR 2 → 3 → 1 → 1.25 → 0.75 → 2 at fixed 1440×900 CSS viewport; screen/default media override toggled to invalidate resolution queries; reduced motion freezes water; screenshots at CSS scale. Emulation, not physical monitor movement. Pixel savings describe buffer area, not measured GPU time.",
+  "config": {
+    "maxPixelRatio": 1.5,
+    "antialias": true,
+    "powerPreference": "default"
+  },
+  "samples": [
+    {
+      "entry": "landing",
+      "dpr": 2,
+      "css": [
+        1440,
+        900
+      ],
+      "buffer": [
+        2160,
+        1350
+      ],
+      "drawingBuffer": [
+        2160,
+        1350
+      ],
+      "antialias": true,
+      "effectiveRatio": 1.5,
+      "pixelReductionVsUncapped": 0.4375
+    },
+    {
+      "entry": "landing",
+      "dpr": 3,
+      "css": [
+        1440,
+        900
+      ],
+      "buffer": [
+        2160,
+        1350
+      ],
+      "drawingBuffer": [
+        2160,
+        1350
+      ],
+      "antialias": true,
+      "effectiveRatio": 1.5,
+      "pixelReductionVsUncapped": 0.75
+    },
+    {
+      "entry": "landing",
+      "dpr": 1,
+      "css": [
+        1440,
+        900
+      ],
+      "buffer": [
+        1440,
+        900
+      ],
+      "drawingBuffer": [
+        1440,
+        900
+      ],
+      "antialias": true,
+      "effectiveRatio": 1,
+      "pixelReductionVsUncapped": 0
+    },
+    {
+      "entry": "landing",
+      "dpr": 1.25,
+      "css": [
+        1440,
+        900
+      ],
+      "buffer": [
+        1800,
+        1125
+      ],
+      "drawingBuffer": [
+        1800,
+        1125
+      ],
+      "antialias": true,
+      "effectiveRatio": 1.25,
+      "pixelReductionVsUncapped": 0
+    },
+    {
+      "entry": "landing",
+      "dpr": 0.75,
+      "css": [
+        1440,
+        900
+      ],
+      "buffer": [
+        1080,
+        675
+      ],
+      "drawingBuffer": [
+        1080,
+        675
+      ],
+      "antialias": true,
+      "effectiveRatio": 0.75,
+      "pixelReductionVsUncapped": 0
+    },
+    {
+      "entry": "landing",
+      "dpr": 2,
+      "css": [
+        1440,
+        900
+      ],
+      "buffer": [
+        2160,
+        1350
+      ],
+      "drawingBuffer": [
+        2160,
+        1350
+      ],
+      "antialias": true,
+      "effectiveRatio": 1.5,
+      "pixelReductionVsUncapped": 0.4375
+    },
+    {
+      "entry": "viewer",
+      "dpr": 2,
+      "css": [
+        1440,
+        900
+      ],
+      "buffer": [
+        2160,
+        1350
+      ],
+      "drawingBuffer": [
+        2160,
+        1350
+      ],
+      "antialias": true,
+      "effectiveRatio": 1.5,
+      "pixelReductionVsUncapped": 0.4375
+    },
+    {
+      "entry": "viewer",
+      "dpr": 3,
+      "css": [
+        1440,
+        900
+      ],
+      "buffer": [
+        2160,
+        1350
+      ],
+      "drawingBuffer": [
+        2160,
+        1350
+      ],
+      "antialias": true,
+      "effectiveRatio": 1.5,
+      "pixelReductionVsUncapped": 0.75
+    },
+    {
+      "entry": "viewer",
+      "dpr": 1,
+      "css": [
+        1440,
+        900
+      ],
+      "buffer": [
+        1440,
+        900
+      ],
+      "drawingBuffer": [
+        1440,
+        900
+      ],
+      "antialias": true,
+      "effectiveRatio": 1,
+      "pixelReductionVsUncapped": 0
+    },
+    {
+      "entry": "viewer",
+      "dpr": 1.25,
+      "css": [
+        1440,
+        900
+      ],
+      "buffer": [
+        1800,
+        1125
+      ],
+      "drawingBuffer": [
+        1800,
+        1125
+      ],
+      "antialias": true,
+      "effectiveRatio": 1.25,
+      "pixelReductionVsUncapped": 0
+    },
+    {
+      "entry": "viewer",
+      "dpr": 0.75,
+      "css": [
+        1440,
+        900
+      ],
+      "buffer": [
+        1080,
+        675
+      ],
+      "drawingBuffer": [
+        1080,
+        675
+      ],
+      "antialias": true,
+      "effectiveRatio": 0.75,
+      "pixelReductionVsUncapped": 0
+    },
+    {
+      "entry": "viewer",
+      "dpr": 2,
+      "css": [
+        1440,
+        900
+      ],
+      "buffer": [
+        2160,
+        1350
+      ],
+      "drawingBuffer": [
+        2160,
+        1350
+      ],
+      "antialias": true,
+      "effectiveRatio": 1.5,
+      "pixelReductionVsUncapped": 0.4375
+    }
+  ],
+  "errors": []
+}

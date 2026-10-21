@@ -16,7 +16,8 @@
     "inspect:scroll": "node scripts/inspect-scroll.mjs",
     "render:fallback": "node scripts/render-fallback.mjs",
     "inspect:fallback": "node scripts/inspect-fallback.mjs",
-    "inspect:visibility": "node scripts/inspect-visibility.mjs"
+    "inspect:visibility": "node scripts/inspect-visibility.mjs",
+    "inspect:resolution": "node scripts/inspect-resolution.mjs"
   },
   "dependencies": {
     "gsap": "3.15.0",
