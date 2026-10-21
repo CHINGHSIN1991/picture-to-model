@@ -11,13 +11,16 @@ import InteractionSection from './components/InteractionSection.vue'
 import CtaSection from './components/CtaSection.vue'
 
 const stage = ref<HTMLDivElement>()
+const story = ref<HTMLElement>()
 const query = new URLSearchParams(window.location.search)
-// `?state=N` previews section N's 3D state while scroll binding (Step 12) does not exist yet.
+// `?state=N` locks the scene for art direction, without scroll binding.
 const preview = Number(query.get('state'))
 const { status, message } = useThreeScene(stage, {
   debug: query.has('debug'),
   state: preview >= 1 && preview <= sections.length ? sections[preview - 1] : undefined,
-})
+}, story)
+
+const sectionComponents = [HeroSection, UploadSection, ModelSection, ControlsSection, InteractionSection, CtaSection]
 </script>
 
 <template>
@@ -25,13 +28,10 @@ const { status, message } = useThreeScene(stage, {
     <div ref="stage" class="stage" aria-hidden="true" />
     <p v-if="status === 'error'" class="scene-error" role="alert">{{ message }}</p>
     <SiteNav />
-    <main>
-      <HeroSection />
-      <UploadSection />
-      <ModelSection />
-      <ControlsSection />
-      <InteractionSection />
-      <CtaSection />
+    <main ref="story">
+      <div v-for="(component, index) in sectionComponents" :key="sections[index]!.id" class="story-step">
+        <component :is="component" />
+      </div>
     </main>
   </div>
 </template>

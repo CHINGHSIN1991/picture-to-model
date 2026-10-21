@@ -27,6 +27,8 @@ img { display: block; max-width: 100%; height: auto; }
   background: rgba(4, 28, 71, .92); border: 1px solid rgba(255,255,255,.4); font-size: 14px;
 }
 main { position: relative; z-index: 1; }
+.story-step { position: relative; }
+.story-hold > .section { position: sticky; top: var(--pin-top, 0px); }
 
 .nav {
   position: fixed; z-index: 2; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center;

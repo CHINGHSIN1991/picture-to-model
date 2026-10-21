@@ -32,7 +32,7 @@ test('renders every section over one fixed, non-interactive canvas with the mode
   await expect(stage).toHaveCSS('pointer-events', 'none')
   expect(model).toEqual({ nodes: 95, groups: { rocks: 7, boulders: 12, corals: 35, kelp: 16, fish: 15, diver: 1 } })
   // Every SECTIONS.md section exists, in order, with real copy.
-  const ids = await page.locator('main > section').evaluateAll((nodes) => nodes.map((node) => node.id))
+  const ids = await page.locator('main section').evaluateAll((nodes) => nodes.map((node) => node.id))
   expect(ids).toEqual(sections.map((section) => section.id))
   for (const section of sections) {
     const heading = page.locator(`#${section.id} h1, #${section.id} h2`)
