@@ -23,7 +23,7 @@ Hero 先看到完整的礁;往下捲動時整座礁「倒帶」成空的岩層,�
 
 ## 表
 
-「模型位置」是相對 Hero 取景的畫面位置;括號內是建議的場景單位 x / y 偏移(Hero 為 0,0),Step 12 可直接起手。
+「模型位置」是相對 Hero 取景的畫面位置;括號內是場景單位 x / y 偏移(礁石底部中心為 0,0),Step 10 已依截圖校正並寫入 `web/src/three/config/sections.ts`。
 「旋轉」是模型繞 Y 軸的**累計**角度,一律負向遞減,CTA 寫 −360° 而不是 0°,避免 GSAP 走最長路徑。
 「相機仰角」是 mockup render 的角度,給 Step 12 的 camera tween 參考。
 「零件狀態」:`0` = rest,`1` = 該 group 在 spec 指定 mode 下的離開狀態;`1→0` 表示在這段內從離開狀態回到原位。
@@ -31,11 +31,11 @@ Hero 先看到完整的礁;往下捲動時整座礁「倒帶」成空的岩層,�
 
 | # | Section | Vue 元件 | 模型位置 | 旋轉 Y | 縮放 | 相機仰角 | 零件狀態(group: t) | 文案 | UI 道具 |
 |---|---------|----------|----------|--------|------|----------|----------------------|------|---------|
-| 1 | Hero「一張圖,變成會動的 3D 網站」 | `HeroSection` | 置中偏右(x +0.6, y 0) | 0° | 1.0 | 17° | 全部 0 | 左欄,標題 + 「上傳第一張圖」「看示範」 | nav、scroll hint |
-| 2 | 上傳「從一張圖開始」 | `UploadSection` | 左側偏下(x −1.0, y −0.2) | −35° | 1.0 | 21° | rocks 1→0(`stack`);boulders 0;corals 1、kelp 1、diver 1、fish 1 | 右欄,三個數字(1 張圖 / 7,786 tri / 6 視角) | 左上「輸入 · 概念圖」卡片(`references/final-concept.png`)+ 箭頭指向模型 |
-| 3 | 建模「每個零件都是程式碼」 | `ModelSection` | 右側(x +0.8, y −0.1) | −100° | 1.25 | 13° | corals 1→0、kelp 1→0(`grow`);rocks 0、boulders 0;diver 1、fish 1 | 左欄,三個數字(91 零件 / 1 材質 / 0.6 MB) | 左下 `model.spec.json` 程式碼卡片 |
-| 4 | 調光「材質、光線、相機,全是設定檔」 | `ControlsSection` | 置中偏左(x −0.5, y +0.1) | −160° | 1.1 | 9° | diver 1→0(`path`);rocks、boulders、corals、kelp 0;fish 1 | 右欄 | 右下 `lighting.json` 滑桿面板(曝光 / 主光 / 霧氣 / 水色);Step 10 可直接接 Step 08 的 lightingConfig |
-| 5 | 互動「放進網站,就會動」 | `InteractionSection` | 置中偏右(x +0.3, y 0) | −230° | 0.9 | 26° | fish 1→0(`orbit`);其餘 0 | 左欄 | 左下功能 chips(scroll 敘事 / 游標跟隨 / 逐件動畫 / 手機 fallback / 離開畫面暫停 / DPR 上限) |
+| 1 | Hero「一張圖,變成會動的 3D 網站」 | `HeroSection` | 置中偏右(x +1.2, y 0) | 0° | 0.92 | 17° | 全部 0 | 左欄,標題 + 「上傳第一張圖」「看示範」 | nav、scroll hint |
+| 2 | 上傳「從一張圖開始」 | `UploadSection` | 左側偏下(x −1.1, y −0.2) | −35° | 0.9 | 21° | rocks 1→0(`stack`);boulders 0;corals 1、kelp 1、diver 1、fish 1 | 右欄,三個數字(1 張圖 / 7,786 tri / 6 視角) | 左上「輸入 · 概念圖」卡片(`references/final-concept.png`)+ 箭頭指向模型 |
+| 3 | 建模「每個零件都是程式碼」 | `ModelSection` | 右側(x +1.0, y −0.1) | −100° | 1.2 | 13° | corals 1→0、kelp 1→0(`grow`);rocks 0、boulders 0;diver 1、fish 1 | 左欄,三個數字(91 零件 / 1 材質 / 0.6 MB) | 左下 `model.spec.json` 程式碼卡片 |
+| 4 | 調光「材質、光線、相機,全是設定檔」 | `ControlsSection` | 左側(x −1.5, y +0.1) | −160° | 1.0 | 9° | diver 1→0(`path`);rocks、boulders、corals、kelp 0;fish 1 | 右欄 | 右下 `lighting.json` 滑桿面板(曝光 / 主光 / 霧氣 / 水色);Step 10 可直接接 Step 08 的 lightingConfig |
+| 5 | 互動「放進網站,就會動」 | `InteractionSection` | 置中偏右(x +0.9, y 0) | −230° | 0.9 | 26° | fish 1→0(`orbit`);其餘 0 | 左欄 | 左下功能 chips(scroll 敘事 / 游標跟隨 / 逐件動畫 / 手機 fallback / 離開畫面暫停 / DPR 上限) |
 | 6 | CTA「用你的下一張圖試試看」 | `CtaSection` | 置中偏下(x 0, y −0.7),上緣被文字區壓住 | −360° | 0.85 | 30° | 全部 0 | 置中,「上傳一張圖」「看完整流程」 | footer |
 
 ## 段落之間的過渡

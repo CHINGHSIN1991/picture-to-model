@@ -1,0 +1,42 @@
+{
+  "measuredAt": "2026-10-20T16:50:31.214Z",
+  "baseUrl": "http://127.0.0.1:5174",
+  "browser": "155.0.8059.85",
+  "method": "5-second requestAnimationFrame sample after 1.5-second warmup at the hero; default browser GPU selection",
+  "performance": {
+    "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+    "viewport": [
+      1440,
+      900
+    ],
+    "buffer": [
+      2160,
+      1350
+    ],
+    "devicePixelRatio": 1.5,
+    "canvasPosition": "fixed",
+    "pointerEvents": "none",
+    "pageHeight": 5400,
+    "frames": 301,
+    "durationMs": 5016.4,
+    "averageFps": 60.00318953831433,
+    "medianFrameMs": 16.699999999999818,
+    "p95FrameMs": 16.799999999999727
+  },
+  "hardwareRenderer": true,
+  "mobile": {
+    "viewport": [
+      390,
+      844
+    ],
+    "scrollWidth": 390
+  },
+  "glbSha256": "0abac7e125dc80f48b6c6c23b81fe5fe865725f3d6936e78903f6c36380cd2a5",
+  "sectionsSha256": "b032f712d90b9ab9fea7e81ff4ea5e70773fb89ff254ffaa4444c63b8d1e78ca",
+  "errors": [],
+  "screenshots": {
+    "landing-hero.png": "e9de4d11b27ec8b8d192d70d1b1f49fe96549a8e8978e0f67653b81f26109b45",
+    "landing-full.png": "bb4aa648340ca63a6122d5e91a828e6e073e73affc117411119b6de1cd6660b7",
+    "landing-mobile.png": "04bacd1ba9f6b2f885f661243570a343ca2d9836e4bf58f23c496e30c9223458"
+  }
+}

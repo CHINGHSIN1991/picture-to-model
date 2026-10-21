@@ -17,7 +17,7 @@ try {
   page.on('console', (message) => {
     if (message.type() === 'error') errors.push(message.text())
   })
-  await page.goto(`${baseUrl}/?debug`)
+  await page.goto(`${baseUrl}/viewer.html?debug`)
   await page.locator('main[data-state="ready"]').waitFor()
   await page.waitForTimeout(2000)
   const performance = await page.evaluate(async () => {
@@ -52,7 +52,7 @@ try {
   await page.screenshot({ path: new URL('lighting-debug.png', output).pathname })
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.setViewportSize({ width: 1024, height: 768 })
-  await page.goto(baseUrl)
+  await page.goto(`${baseUrl}/viewer.html`)
   await page.locator('main[data-state="ready"]').waitFor()
   await page.screenshot({ path: new URL('lighting-v1.png', output).pathname })
   await page.setViewportSize({ width: 390, height: 844 })

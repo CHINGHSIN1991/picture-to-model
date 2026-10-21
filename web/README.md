@@ -1,6 +1,7 @@
-# Reef viewer — Step 07–09
+# Picture to Model web — Step 07–10
 
-只用來檢查 `export/reef.glb` 的 Vue 3 + Vite + TypeScript + Three.js 頁面。
+Vue 3 + Vite + TypeScript + Three.js。`/` 是產品 landing page(Step 10),
+`/viewer.html` 是只用來檢查 `export/reef.glb` 的模型檢視頁(Step 07–08)。
 
 ```bash
 cd web
@@ -8,13 +9,38 @@ bun install --frozen-lockfile
 bun run dev
 ```
 
-開啟終端機顯示的 localhost 網址。拖曳旋轉、滾輪縮放、右鍵平移；
-觸控使用單指旋轉、雙指縮放／平移。
+開啟終端機顯示的 localhost 網址看 landing page;加上 `/viewer.html` 看模型檢視頁
+(拖曳旋轉、滾輪縮放、右鍵平移；觸控使用單指旋轉、雙指縮放／平移)。
 
 `dev` 與 `build` 都先將 `../export/reef.glb` 複製至 `public/models/reef.glb`。
 如果來源不存在，先依 Step 06 重新匯出；模型副本、依賴與 build 產物不納入 Git。
 
-## 程式位置
+## Landing page(Step 10)
+
+依 [mockups/final-homepage.png](../mockups/final-homepage.png) 與 [SECTIONS.md](../mockups/SECTIONS.md) 實作，
+六個 section 一個元件，模型停在 Hero 狀態；指標與捲動互動留給 Step 11–12。
+
+- `src/App.vue`：固定在最底層的 `.stage` canvas 容器 + 六個 section；只透過 `useThreeScene()` 接觸 3D。
+- `src/components/`：`SiteNav`、`HeroSection`、`UploadSection`、`ModelSection`、`ControlsSection`、`InteractionSection`、`CtaSection`。
+- `src/composables/useThreeScene.ts`：Vue ↔ Three 的唯一橋接，回傳 `status` 與 `setSectionState / setPointer / pause / resume`。
+- `src/three/Scene.ts`：renderer、場景、相機、render loop、生命週期；接收 container 與數值，不碰其他 DOM。
+- `src/three/Model.ts`：載入 GLB，依 PROJECT_SPEC 的 part groups 建 `parts` / `groups` 索引，保留原始 pivot，`setMaterialParam`。
+- `src/three/CameraController.ts`：Hero 取景（方位 −12°、仰角依 section）、窄螢幕自動拉遠並把模型放到下半部。
+- `src/three/config/`：`sections.ts`（SECTIONS.md 1:1）、`partGroups.ts`、`partAnimations.ts`（PROJECT_SPEC，Step 13 用）。全部是 plain object；材質參數沿用 `lightingConfig.ts` 的 `material`。
+- `src/landing.css`：版面與產品 UI 道具樣式；canvas `position: fixed; pointer-events: none`，section 疊在上面。
+
+開發用參數：`/?state=3` 直接套第 3 段的模型狀態（位置、旋轉、縮放、相機仰角，零件動畫未實作），`/?debug` 開調光面板。
+`src/assets/final-concept-800.jpg` 是 `references/final-concept.png` 縮到 800 px 的版本，給第 2 段的輸入卡片用。
+
+```bash
+bun run inspect:landing          # 需另一個終端機跑 bun run dev
+LANDING_STATES=2,3,4 bun run inspect:landing
+```
+
+以已安裝的 Chrome 與實際 GPU 截 `screenshots/landing-hero.png`、`landing-full.png`、`landing-mobile.png`，
+量 5 秒 FPS，並寫 `landing-report.json`。
+
+## 模型檢視頁程式位置（`/viewer.html`）
 
 - `src/pages/Viewer.vue`：掛載、卸載、載入與錯誤提示。
 - `src/three/createRenderer.ts`：sRGB、ACES、DPR 上限 1.5。
@@ -26,6 +52,7 @@ bun run dev
 - `src/three/createLightingDebug.ts`：僅 `?debug` 動態載入的 lil-gui 與 stats.js。
 - `src/three/loadModel.ts`：GLTFLoader、置中、console hierarchy、共享資源釋放。
 - `src/three/Viewer.ts`：PerspectiveCamera、OrbitControls、尺寸調整、render lifecycle。
+- `src/three/framing.ts`：兩個頁面共用的取景計算（頂點投影到相機基底、求最小距離）。
 
 主視角取自 `blender/scripts/02_detail.py`，使用相同方位、仰角、鏡頭與 target；
 以實際頂點計算窄螢幕所需相機距離，保留完整沙地和潛水員。
@@ -33,9 +60,9 @@ bun run dev
 
 ## 水下調光（Step 08）
 
-一般預覽：`http://127.0.0.1:5173/`
+一般預覽：`http://127.0.0.1:5173/viewer.html`
 
-調光面板：`http://127.0.0.1:5173/?debug`
+調光面板：`http://127.0.0.1:5173/viewer.html?debug`（landing page 也接受 `/?debug`）
 
 面板可調曝光、環境反射、光源顏色／強度／位置、陰影、霧氣、水色、水光與材質。
 按「輸出設定至 Console」取得完整 JSON；確認後將值回寫 `lightingConfig.ts`。
@@ -65,9 +92,11 @@ bun run test
 PLAYWRIGHT_CHANNEL=chrome bun run test
 ```
 
-測試會自行啟動 `127.0.0.1:4173`，檢查 GLB SHA-256、全部 node 名稱與父子關係、
+測試會自行啟動 `127.0.0.1:4173`。模型檢視頁：GLB SHA-256、全部 node 名稱與父子關係、
 面數、滑鼠旋轉與縮放、響應式尺寸、DPR、模型 404、WebGL 不可用，
-以及調光面板、設定匯出／重設、減少動畫偏好、卸載清理，共七項測試。
+以及調光面板、設定匯出／重設、減少動畫偏好、卸載清理，共七項。
+Landing page：六個 section 順序與標題、固定且不攔截指標的單一 canvas、part group 數量、
+捲動後 canvas 不動、nav 連結、`?state=N`、手機寬度無橫向捲動、GLB 404 提示，共三項。
 截圖在 `test-results/`，供人工視覺審查；這不是正式 mobile fallback 或效能 audit。
 
 在另一個終端機保持 `bun run dev` 運作，再執行：

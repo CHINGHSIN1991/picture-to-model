@@ -17,7 +17,7 @@ blender/
   renders/final/      完整模型 render(Step 05)
 export/               驗證過的 <asset>.glb(Step 06)
 mockups/              網站 mockup 圖與 SECTIONS.md(Step 09);src/ 是 HTML 來源
-web/                  Vue 3 + Vite + Three.js 專案(Step 07 起)
+web/                  Vue 3 + Vite + Three.js 專案(Step 07 起);/ 是 landing,/viewer.html 是模型檢視
 ```
 
 ## 環境(Step 00)
@@ -141,7 +141,27 @@ cd web && bun run mockups
 - [SECTIONS.md](mockups/SECTIONS.md):六段的模型位置、累計旋轉、縮放、相機仰角與零件 `t`
 - [Step 09 總結](summary/09-website-mockup.md)
 
-下一步為 Step 10：依 mockup 實作網站。
+## 網站實作(Step 10)
+
+依 mockup 做出 landing page 骨架:一個固定在底層的 Three.js canvas,六個 Vue section 捲過它;
+模型停在 Hero 狀態,指標與捲動互動留給 Step 11–12。Three.js 全在 `web/src/three/`,
+Vue 只透過 `useThreeScene()` 存取;section、零件群組、零件動畫都是 plain object config。
+原本的模型檢視頁移到 `/viewer.html`,Step 07–08 的測試與調光工具照舊可用。
+
+```bash
+cd web
+bun run dev            # http://127.0.0.1:5173/  landing;/viewer.html 模型檢視
+bun run build
+PLAYWRIGHT_CHANNEL=chrome bun run test
+```
+
+Build 與十項瀏覽器測試通過;Apple M4 / Metal、1440×900、DPR 1.5 的 Hero 畫面 5 秒量測平均 60.0 FPS。
+
+- [Step 10 總結與截圖](summary/10-implement-website.md)
+- [Hero 截圖](web/screenshots/landing-hero.png) · [整頁](web/screenshots/landing-full.png) · [手機](web/screenshots/landing-mobile.png)
+- [web/README.md](web/README.md):程式位置、開發參數、驗證方式
+
+下一步為 Step 11：滑鼠跟隨互動。
 
 ## 原則
 

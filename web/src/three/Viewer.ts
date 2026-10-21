@@ -1,10 +1,11 @@
-import { MathUtils, Mesh, PerspectiveCamera, Sphere, Vector3 } from 'three'
+import { MathUtils, PerspectiveCamera, Sphere, Vector3 } from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { createRenderer } from './createRenderer'
 import { createScene } from './createScene'
 import { disposeModel, loadModel } from './loadModel'
 import { createLighting } from './createLighting'
 import { createWaterMaterials } from './createWaterMaterials'
+import { collectFramingPoints, fitDistance as fitPoints, viewDirection } from './framing'
 
 export function mountViewer(container: HTMLElement) {
   const renderer = createRenderer()
@@ -21,23 +22,12 @@ export function mountViewer(container: HTMLElement) {
   let asset: Awaited<ReturnType<typeof loadModel>> | undefined
   let lastFitDistance = 0
   let debug: { update(): void; dispose(): void } | undefined
-  const framingPoints: Vector3[] = []
-  const azimuth = MathUtils.degToRad(-12)
-  const elevation = MathUtils.degToRad(17)
-  const heroDirection = new Vector3(Math.cos(elevation) * Math.sin(azimuth), Math.sin(elevation), Math.cos(elevation) * Math.cos(azimuth))
+  let framingPoints: Vector3[] = []
+  const heroDirection = viewDirection(-12, 17)
 
+  // Keep the Blender camera distance when the viewport has room; otherwise back off to fit.
   function fitDistance() {
-    if (!asset) return 6.8
-    // Fit geometry in camera space, including depth. Empty bounding-box corners
-    // overestimate a cone-shaped reef and make the subject unnecessarily small.
-    // Keep the Blender camera distance when the viewport has sufficient room.
-    const tanV = Math.tan(MathUtils.degToRad(camera.fov / 2))
-    const tanH = tanV * camera.aspect
-    let distance = 6.8
-    for (const point of framingPoints) {
-      distance = Math.max(distance, point.z + 1.08 * Math.max(Math.abs(point.x) / tanH, Math.abs(point.y) / tanV))
-    }
-    return distance
+    return asset ? fitPoints(framingPoints, camera, 6.8) : 6.8
   }
 
   function resize() {
@@ -75,18 +65,7 @@ export function mountViewer(container: HTMLElement) {
     const waterMaterials = createWaterMaterials(loaded.model, lighting.config)
     waterMaterials.apply()
     controls.target.copy(new Vector3(0, 0.8, 0).sub(loaded.center))
-    const right = new Vector3().crossVectors(camera.up, heroDirection).normalize()
-    const up = new Vector3().crossVectors(heroDirection, right).normalize()
-    const vertex = new Vector3()
-    loaded.model.traverse((object) => {
-      const mesh = object as Mesh
-      if (!mesh.isMesh) return
-      const positions = mesh.geometry.attributes.position!
-      for (let i = 0; i < positions.count; i++) {
-        vertex.fromBufferAttribute(positions, i).applyMatrix4(mesh.matrixWorld).sub(controls.target)
-        framingPoints.push(new Vector3(vertex.dot(right), vertex.dot(up), vertex.dot(heroDirection)))
-      }
-    })
+    framingPoints = collectFramingPoints(loaded.model, controls.target, heroDirection)
     controls.minDistance = loaded.bounds.getBoundingSphere(new Sphere()).radius * 0.45
     resize()
     if (new URLSearchParams(window.location.search).has('debug')) {

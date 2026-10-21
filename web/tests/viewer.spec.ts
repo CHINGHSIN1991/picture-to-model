@@ -19,7 +19,7 @@ test('loads the audited GLB, preserves hierarchy and supports orbit, zoom and re
   const response = page.waitForResponse((response) => response.url().endsWith('/models/reef.glb'))
   // Isolate camera movement from the animated water when comparing screenshots.
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto('/')
+  await page.goto('/viewer.html')
   expect(checksum(await (await response).body())).toBe(checksum(bytes))
   await expect(page.locator('main')).toHaveAttribute('data-state', 'ready')
   expect(hierarchy).toHaveLength(gltf.nodes.length)
@@ -58,7 +58,7 @@ test('loads the audited GLB, preserves hierarchy and supports orbit, zoom and re
 test('caps rendering resolution on a high-DPR screen', async ({ browser }) => {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 3 })
   const page = await context.newPage()
-  await page.goto('http://127.0.0.1:4173')
+  await page.goto('http://127.0.0.1:4173/viewer.html')
   await expect(page.locator('main')).toHaveAttribute('data-state', 'ready')
   await expect(page.locator('canvas')).toHaveJSProperty('width', 585)
   await expect(page.locator('canvas')).toHaveJSProperty('height', 1266)
@@ -67,7 +67,7 @@ test('caps rendering resolution on a high-DPR screen', async ({ browser }) => {
 
 test('shows an actionable message when the GLB request fails', async ({ page }) => {
   await page.route('**/models/reef.glb', (route) => route.fulfill({ status: 404, body: 'Not found' }))
-  await page.goto('/')
+  await page.goto('/viewer.html')
   await expect(page.getByRole('alert')).toContainText('無法顯示模型')
   await expect(page.locator('main')).toHaveAttribute('data-state', 'error')
   await expect(page.locator('canvas')).toHaveCount(0)
@@ -81,7 +81,7 @@ test('shows an actionable message when WebGL is unavailable', async ({ page }) =
       return getContext.apply(this, [type, ...args] as Parameters<typeof getContext>)
     } as typeof getContext
   })
-  await page.goto('/')
+  await page.goto('/viewer.html')
   await expect(page.getByRole('alert')).toContainText('WebGL')
   await expect(page.locator('main')).toHaveAttribute('data-state', 'error')
 })

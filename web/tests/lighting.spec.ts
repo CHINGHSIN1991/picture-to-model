@@ -7,7 +7,7 @@ test('keeps debug tools out of the normal viewer and respects reduced motion', a
   const requests: string[] = []
   page.on('request', (request) => requests.push(request.url()))
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto('/')
+  await page.goto('/viewer.html')
   await expect(page.locator('main')).toHaveAttribute('data-state', 'ready')
   await expect(page.locator('[data-lighting-debug]')).toHaveCount(0)
   await expect(page.locator('[data-lighting-stats]')).toHaveCount(0)
@@ -31,7 +31,7 @@ test('edits lighting live, exports plain JSON and restores the preset', async ({
     if (message.text().startsWith(prefix)) configs.push(JSON.parse(message.text().slice(prefix.length)))
   })
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto('/?debug')
+  await page.goto('/viewer.html?debug')
   await expect(page.locator('main')).toHaveAttribute('data-state', 'ready')
   await expect(page.locator('[data-lighting-debug]')).toBeVisible()
   await expect(page.locator('[data-lighting-stats]')).toBeVisible()
@@ -57,13 +57,13 @@ test('edits lighting live, exports plain JSON and restores the preset', async ({
 })
 
 test('releases lighting resources and debug overlays when the viewer is disposed', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/viewer.html')
   await expect(page.locator('main')).toHaveAttribute('data-state', 'ready')
   const result = await page.evaluate(async () => {
     // Exercise the independent Three.js lifecycle, as Vue does during unmount.
     const modulePath = '/src/three/Viewer.ts'
     const { mountViewer } = await import(/* @vite-ignore */ modulePath)
-    history.replaceState(null, '', '/?debug')
+    history.replaceState(null, '', '/viewer.html?debug')
     const container = document.createElement('div')
     container.style.cssText = 'position:fixed;inset:0;width:600px;height:400px'
     document.body.append(container)

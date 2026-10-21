@@ -28,7 +28,7 @@ roadmap 文件中的 `<asset>` 等佔位符一律查這裡。
 | `boulders` | `/^Rock_Boulder_/` | 是 | 底面中心 | 散落小石塊 |
 | `corals` | `/^Coral_/` | 是 | 與岩塊的接觸點 | 五類珊瑚 |
 | `kelp` | `/^Kelp_/` | 是 | 根部 | |
-| `fish` | `/^Fish_/` | 是 | 身體中心 | |
+| `fish` | `/^Fish_[A-C]_/` | 是 | 身體中心 | `Fish_Root` 是容器 empty,不屬於 group(Step 10 修正) |
 | `diver` | `/^Diver$/`(empty,含子物件) | 否 | 胸口 | 子物件 `Diver_Fin_L/R` 可獨立動 |
 
 ## 動畫方式
