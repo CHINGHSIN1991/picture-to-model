@@ -1,4 +1,4 @@
-# Picture to Model web — Step 07–10
+# Picture to Model web — Step 07–11
 
 Vue 3 + Vite + TypeScript + Three.js。`/` 是產品 landing page(Step 10),
 `/viewer.html` 是只用來檢查 `export/reef.glb` 的模型檢視頁(Step 07–08)。
@@ -18,12 +18,13 @@ bun run dev
 ## Landing page(Step 10)
 
 依 [mockups/final-homepage.png](../mockups/final-homepage.png) 與 [SECTIONS.md](../mockups/SECTIONS.md) 實作，
-六個 section 一個元件，模型停在 Hero 狀態；指標與捲動互動留給 Step 11–12。
+六個 section 一個元件，模型以 Hero 為基礎狀態並隨游標微幅傾斜；捲動互動留給 Step 12。
 
 - `src/App.vue`：固定在最底層的 `.stage` canvas 容器 + 六個 section；只透過 `useThreeScene()` 接觸 3D。
 - `src/components/`：`SiteNav`、`HeroSection`、`UploadSection`、`ModelSection`、`ControlsSection`、`InteractionSection`、`CtaSection`。
 - `src/composables/useThreeScene.ts`：Vue ↔ Three 的唯一橋接，回傳 `status` 與 `setSectionState / setPointer / pause / resume`。
-- `src/three/Scene.ts`：renderer、場景、相機、render loop、生命週期；接收 container 與數值，不碰其他 DOM。
+- `src/three/Scene.ts`：renderer、場景、相機、render loop、生命週期；接收 container 與數值，將指標偏移加在 section 角度上。
+- `src/three/InteractionController.ts`：window 指標事件、時間校正阻尼、離開／失焦回正、動態偏好與事件清理。
 - `src/three/Model.ts`：載入 GLB，依 PROJECT_SPEC 的 part groups 建 `parts` / `groups` 索引，保留原始 pivot，`setMaterialParam`。
 - `src/three/CameraController.ts`：Hero 取景（方位 −12°、仰角依 section）、窄螢幕自動拉遠並把模型放到下半部。
 - `src/three/config/`：`sections.ts`（SECTIONS.md 1:1）、`partGroups.ts`、`partAnimations.ts`（PROJECT_SPEC，Step 13 用）。全部是 plain object；材質參數沿用 `lightingConfig.ts` 的 `material`。
@@ -76,7 +77,25 @@ LANDING_STATES=2,3,4 bun run inspect:landing
 
 GLB 幾何、貼圖、階層與 transform 不變；瀏覽器將材質分成一般／珊瑚兩份，
 仍共用同一張色票。僅 Branch、Brain、Tube 珊瑚使用微量發光。
-陰影目前只在載入和調光後更新；之後加入物件動畫時，需重新啟用陰影更新。
+模型檢視頁的陰影在載入和調光後更新；landing 另外在傾斜角度改變時刷新陰影，停止後不重算。
+
+## 滑鼠互動（Step 11）
+
+`src/three/config/pointer.ts` 支援 `mode: 'tilt' | 'none'`，最大 X / Y 偏移為 0.08 / 0.15 rad。
+`damping: 0.08` 是每個 60 Hz frame 的補間比例，`stiffness: 1` 是反應速度倍率；
+以 delta time 換算，30 / 60 / 120 Hz 下的一秒響應一致，不會超越最大角度。
+魚群避讓是 PROJECT_SPEC 選配，本步未加入。
+
+監聽 window 的 mouse / pen pointer，不攔截 canvas、wheel 或觸控手勢。
+游標離開、取消、視窗失焦或分頁隱藏時朝中性回正；DOM 元素間的移動不會誤觸回正。
+`prefers-reduced-motion` 切換會立即清除偏移，純觸控裝置停用；卸載時移除所有監聽。
+
+```bash
+bun run inspect:pointer          # 需另一個終端機跑 bun run dev
+```
+
+輸出 `screenshots/pointer-*.png`（中性、四角、回正）與 `pointer-report.json`。
+使用實際 Chrome GPU，在持續移動指標、更新陰影與水光的情況下取樣 5 秒。
 
 ## 驗證
 
@@ -98,6 +117,9 @@ PLAYWRIGHT_CHANNEL=chrome bun run test
 Landing page：六個 section 順序與標題、固定且不攔截指標的單一 canvas、part group 數量、
 捲動後 canvas 不動、nav 連結、`?state=N`、手機寬度無橫向捲動、GLB 404 提示，共三項。
 截圖在 `test-results/`，供人工視覺審查；這不是正式 mobile fallback 或效能 audit。
+
+`tests/pointer.spec.ts` 另外三項測試驗證阻尼、更新頻率一致性、角度上限、離開／失焦回正、
+停用模式、觸控裝置、非零 section 角度上的實際畫面變化、動態偏好即時切換、捲動及 nav；總計 13 項。
 
 在另一個終端機保持 `bun run dev` 運作，再執行：
 

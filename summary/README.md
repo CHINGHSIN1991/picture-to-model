@@ -17,7 +17,8 @@ roadmap 是「該怎麼做」,這裡是「實際做了什麼、結果如何、�
 | 08 | [瀏覽器水下調光](08-web-lighting.md) | 完成 | 集中 config、debug 調光面板、水光與霧氣，M4 / Metal 實測 60 FPS |
 | 09 | [網站 Mockup](09-website-mockup.md) | 完成 | 平台產品頁;三張 HTML 合成候選,選定編輯排版;SECTIONS.md 定 6 段與繞行一圈的零件狀態 |
 | 10 | [網站實作](10-implement-website.md) | 完成 | 固定 canvas + 六個 section 元件，Three/Vue 分離，config 皆 plain object，十項測試通過 |
-| 11–17 | Web 後續階段 | 未開始 | — |
+| 11 | [滑鼠跟隨互動](11-pointer-interaction.md) | 完成 | 微幅傾斜、阻尼回正、動態偏好與觸控停用，13 項瀏覽器測試通過 |
+| 12–17 | Web 後續階段 | 未開始 | — |
 
 ## 跨 step 的共同 takeaway
 

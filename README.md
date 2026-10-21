@@ -161,7 +161,18 @@ Build 與十項瀏覽器測試通過;Apple M4 / Metal、1440×900、DPR 1.5 的 
 - [Hero 截圖](web/screenshots/landing-hero.png) · [整頁](web/screenshots/landing-full.png) · [手機](web/screenshots/landing-mobile.png)
 - [web/README.md](web/README.md):程式位置、開發參數、驗證方式
 
-下一步為 Step 11：滑鼠跟隨互動。
+## 滑鼠跟隨互動（Step 11）
+
+Landing 模型會隨游標微幅傾斜，離開視窗或失焦後平滑回正。
+偏移疊加在 section 的基礎角度上；減少動態效果與純觸控裝置停用。
+模式、最大角度、阻尼與反應速度集中在 `web/src/three/config/pointer.ts`。
+
+Build 與 13 項瀏覽器測試通過，包含不同更新頻率、回正、捲動與導覽、動態偏好切換及觸控停用。
+
+- [Step 11 總結與截圖](summary/11-pointer-interaction.md)
+- [互動截圖與效能腳本](web/scripts/inspect-pointer.mjs)：`cd web && bun run inspect:pointer`（需先啟動 dev server）
+
+下一步為 Step 12：Scroll 驅動的敘事動畫。
 
 ## 原則
 
