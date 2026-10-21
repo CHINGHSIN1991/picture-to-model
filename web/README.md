@@ -1,4 +1,4 @@
-# Picture to Model web — Step 07–15
+# Picture to Model web — Step 07–16
 
 Vue 3 + Vite + TypeScript + Three.js。`/` 是產品 landing page(Step 10),
 `/viewer.html` 是只用來檢查 `export/reef.glb` 的模型檢視頁(Step 07–08)。
@@ -49,7 +49,8 @@ LANDING_STATES=2,3,4 bun run inspect:landing
 ## 模型檢視頁程式位置（`/viewer.html`）
 
 - `src/pages/Viewer.vue`：掛載、卸載、載入與錯誤提示。
-- `src/three/createRenderer.ts`：sRGB、ACES、DPR 上限 1.5。
+- `src/three/createRenderer.ts`：sRGB、ACES，從 `config/renderer.ts` 取得 DPR 上限 1.5 與 antialias 設定。
+- `src/three/rendererResolution.ts`：共用有效 DPR 計算與 resolution media query 監聽；landing / viewer 都在清理時解除監聽。
 - `src/three/createScene.ts`：建立場景。
 - `src/three/lightingConfig.ts`：可序列化的曝光、燈光、霧氣、水色與材質設定。
 - `src/three/createLighting.ts`：三點光、環境反射、陰影、霧氣與背景的生命週期。
@@ -152,6 +153,25 @@ bun run inspect:visibility       # 先跑 bun run dev；使用有桌面環境的
 結果是 `screenshots/visibility-report.json`、`visibility-contact-sheet.png` 與 `visibility-trace.json.gz`。
 將 trace 解壓後匯入 DevTools Performance，對照 User Timing 標記與 Three.js `onAnimationFrame`。
 
+## DPR 上限（Step 16）
+
+`src/three/config/renderer.ts` 是初始化、landing resize、viewer resize 的唯一設定來源。
+預設 `maxPixelRatio: 1.5`、`antialias: true`、`powerPreference: 'default'`，保留既有渲染偏好。
+使用 `min(devicePixelRatio, maxPixelRatio)`，低 DPR 不會被放大。
+
+window resize 與 ResizeObserver 繼續更新尺寸；resolution media query 處理 CSS 尺寸不變的 DPR 變更，
+每次通知後改為監聽新的 DPR。沒有輪詢；Scene 暫停時不會因更新 buffer 而啟動 render loop。
+目前沒有 FPS 自動降級或裝置專屬上限，靜態裝置分流沿用 Step 14。
+
+```bash
+bun run inspect:resolution       # 先跑 bun run dev；VIEWER_URL 可指定其他 port
+```
+
+腳本用 Chrome CDP 在固定 CSS 尺寸下切換 DPR，核對 canvas 與 WebGL drawing buffer，
+輸出 `screenshots/resolution-report.json` 與 `resolution-contact-sheet.png`。
+CDP 需交替 screen / default media override 才會通知既有 resolution 查詢；沒有手動派送 resize。
+這是裝置模擬，不是實體跨螢幕測試；像素減量不代表等比例的 GPU 耗時下降。
+
 ## 驗證
 
 ```bash
@@ -178,7 +198,8 @@ Landing page：六個 section 順序與標題、固定且不攔截指標的單�
 `tests/scroll.spec.ts` 三項涵蓋六段插值與停留、捲回 Hero 的精確還原、pointer 疊加、deep link、
 resize、動態偏好、清理，以及 instancing 前後 draw calls / transform / 像素誤差、換 mode 與 stagger。
 `tests/fallback.spec.ts` 三項驗證模式判斷、靜態下載與模式覆寫。
-`tests/visibility.spec.ts` 三項驗證離屏、可見性條件交錯、背景載入、最後一幀、零 delta 恢復與清理；總計 **22 項**。
+`tests/visibility.spec.ts` 三項驗證離屏、可見性條件交錯、背景載入、最後一幀、零 delta 恢復與清理。
+`tests/resolution.spec.ts` 三項涵蓋兩入口的初始化、viewport／容器 resize、連續 DPR 變更、antialias、暫停與清理；總計 **25 項**。
 
 在另一個終端機保持 `bun run dev` 運作，再執行：
 

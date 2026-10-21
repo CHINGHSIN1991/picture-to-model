@@ -100,3 +100,9 @@ Live landing 的六個 `.story-step` 標記 `data-has-3d`，觀察範圍包含 s
 任一範圍可見、document 為 visible、且未手動暫停時才繪製。現有 CTA footer 仍有 3D，保持繪製。
 暫停時同步最後一幀但不推進動畫時間；恢復首幀 delta 為 0，水光與零件保留原相位。
 只控制本 Scene，不停止全域 GSAP ticker；靜態 fallback 不建立控制器。獨立 viewer 沿用原生命週期。
+
+### Renderer 解析度（Step 16）
+
+Landing 與 viewer 共用 `web/src/three/config/renderer.ts`：`maxPixelRatio: 1.5`、`antialias: true`、`powerPreference: 'default'`。
+有效 DPR 為裝置 DPR 與上限的較小值；初始化、window／容器 resize、resolution media query 變更時皆套用。
+媒體查詢在每次 DPR 變更後重新監聽，卸載時移除；沒有每幀輪詢或 FPS 自動降級。

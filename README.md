@@ -196,7 +196,17 @@ Build 與全部 22 項瀏覽器測試通過。
 - [可見性驗證總覽](web/screenshots/visibility-contact-sheet.png) · [量測報告](web/screenshots/visibility-report.json)
 - 重跑：`cd web && bun run inspect:visibility`（先啟動 dev server；使用有桌面環境的 Chrome）
 
-下一步為 Step 16：集中 DPR 上限設定並正式驗收。
+## DPR 上限（Step 16）
+
+Landing 與 viewer 共用 `web/src/three/config/renderer.ts`，DPR 上限為 1.5，保留 antialias。
+視窗／容器 resize 及 DPR 單獨變更都會更新解析度；卸載時移除監聽。
+Chrome 模擬 DPR 2、3，在 1440×900 CSS viewport 下皆得到 2160×1350 buffer。
+Build 與全部 25 項瀏覽器測試通過。
+
+- [Step 16 總結](summary/16-dpr-limit.md) · [截圖與尺寸對照](web/screenshots/resolution-contact-sheet.png)
+- 重跑：`cd web && bun run inspect:resolution`（需先啟動 dev server）
+
+下一步為 Step 17：整體效能 Audit、Lighthouse 與 PERFORMANCE.md。
 
 ## 原則
 
