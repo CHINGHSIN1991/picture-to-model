@@ -1,0 +1,147 @@
+{
+  "measuredAt": "2026-10-21T05:45:19.166Z",
+  "browser": "155.0.8059.85",
+  "baseUrl": "http://127.0.0.1:5177",
+  "method": "Headed Chrome; real IntersectionObserver scrolling into an injected opaque content-only region; real background tab via bringToFront; 1-second samples; DevTools trace FunctionCall onAnimationFrame in Three.js. Other page rAF callbacks may continue.",
+  "phases": [
+    {
+      "name": "visible",
+      "visibilityState": "visible",
+      "paused": false,
+      "before": {
+        "paused": false,
+        "frames": 152,
+        "waterTime": 0.4722199999999995,
+        "lastDelta": 0.0075
+      },
+      "after": {
+        "paused": false,
+        "frames": 272,
+        "waterTime": 0.822499999999999,
+        "lastDelta": 0.008399999999999637
+      },
+      "renderedFrames": 120,
+      "waterAdvance": 0.35027999999999954,
+      "threeAnimationCallbacks": 121,
+      "animationCallbacks": [
+        {
+          "columnNumber": 27,
+          "frame": "37CD2FC7C73FC1B8D08E707E567A1836",
+          "functionName": "onAnimationFrame",
+          "isolate": "17745663865371052155",
+          "lineNumber": 42007,
+          "sampleTraceId": 6583600121750436,
+          "scriptId": "52",
+          "url": "http://127.0.0.1:5177/node_modules/.vite/deps/three.module-Bj7iJlUn.js?v=4dad9dae"
+        }
+      ]
+    },
+    {
+      "name": "offscreen",
+      "visibilityState": "visible",
+      "paused": true,
+      "before": {
+        "paused": true,
+        "frames": 290,
+        "waterTime": 0.9187849999999989,
+        "lastDelta": 0
+      },
+      "after": {
+        "paused": true,
+        "frames": 290,
+        "waterTime": 0.9187849999999989,
+        "lastDelta": 0
+      },
+      "renderedFrames": 0,
+      "waterAdvance": 0,
+      "threeAnimationCallbacks": 0,
+      "animationCallbacks": []
+    },
+    {
+      "name": "returned",
+      "visibilityState": "visible",
+      "paused": false,
+      "before": {
+        "paused": false,
+        "frames": 320,
+        "waterTime": 1.0030999999999983,
+        "lastDelta": 0.007599999999999454
+      },
+      "after": {
+        "paused": false,
+        "frames": 440,
+        "waterTime": 1.3534150000000027,
+        "lastDelta": 0.009100000000000363
+      },
+      "renderedFrames": 120,
+      "waterAdvance": 0.3503150000000044,
+      "threeAnimationCallbacks": 121,
+      "animationCallbacks": [
+        {
+          "columnNumber": 27,
+          "frame": "37CD2FC7C73FC1B8D08E707E567A1836",
+          "functionName": "onAnimationFrame",
+          "isolate": "17745663865371052155",
+          "lineNumber": 42007,
+          "sampleTraceId": 6583600121754121,
+          "scriptId": "52",
+          "url": "http://127.0.0.1:5177/node_modules/.vite/deps/three.module-Bj7iJlUn.js?v=4dad9dae"
+        }
+      ]
+    },
+    {
+      "name": "hidden-tab",
+      "visibilityState": "hidden",
+      "paused": true,
+      "before": {
+        "paused": true,
+        "frames": 444,
+        "waterTime": 1.3621300000000025,
+        "lastDelta": 0
+      },
+      "after": {
+        "paused": true,
+        "frames": 444,
+        "waterTime": 1.3621300000000025,
+        "lastDelta": 0
+      },
+      "renderedFrames": 0,
+      "waterAdvance": 0,
+      "threeAnimationCallbacks": 0,
+      "animationCallbacks": []
+    },
+    {
+      "name": "resumed",
+      "visibilityState": "visible",
+      "paused": false,
+      "before": {
+        "paused": false,
+        "frames": 464,
+        "waterTime": 1.4175000000000026,
+        "lastDelta": 0.008399999999999637
+      },
+      "after": {
+        "paused": false,
+        "frames": 585,
+        "waterTime": 1.7704050000000033,
+        "lastDelta": 0.008299999999999273
+      },
+      "renderedFrames": 121,
+      "waterAdvance": 0.3529050000000007,
+      "threeAnimationCallbacks": 121,
+      "animationCallbacks": [
+        {
+          "columnNumber": 27,
+          "frame": "37CD2FC7C73FC1B8D08E707E567A1836",
+          "functionName": "onAnimationFrame",
+          "isolate": "17745663865371052155",
+          "lineNumber": 42007,
+          "sampleTraceId": 6583600121744869,
+          "scriptId": "52",
+          "url": "http://127.0.0.1:5177/node_modules/.vite/deps/three.module-Bj7iJlUn.js?v=4dad9dae"
+        }
+      ]
+    }
+  ],
+  "errors": []
+}
