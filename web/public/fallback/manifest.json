@@ -1,0 +1,40 @@
+{
+  "generatedAt": "2026-10-21T05:26:49.701Z",
+  "baseUrl": "http://127.0.0.1:5173",
+  "quality": 0.82,
+  "state": "hero",
+  "files": [
+    {
+      "file": "hero-portrait@2x.webp",
+      "bytes": 33434,
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "hero-portrait.webp",
+      "bytes": 13122,
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "file": "hero-landscape@2x.webp",
+      "bytes": 137030,
+      "size": [
+        2880,
+        1800
+      ]
+    },
+    {
+      "file": "hero-landscape.webp",
+      "bytes": 56628,
+      "size": [
+        1440,
+        900
+      ]
+    }
+  ]
+}
