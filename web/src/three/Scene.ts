@@ -9,6 +9,7 @@ import { loadModel, type Model } from './Model'
 import { heroState, type SectionState } from './config/sections'
 import { InteractionController } from './InteractionController'
 import { PartAnimator } from './PartAnimator'
+import { getRendererPixelRatio, observePixelRatio } from './rendererResolution'
 
 export interface SceneOptions {
   modelUrl?: string
@@ -94,7 +95,7 @@ export function mountScene(container: HTMLElement, options: SceneOptions = {}): 
     if (disposed) return
     const width = Math.max(container.clientWidth, 1)
     const height = Math.max(container.clientHeight, 1)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
+    renderer.setPixelRatio(getRendererPixelRatio())
     renderer.setSize(width, height, false)
     cameraController.setViewport(width / height)
     renderer.shadowMap.needsUpdate = true
@@ -102,6 +103,7 @@ export function mountScene(container: HTMLElement, options: SceneOptions = {}): 
   const observer = new ResizeObserver(resize)
   observer.observe(container)
   window.addEventListener('resize', resize)
+  const stopObservingPixelRatio = observePixelRatio(resize)
   resize()
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -174,6 +176,7 @@ export function mountScene(container: HTMLElement, options: SceneOptions = {}): 
     paused = true
     lastTime = undefined
     observer.disconnect()
+    stopObservingPixelRatio()
     window.removeEventListener('resize', resize)
     interaction.dispose()
     renderer.setAnimationLoop(null)

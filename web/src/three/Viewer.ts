@@ -6,6 +6,7 @@ import { disposeModel, loadModel } from './loadModel'
 import { createLighting } from './createLighting'
 import { createWaterMaterials } from './createWaterMaterials'
 import { collectFramingPoints, fitDistance as fitPoints, viewDirection } from './framing'
+import { getRendererPixelRatio, observePixelRatio } from './rendererResolution'
 
 export function mountViewer(container: HTMLElement) {
   const renderer = createRenderer()
@@ -36,7 +37,7 @@ export function mountViewer(container: HTMLElement) {
     const height = Math.max(container.clientHeight, 1)
     camera.aspect = width / height
     camera.updateProjectionMatrix()
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
+    renderer.setPixelRatio(getRendererPixelRatio())
     renderer.setSize(width, height, false)
     if (asset) {
       const distance = fitDistance()
@@ -53,6 +54,7 @@ export function mountViewer(container: HTMLElement) {
   const observer = new ResizeObserver(resize)
   observer.observe(container)
   window.addEventListener('resize', resize)
+  const stopObservingPixelRatio = observePixelRatio(resize)
   resize()
 
   const ready = loadModel().then(async (loaded) => {
@@ -98,6 +100,7 @@ export function mountViewer(container: HTMLElement) {
     if (disposed) return
     disposed = true
     observer.disconnect()
+    stopObservingPixelRatio()
     window.removeEventListener('resize', resize)
     renderer.setAnimationLoop(null)
     controls.dispose()
