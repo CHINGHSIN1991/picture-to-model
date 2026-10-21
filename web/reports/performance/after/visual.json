@@ -1,0 +1,42 @@
+{
+  "resources": {
+    "instances": {
+      "before": 91,
+      "after": 28,
+      "instancedNodes": 75,
+      "batches": 12
+    },
+    "modelMaterials": 2,
+    "sceneMeshMaterials": 3,
+    "modelTextures": [
+      {
+        "name": "reef_palette",
+        "width": 64,
+        "height": 64
+      }
+    ],
+    "environment": {
+      "width": 384,
+      "height": 512
+    },
+    "shadows": [
+      [
+        2048,
+        2048
+      ]
+    ],
+    "rendererMemory": {
+      "geometries": 27,
+      "textures": 5
+    },
+    "programs": 7
+  },
+  "difference": {
+    "meanAbsoluteRgbError": 0,
+    "fractionPixelsOver24": 0,
+    "dimensions": [
+      1440,
+      900
+    ]
+  }
+}
