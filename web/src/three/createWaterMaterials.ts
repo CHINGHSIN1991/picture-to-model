@@ -4,6 +4,7 @@ import type { LightingConfig } from './lightingConfig'
 export function createWaterMaterials(model: Object3D, config: LightingConfig) {
   const materials = new Set<MeshStandardMaterial>()
   const coralVariants = new Map<MeshStandardMaterial, MeshStandardMaterial>()
+  let emissiveMultiplier = 1
   const uniforms = {
     waterTime: { value: 0 },
     causticStrength: { value: config.caustics.strength },
@@ -62,11 +63,15 @@ export function createWaterMaterials(model: Object3D, config: LightingConfig) {
       }
       for (const material of coralVariants.values()) {
         material.emissive.set(config.material.coralEmissive)
-        material.emissiveIntensity = config.material.coralIntensity
+        material.emissiveIntensity = config.material.coralIntensity * emissiveMultiplier
       }
     },
     update(time: number) {
       uniforms.waterTime.value = time
+    },
+    setEmissiveMultiplier(value: number) {
+      emissiveMultiplier = value
+      for (const material of coralVariants.values()) material.emissiveIntensity = config.material.coralIntensity * value
     },
     // Materials and the shared palette are owned/disposed by the loaded model.
   }

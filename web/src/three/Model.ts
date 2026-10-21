@@ -1,17 +1,20 @@
-import { Box3, BufferGeometry, Color, Group, Material, Mesh, MeshStandardMaterial, Object3D, Texture } from 'three'
+import { Box3, BufferGeometry, Color, Group, InstancedMesh, Material, Mesh, MeshStandardMaterial, Object3D, Texture } from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { partGroupNames, partGroups, type PartGroup } from './config/partGroups'
+import { buildModelInstances } from './ModelInstances'
 
 export interface Model {
   /** Transform target for sections (position / rotation / scale). Authored origin = reef base centre. */
   root: Group
-  /** The GLB scene, untouched: authored pivots and local transforms are preserved for Step 13. */
+  /** Authored hierarchy retained; instanced nodes become invisible transform proxies. */
   scene: Group
   /** Every named node, by MODEL_PLAN name. */
   parts: Record<string, Object3D>
-  /** PROJECT_SPEC part groups. Plain meshes for now; Step 13 may swap instancing groups for InstancedMesh. */
+  /** PROJECT_SPEC part groups, including named transform proxies for instances. */
   groups: Record<PartGroup, Object3D[]>
   bounds: Box3
+  buildInstances(): ReturnType<typeof buildModelInstances>['report']
+  syncInstances(): void
   setMaterialParam(name: string, key: string, value: number | string): void
   dispose(): void
 }
@@ -45,12 +48,18 @@ export async function loadModel(url: string): Promise<Model> {
     nodes: Object.keys(parts).length,
     groups: Object.fromEntries(partGroupNames.map((name) => [name, groups[name].length])),
   }))
+  let instances: ReturnType<typeof buildModelInstances> | undefined
   return {
     root,
     scene,
     parts,
     groups,
     bounds,
+    buildInstances() {
+      instances ??= buildModelInstances({ groups, scene })
+      return instances.report
+    },
+    syncInstances() { instances?.sync() },
     setMaterialParam(name, key, value) {
       const target = parts[name]
       if (!target) throw new Error(`Unknown part: ${name}`)
@@ -80,6 +89,7 @@ export function disposeObject(object: Object3D) {
   object.traverse((child) => {
     const mesh = child as Mesh
     if (!mesh.isMesh) return
+    if (mesh instanceof InstancedMesh) mesh.dispose()
     geometries.add(mesh.geometry)
     for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) {
       materials.add(material)
