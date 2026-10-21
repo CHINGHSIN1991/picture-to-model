@@ -106,3 +106,9 @@ Live landing 的六個 `.story-step` 標記 `data-has-3d`，觀察範圍包含 s
 Landing 與 viewer 共用 `web/src/three/config/renderer.ts`：`maxPixelRatio: 1.5`、`antialias: true`、`powerPreference: 'default'`。
 有效 DPR 為裝置 DPR 與上限的較小值；初始化、window／容器 resize、resolution media query 變更時皆套用。
 媒體查詢在每次 DPR 變更後重新監聽，卸載時移除；沒有每幀輪詢或 FPS 自動降級。
+
+### 載入與最終效能驗收（Step 17）
+
+Live 在載入與錯誤狀態保留 Step 14 的 Hero WebP。第一個完整 3D frame 畫完才回報 ready，之後 200 ms 淡出圖片；reduced-motion 不做淡出。
+概念圖使用同尺寸 WebP（quality 0.85）、lazy loading 與 async decoding，保留原始 JPEG 供重編碼。
+正式量測與例外見 [web/PERFORMANCE.md](web/PERFORMANCE.md)：mobile Lighthouse 三次皆 100；動態含陰影 draw calls 56，保留既有陰影與零件控制。

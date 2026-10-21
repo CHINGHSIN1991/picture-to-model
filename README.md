@@ -206,7 +206,21 @@ Build 與全部 25 項瀏覽器測試通過。
 - [Step 16 總結](summary/16-dpr-limit.md) · [截圖與尺寸對照](web/screenshots/resolution-contact-sheet.png)
 - 重跑：`cd web && bun run inspect:resolution`（需先啟動 dev server）
 
-下一步為 Step 17：整體效能 Audit、Lighthouse 與 PERFORMANCE.md。
+## 效能 Audit（Step 17）
+
+Production build 的 Lighthouse mobile 三次皆 100 分，LCP 中位數 1.579 秒、CLS 0。
+概念圖改為 WebP 後，手機首次下載由 225,630 降至 151,547 bytes（−32.8%）。
+Live 載入時先顯示 Hero WebP，第一幀完成後淡出；桌機因此多下載約 63 KB，換取載入中有完整預覽。
+
+M4 / Metal 桌機維持約 60 FPS，Hero 優化前後像素一致。
+Build 與全部 26 項瀏覽器測試通過。
+動態含陰影 draw calls 為 56，高於 roadmap 的 <50 目標；保留陰影與零件控制，原因列入報告。
+
+- [完整 PERFORMANCE.md](web/PERFORMANCE.md) · [Step 17 總結](summary/17-performance-audit.md)
+- [Mockup 與 before / after](web/reports/performance/visual-comparison.png)
+- 重跑量測與 Lighthouse 的指令見報告；需 production preview，量測應依序執行。
+
+Step 00–17 已完成。正式部署與實體裝置驗收可作為後續工作。
 
 ## 原則
 

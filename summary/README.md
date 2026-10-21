@@ -4,8 +4,8 @@
 roadmap 是「該怎麼做」,這裡是「實際做了什麼、結果如何、學到什麼」。
 每份開頭的「代表結果」放一張代表圖與一段代表程式碼或資料;圖片集中在 [assets/](assets/),原檔在 `blender/renders/` 或 `web/screenshots/`。
 
-截至 2026-10-21，Step 00–16 已完成；Step 13 是 Step 12 的前置依賴，兩步一併交付。
-Step 17 的文件記錄目前已有的基礎與缺口，尚未完成的工作不列為驗收結果。
+截至 2026-10-21，Step 00–17 已完成；Step 13 是 Step 12 的前置依賴，兩步一併交付。
+Step 17 已記錄效能驗收與例外：動態含陰影 draw calls 為 56，高於 <50 目標；沒有宣稱所有數值都達標。
 各步的測試數、截圖與「下一步」保留當時紀錄；目前進度以本索引為準。
 
 | Step | 總結 | 狀態 | 關鍵結果 |
@@ -27,9 +27,9 @@ Step 17 的文件記錄目前已有的基礎與缺口，尚未完成的工作不
 | 14 | [手機靜態圖 fallback](14-mobile-fallback.md) | 完成 | 多訊號判斷 live / static，四張 WebP 由同一 renderer 擷取；手機 static 零 3D 請求，219 KB vs live 1000 KB |
 | 15 | [離開畫面暫停](15-offscreen-pause.md) | 完成 | 區域／分頁／手動條件合併；實際 Chrome trace 確認離屏與背景分頁零繪製、零 Three rAF 回呼 |
 | 16 | [DPR 上限](16-dpr-limit.md) | 完成 | 共用 renderer config、resize 與 DPR 事件監聽；兩入口 DPR 2 / 3 皆限制 1.5，連續變更與清理驗證通過 |
-| 17 | [效能 Audit](17-performance-audit.md) | 尚未正式驗收 | 已有 GLB、draw calls、FPS 證據；缺完整 PERFORMANCE.md 與 Lighthouse |
+| 17 | [效能 Audit](17-performance-audit.md) | 完成（draw calls 例外已說明） | Lighthouse mobile 三次皆 100、LCP 1.579s；手機下載 −32.8%，桌機約 60 FPS；完成 PERFORMANCE.md 與視覺比對 |
 
-接續工作：[Step 17](17-performance-audit.md)：整體效能驗收與 PERFORMANCE.md。
+Roadmap 全部完成。[PERFORMANCE.md](../web/PERFORMANCE.md) 記錄最終數據與限制；正式部署及實體裝置驗收可另行安排。
 
 ## 跨 step 的共同 takeaway
 

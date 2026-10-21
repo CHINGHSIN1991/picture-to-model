@@ -1,4 +1,4 @@
-# Picture to Model web — Step 07–16
+# Picture to Model web — Step 07–17
 
 Vue 3 + Vite + TypeScript + Three.js。`/` 是產品 landing page(Step 10),
 `/viewer.html` 是只用來檢查 `export/reef.glb` 的模型檢視頁(Step 07–08)。
@@ -36,7 +36,8 @@ bun run dev
 
 開發用參數：`/?state=3` 固定第 3 段的完成狀態（含零件），不綁 scroll；`/?debug` 開調光面板。
 僅 dev 模式的 `/?inspect` 提供唯讀 `window.__reefScene` 快照（狀態、實際角度、零件變換、draw calls、rendering 暫停狀態／累計繪製幀數／水光時間／最後 delta），供測試與截圖腳本使用。
-`src/assets/final-concept-800.jpg` 是 `references/final-concept.png` 縮到 800 px 的版本，給第 2 段的輸入卡片用。
+`src/assets/final-concept-800.webp` 是第 2 段的輸入卡片，從保留的 `final-concept-800.jpg` 以 quality 0.85 重編碼。
+可用 `bun run encode:concept` 重建；圖片保留原尺寸並使用 lazy / async decoding。
 
 ```bash
 bun run inspect:landing          # 需另一個終端機跑 bun run dev
@@ -172,6 +173,25 @@ bun run inspect:resolution       # 先跑 bun run dev；VIEWER_URL 可指定其�
 CDP 需交替 screen / default media override 才會通知既有 resolution 查詢；沒有手動派送 resize。
 這是裝置模擬，不是實體跨螢幕測試；像素減量不代表等比例的 GPU 耗時下降。
 
+## 效能 Audit 與漸進載入（Step 17）
+
+Live 的 `loading` / `error` 狀態也顯示既有 `FallbackStill`；Scene 同步畫完第一幀才回報 ready，
+Vue Transition 在 200 ms 內淡出圖片，減少動態效果時直接移除。失敗時保留圖片與錯誤訊息。
+圖片壓縮降低 static 下載；漸進載入則增加 live 下載，數字與取捨見 [PERFORMANCE.md](PERFORMANCE.md)。
+
+```bash
+bun run build
+bun run preview --port 4180 --strictPort
+# 另一個終端機；依序執行，避免量測互相干擾
+bun run audit:performance after
+bun run audit:lighthouse after
+# audit:visual 另需 5177 dev server
+bun run audit:visual
+```
+
+報告在 `reports/performance/`，Lighthouse HTML 以 gzip 儲存。
+手機 Lighthouse 三次 100 分、LCP 約 1.579 秒、CLS 0；動態含陰影 draw calls 56 的例外也記錄於報告。
+
 ## 驗證
 
 ```bash
@@ -191,7 +211,7 @@ PLAYWRIGHT_CHANNEL=chrome bun run test
 以及調光面板、設定匯出／重設、減少動畫偏好、卸載清理，共七項。
 Landing page：六個 section 順序與標題、固定且不攔截指標的單一 canvas、part group 數量、
 捲動後 canvas 不動、nav 連結、`?state=N`、手機寬度無橫向捲動、GLB 404 提示，共三項。
-截圖在 `test-results/`，供人工視覺審查；完整效能 audit 留給 Step 17。
+截圖在 `test-results/`，供人工視覺審查；完整效能 audit 見 [PERFORMANCE.md](PERFORMANCE.md)。
 
 `tests/pointer.spec.ts` 另外三項測試驗證阻尼、更新頻率一致性、角度上限、離開／失焦回正、
 停用模式、觸控裝置、非零 section 角度上的實際畫面變化、動態偏好即時切換、捲動及 nav。
@@ -199,7 +219,8 @@ Landing page：六個 section 順序與標題、固定且不攔截指標的單�
 resize、動態偏好、清理，以及 instancing 前後 draw calls / transform / 像素誤差、換 mode 與 stagger。
 `tests/fallback.spec.ts` 三項驗證模式判斷、靜態下載與模式覆寫。
 `tests/visibility.spec.ts` 三項驗證離屏、可見性條件交錯、背景載入、最後一幀、零 delta 恢復與清理。
-`tests/resolution.spec.ts` 三項涵蓋兩入口的初始化、viewport／容器 resize、連續 DPR 變更、antialias、暫停與清理；總計 **25 項**。
+`tests/resolution.spec.ts` 三項涵蓋兩入口的初始化、viewport／容器 resize、連續 DPR 變更、antialias、暫停與清理。
+Step 17 在 landing 新增一項延遲 GLB 的漸進載入驗證；總計 **26 項**。
 
 在另一個終端機保持 `bun run dev` 運作，再執行：
 
@@ -218,7 +239,7 @@ TypeScript 固定為 5.9.3，因為本次安裝的 TypeScript 7 與 vue-tsc 3.3.
 GSAP 與 ScrollTrigger 已用於 landing page。
 Step 12–13 build：landing chunk 約 138 kB（gzip 約 54 kB）、共用 chunk 約 691 kB（gzip 約 184 kB），debug chunk 約 35.5 kB（gzip 約 10.1 kB）；
 Vite 仍會提示主 chunk 超過 500 kB，
-後續網站與效能階段再規劃載入策略。
+Step 14–17 已將 3D 隔離為 live 才載入的動態 chunk，最新下載實測見 PERFORMANCE.md。
 
 ## 網站 Mockup 截圖(Step 09)
 
