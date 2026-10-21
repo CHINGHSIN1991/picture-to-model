@@ -101,7 +101,8 @@ test('renders tilt on top of a nonzero section rotation, returns to neutral, and
 test('disables tilt on a touch-only device', async ({ browser }) => {
   const context = await browser.newContext({ hasTouch: true, isMobile: true, viewport: { width: 390, height: 844 } })
   const page = await context.newPage()
-  await page.goto('/')
+  // Step 14 would serve this device a still; force the live scene to test the controller.
+  await page.goto('/?mode=live')
   await expect(page.locator('.site')).toHaveAttribute('data-state', 'ready')
   const offset = await page.evaluate(async () => {
     const path = '/src/three/InteractionController.ts'

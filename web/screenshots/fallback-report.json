@@ -1,0 +1,220 @@
+{
+  "measuredAt": "2026-10-21T05:30:08.136Z",
+  "baseUrl": "http://127.0.0.1:4174",
+  "browser": "155.0.8059.85",
+  "method": "Chrome device emulation (touch + mobile viewport); 3D requests matched by Scene/ScrollController/three/gsap/framing chunk/.glb; transferredKB from PerformanceResourceTiming; still vs live compared per RGB pixel on the same 390×844 @2x viewport",
+  "stills": {
+    "generatedAt": "2026-10-21T05:26:49.701Z",
+    "baseUrl": "http://127.0.0.1:5173",
+    "quality": 0.82,
+    "state": "hero",
+    "files": [
+      {
+        "file": "hero-portrait@2x.webp",
+        "bytes": 33434,
+        "size": [
+          780,
+          1688
+        ]
+      },
+      {
+        "file": "hero-portrait.webp",
+        "bytes": 13122,
+        "size": [
+          390,
+          844
+        ]
+      },
+      {
+        "file": "hero-landscape@2x.webp",
+        "bytes": 137030,
+        "size": [
+          2880,
+          1800
+        ]
+      },
+      {
+        "file": "hero-landscape.webp",
+        "bytes": 56628,
+        "size": [
+          1440,
+          900
+        ]
+      }
+    ]
+  },
+  "scenarios": [
+    {
+      "mode": "static",
+      "reason": "touch-small-screen",
+      "viewport": [
+        390,
+        844
+      ],
+      "dpr": 2,
+      "scrollWidth": 390,
+      "canvases": 0,
+      "still": {
+        "currentSrc": "/fallback/hero-portrait@2x.webp",
+        "natural": [
+          390,
+          844
+        ]
+      },
+      "resourceCount": 5,
+      "transferredKB": 219,
+      "name": "phone-static",
+      "requests": 6,
+      "threeDRequests": [],
+      "screenshot": "fallback-mobile.png",
+      "endScreenshot": "fallback-mobile-cta.png",
+      "endSection": "cta"
+    },
+    {
+      "mode": "live",
+      "reason": "query",
+      "viewport": [
+        390,
+        844
+      ],
+      "dpr": 2,
+      "scrollWidth": 390,
+      "canvases": 1,
+      "still": null,
+      "resourceCount": 9,
+      "transferredKB": 1000,
+      "name": "phone-live",
+      "requests": 11,
+      "threeDRequests": [
+        "/assets/Scene-BPsa1eFd.js",
+        "/assets/framing-Scxe58Ei.js",
+        "/assets/ScrollController-CpqaQd9Q.js",
+        "/models/reef.glb"
+      ],
+      "screenshot": "fallback-mobile-live.png"
+    },
+    {
+      "mode": "static",
+      "reason": "touch-small-screen",
+      "viewport": [
+        844,
+        390
+      ],
+      "dpr": 2,
+      "scrollWidth": 844,
+      "canvases": 0,
+      "still": {
+        "currentSrc": "/fallback/hero-landscape@2x.webp",
+        "natural": [
+          1440,
+          900
+        ]
+      },
+      "resourceCount": 5,
+      "transferredKB": 320,
+      "name": "phone-landscape",
+      "requests": 6,
+      "threeDRequests": [],
+      "screenshot": "fallback-mobile-landscape.png"
+    },
+    {
+      "mode": "static",
+      "reason": "reduced-motion",
+      "viewport": [
+        1440,
+        900
+      ],
+      "dpr": 1,
+      "scrollWidth": 1440,
+      "canvases": 0,
+      "still": {
+        "currentSrc": "/fallback/hero-landscape.webp",
+        "natural": [
+          1440,
+          900
+        ]
+      },
+      "resourceCount": 5,
+      "transferredKB": 241,
+      "name": "desktop-reduced-motion",
+      "requests": 6,
+      "threeDRequests": [],
+      "screenshot": "fallback-desktop-reduced.png"
+    },
+    {
+      "mode": "live",
+      "reason": "capable",
+      "viewport": [
+        1440,
+        900
+      ],
+      "dpr": 1,
+      "scrollWidth": 1440,
+      "canvases": 1,
+      "still": null,
+      "resourceCount": 9,
+      "transferredKB": 1000,
+      "name": "desktop",
+      "requests": 11,
+      "threeDRequests": [
+        "/assets/Scene-BPsa1eFd.js",
+        "/assets/framing-Scxe58Ei.js",
+        "/assets/ScrollController-CpqaQd9Q.js",
+        "/models/reef.glb"
+      ]
+    },
+    {
+      "mode": "live",
+      "reason": "capable",
+      "viewport": [
+        600,
+        900
+      ],
+      "dpr": 1,
+      "scrollWidth": 600,
+      "canvases": 1,
+      "still": null,
+      "resourceCount": 9,
+      "transferredKB": 1000,
+      "name": "desktop-narrow-window",
+      "requests": 11,
+      "threeDRequests": [
+        "/assets/Scene-BPsa1eFd.js",
+        "/assets/framing-Scxe58Ei.js",
+        "/assets/ScrollController-CpqaQd9Q.js",
+        "/models/reef.glb"
+      ]
+    },
+    {
+      "mode": "live",
+      "reason": "capable",
+      "viewport": [
+        834,
+        1194
+      ],
+      "dpr": 2,
+      "scrollWidth": 834,
+      "canvases": 1,
+      "still": null,
+      "resourceCount": 9,
+      "transferredKB": 1000,
+      "name": "ipad-pro-11",
+      "requests": 11,
+      "threeDRequests": [
+        "/assets/Scene-BPsa1eFd.js",
+        "/assets/framing-Scxe58Ei.js",
+        "/assets/ScrollController-CpqaQd9Q.js",
+        "/models/reef.glb"
+      ]
+    }
+  ],
+  "stillVsLive": {
+    "size": [
+      780,
+      1688
+    ],
+    "meanAbsoluteError": 0.9384109045256713,
+    "pixelsOver24": 0.003938054441608944
+  },
+  "errors": []
+}
