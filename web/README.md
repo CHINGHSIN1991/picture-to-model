@@ -1,4 +1,4 @@
-# Picture to Model web — Step 07–11
+# Picture to Model web — Step 07–13
 
 Vue 3 + Vite + TypeScript + Three.js。`/` 是產品 landing page(Step 10),
 `/viewer.html` 是只用來檢查 `export/reef.glb` 的模型檢視頁(Step 07–08)。
@@ -18,19 +18,23 @@ bun run dev
 ## Landing page(Step 10)
 
 依 [mockups/final-homepage.png](../mockups/final-homepage.png) 與 [SECTIONS.md](../mockups/SECTIONS.md) 實作，
-六個 section 一個元件，模型以 Hero 為基礎狀態並隨游標微幅傾斜；捲動互動留給 Step 12。
+六個 section 一個元件，模型隨游標微幅傾斜，並由捲動驅動位置、旋轉、相機及零件動畫。
 
 - `src/App.vue`：固定在最底層的 `.stage` canvas 容器 + 六個 section；只透過 `useThreeScene()` 接觸 3D。
 - `src/components/`：`SiteNav`、`HeroSection`、`UploadSection`、`ModelSection`、`ControlsSection`、`InteractionSection`、`CtaSection`。
 - `src/composables/useThreeScene.ts`：Vue ↔ Three 的唯一橋接，回傳 `status` 與 `setSectionState / setPointer / pause / resume`。
 - `src/three/Scene.ts`：renderer、場景、相機、render loop、生命週期；接收 container 與數值，將指標偏移加在 section 角度上。
 - `src/three/InteractionController.ts`：window 指標事件、時間校正阻尼、離開／失焦回正、動態偏好與事件清理。
+- `src/three/ScrollController.ts`：六個 ScrollTrigger、plain state 插值、停留距離、hash 導覽、resize 與 reduced-motion。
+- `src/three/PartAnimator.ts`：由 config 選擇零件動作，保存 rest transform、各自阻尼、固定順序與 stagger。
+- `src/three/ModelInstances.ts`：依 parent / geometry / material 合批，保留 named transform proxy，更新 instance matrix 與 bounds。
 - `src/three/Model.ts`：載入 GLB，依 PROJECT_SPEC 的 part groups 建 `parts` / `groups` 索引，保留原始 pivot，`setMaterialParam`。
 - `src/three/CameraController.ts`：Hero 取景（方位 −12°、仰角依 section）、窄螢幕自動拉遠並把模型放到下半部。
 - `src/three/config/`：`sections.ts`（SECTIONS.md 1:1）、`partGroups.ts`、`partAnimations.ts`（PROJECT_SPEC，Step 13 用）。全部是 plain object；材質參數沿用 `lightingConfig.ts` 的 `material`。
 - `src/landing.css`：版面與產品 UI 道具樣式；canvas `position: fixed; pointer-events: none`，section 疊在上面。
 
-開發用參數：`/?state=3` 直接套第 3 段的模型狀態（位置、旋轉、縮放、相機仰角，零件動畫未實作），`/?debug` 開調光面板。
+開發用參數：`/?state=3` 固定第 3 段的完成狀態（含零件），不綁 scroll；`/?debug` 開調光面板。
+僅 dev 模式的 `/?inspect` 提供唯讀 `window.__reefScene` 快照（狀態、實際角度、零件變換、draw calls），供測試與截圖腳本使用。
 `src/assets/final-concept-800.jpg` 是 `references/final-concept.png` 縮到 800 px 的版本，給第 2 段的輸入卡片用。
 
 ```bash
@@ -77,7 +81,7 @@ LANDING_STATES=2,3,4 bun run inspect:landing
 
 GLB 幾何、貼圖、階層與 transform 不變；瀏覽器將材質分成一般／珊瑚兩份，
 仍共用同一張色票。僅 Branch、Brain、Tube 珊瑚使用微量發光。
-模型檢視頁的陰影在載入和調光後更新；landing 另外在傾斜角度改變時刷新陰影，停止後不重算。
+模型檢視頁的陰影在載入和調光後更新；landing 另外在傾斜、section 狀態或零件變換改變時刷新陰影，停止後不重算。
 
 ## 滑鼠互動（Step 11）
 
@@ -96,6 +100,33 @@ bun run inspect:pointer          # 需另一個終端機跑 bun run dev
 
 輸出 `screenshots/pointer-*.png`（中性、四角、回正）與 `pointer-report.json`。
 使用實際 Chrome GPU，在持續移動指標、更新陰影與水光的情況下取樣 5 秒。
+
+## 捲動敘事與逐件動畫（Step 12–13）
+
+`ScrollController` 以每段一個 `scrub: true` ScrollTrigger tween 純數值物件。
+每個 `.story-step` 的區間從 top bottom 到 bottom bottom，與前後段銜接、不重疊。
+四個有 `partsOnEnter` 的 section 多出一個 viewport 的高度，以 CSS sticky 保持文案就位，
+先移動整座模型，再用停留距離播放零件；手機內容較高時，會先捲完內容才停留。
+reduced-motion 取消停留距離並直接套段落完成狀態，偏好切換、resize、字型載入都會重新計算。
+hash 連結以外層 wrapper 定位，避免 sticky 元素的位置影響導覽。
+
+`PartAnimator` 保留 rest transform，從 config 選擇 `stack / grow / path / orbit`，另有 `explode` 用來驗證換 mode。
+rocks 依 bounding box 高度由低至高進場，珊瑚與海草使用固定亂數順序；總 stagger 上限 0.8。
+每個零件使用自己的指數阻尼進度，曲線與向量在初始化準備；`t=0` 精確還原 transform。
+`hideAtDeparture` 讓指定群組在離場尾端縮小到不可見，魚群轉完 2π 後也能保持尚未進場的狀態。
+
+`ModelInstances` 在材質準備與取景後合批：相同 parent / geometry / material，至少四件才轉換。
+75 個零件形成 12 個 InstancedMesh，模型繪製物件 91 → 28。
+原 node 留在階層中作不可見代理，讓 group、名稱與原點索引仍可用；動畫更新代理後同步 instance matrix，並重算 bounds。
+固定視角含陰影的 `renderer.info.render.calls` 為 182 → 56，面數相同。
+
+```bash
+bun run inspect:scroll           # 需另一個終端機跑 bun run dev；需 dev 的 ?inspect 快照
+```
+
+輸出六段末態與四段中間態截圖、`scroll-contact-sheet.png`、`instances-before/after.png`、
+`scroll-mobile.png` 與 `scroll-report.json`。量測包含水光、陰影與零件動畫下的 5 秒完整往返捲動。
+Step 14 的靜態 fallback 尚未實作，手機目前仍使用 WebGL。
 
 ## 驗證
 
@@ -119,7 +150,9 @@ Landing page：六個 section 順序與標題、固定且不攔截指標的單�
 截圖在 `test-results/`，供人工視覺審查；這不是正式 mobile fallback 或效能 audit。
 
 `tests/pointer.spec.ts` 另外三項測試驗證阻尼、更新頻率一致性、角度上限、離開／失焦回正、
-停用模式、觸控裝置、非零 section 角度上的實際畫面變化、動態偏好即時切換、捲動及 nav；總計 13 項。
+停用模式、觸控裝置、非零 section 角度上的實際畫面變化、動態偏好即時切換、捲動及 nav。
+`tests/scroll.spec.ts` 三項涵蓋六段插值與停留、捲回 Hero 的精確還原、pointer 疊加、deep link、
+resize、動態偏好、清理，以及 instancing 前後 draw calls / transform / 像素誤差、換 mode 與 stagger；總計 **16 項**。
 
 在另一個終端機保持 `bun run dev` 運作，再執行：
 
@@ -135,8 +168,8 @@ p95 frame interval **16.8 ms**；詳細條件見 [lighting-report.json](screensh
 這是該硬體的短時間量測，不代表所有桌機／手機的效能。
 
 TypeScript 固定為 5.9.3，因為本次安裝的 TypeScript 7 與 vue-tsc 3.3.13 不相容。
-GSAP 依 roadmap 安裝，這一步尚未使用，也不會打包進頁面。
-目前主 JS 約 708 kB（gzip 約 188 kB），debug chunk 約 35.5 kB（gzip 約 10.1 kB）；
+GSAP 與 ScrollTrigger 已用於 landing page。
+Step 12–13 build：landing chunk 約 138 kB（gzip 約 54 kB）、共用 chunk 約 691 kB（gzip 約 184 kB），debug chunk 約 35.5 kB（gzip 約 10.1 kB）；
 Vite 仍會提示主 chunk 超過 500 kB，
 後續網站與效能階段再規劃載入策略。
 

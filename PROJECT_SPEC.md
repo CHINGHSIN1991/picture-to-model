@@ -59,6 +59,15 @@ mode 目錄與 `t`(departure:0 = rest,1 = 離開狀態)的定義見 [roadmap/13]
 哪個 section 用哪個 group 的哪個 `t`,寫在 `mockups/SECTIONS.md`(Step 09)。
 `explode` mode 在 Step 09 確認沒有任何 section 需要,已移除;`boulders` 全程 `t = 0`,與沙地一起當錨。
 
+Step 12–13 實作補充（`web/src/three/config/partAnimations.ts`）：
+
+- `spring` 使用時間校正的指數阻尼：rocks 5、corals / kelp / fish 6、diver 4；每個零件分別追蹤進度。
+- rocks 的底部原點皆在沙面，`order: height` 以零件 bounding box 上緣排序，確保低岩先到、主峰最後到。
+- `stagger` 按進場進度排序；總延遲上限 0.8，避免 35 株珊瑚 × 0.03 讓動畫區間歸零。random order 以名稱固定 seed。
+- rocks / diver / fish 設 `hideAtDeparture: true`：最後 15% 的離場進度縮小至不可見。尤其魚群轉完 2π 會回到原位，需此設定才能符合前幾段「尚未進場」的畫面。
+- `PartAnimator` 額外提供 `explode` 供換 mode 驗證；正式 sections 沒有使用。Idle 與選配點擊回饋尚未實作。
+- 重複件同 parent / geometry / material 且至少四件時合批；原 named node 留作不可見 transform proxy，instance 使用同一個 local matrix，保留原點與階層。
+
 ### Idle(時間驅動,不經 scroll,不經 PartAnimator)
 
 | 對象 | 做法 |
@@ -80,3 +89,7 @@ mode 目錄與 `t`(departure:0 = rest,1 = 離開狀態)的定義見 [roadmap/13]
 共 **6 個 section**:Hero、上傳、建模、調光、互動、CTA;四個流程段各用一個零件 mode 演示(stack / grow / path / orbit)。
 每段的模型位置、累計旋轉(0° → −360°,繞一圈)、縮放、相機仰角與零件 `t` 寫在 [mockups/SECTIONS.md](mockups/SECTIONS.md);
 Step 10 的元件名稱、Step 12 的 `config/sections.ts` 都從那裡來。
+
+Step 12 已接上六個 ScrollTrigger：每段以自己的 plain state 插值，區間不重疊；四個流程段各增加一個 viewport 的停留距離。
+CSS sticky 保持文案就位，這段距離只播放 `partsOnEnter → parts`；段落間改變整體位置、角度、縮放、相機與珊瑚 emissive。
+減少動態效果時移除停留距離，以最接近視窗中央的段落直接切換完整狀態。`?state=N` 保留固定預覽，不綁 scroll。

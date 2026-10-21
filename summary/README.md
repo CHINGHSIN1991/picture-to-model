@@ -18,7 +18,9 @@ roadmap 是「該怎麼做」,這裡是「實際做了什麼、結果如何、�
 | 09 | [網站 Mockup](09-website-mockup.md) | 完成 | 平台產品頁;三張 HTML 合成候選,選定編輯排版;SECTIONS.md 定 6 段與繞行一圈的零件狀態 |
 | 10 | [網站實作](10-implement-website.md) | 完成 | 固定 canvas + 六個 section 元件，Three/Vue 分離，config 皆 plain object，十項測試通過 |
 | 11 | [滑鼠跟隨互動](11-pointer-interaction.md) | 完成 | 微幅傾斜、阻尼回正、動態偏好與觸控停用，13 項瀏覽器測試通過 |
-| 12–17 | Web 後續階段 | 未開始 | — |
+| 12 | [Scroll 敘事](12-scroll-storytelling.md) | 完成 | 六段可逆插值、四段停留、視角／發光／零件狀態與 reduced-motion |
+| 13 | [逐件動畫與 instancing](13-decomposable-model.md) | 完成（Step 12 前置依賴） | 四種零件動畫，75 個重複件合成 12 批，固定視角含陰影 draw calls 182 → 56 |
+| 14–17 | Web 後續階段 | 未開始 | — |
 
 ## 跨 step 的共同 takeaway
 

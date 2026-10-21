@@ -172,7 +172,20 @@ Build 與 13 項瀏覽器測試通過，包含不同更新頻率、回正、捲�
 - [Step 11 總結與截圖](summary/11-pointer-interaction.md)
 - [互動截圖與效能腳本](web/scripts/inspect-pointer.mjs)：`cd web && bun run inspect:pointer`（需先啟動 dev server）
 
-下一步為 Step 12：Scroll 驅動的敘事動畫。
+## 捲動敘事與逐件動畫（Step 12–13）
+
+模型隨六段內容左右移動、旋轉一整圈，並依序演示岩層堆起、珊瑚／海草長出、潛水員下潛與魚群環繞。
+Step 12 依 roadmap 先完成 Step 13 的 PartAnimator 與 instancing 前置依賴。
+四個流程段各停留一個 viewport 播放零件動畫；往回捲動可逆，減少動態效果時直接切換段落狀態。
+
+75 個重複零件合成 12 批，可見模型繪製物件由 91 降至 28；固定測試視角包含陰影的 draw calls 由 182 降至 56，面數不變。
+Build 與 16 項瀏覽器測試通過；Apple M4 / Metal 在完整往返捲動的 5 秒量測約 60 FPS。
+
+- [Step 12 總結](summary/12-scroll-storytelling.md) · [Step 13 總結](summary/13-decomposable-model.md)
+- [六段畫面總覽](web/screenshots/scroll-contact-sheet.png) · [效能與狀態報告](web/screenshots/scroll-report.json)
+- 重跑截圖：`cd web && bun run inspect:scroll`（需先啟動 dev server）
+
+下一步為 Step 14：手機靜態圖 fallback。
 
 ## 原則
 
