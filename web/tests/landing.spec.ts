@@ -86,3 +86,22 @@ test('shows an actionable message when the GLB request fails', async ({ page }) 
   // The copy still reads without the scene.
   await expect(page.locator('#cta h2')).toBeVisible()
 })
+
+test('shows the WebP hero while the GLB is pending, then reveals a rendered scene', async ({ page }, testInfo) => {
+  let release!: () => void
+  const pending = new Promise<void>((resolve) => { release = resolve })
+  await page.route('**/models/reef.glb', async (route) => {
+    await pending
+    await route.continue()
+  })
+  await page.goto('/?mode=live&inspect')
+  const still = page.locator('.stage .still img')
+  await expect(page.locator('.site')).toHaveAttribute('data-state', 'loading')
+  await expect(still).toBeVisible()
+  await expect.poll(() => still.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true)
+  await page.screenshot({ path: testInfo.outputPath('progressive-loading.png') })
+  release()
+  await expect(page.locator('.site')).toHaveAttribute('data-state', 'ready')
+  expect(await page.evaluate(() => (window as any).__reefScene.rendering.frames)).toBeGreaterThan(0)
+  await expect(page.locator('.stage .still')).toHaveCount(0)
+})

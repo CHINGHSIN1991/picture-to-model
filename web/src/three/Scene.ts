@@ -164,7 +164,11 @@ export function mountScene(container: HTMLElement, options: SceneOptions = {}): 
       })
     }
     initialized = true
-    if (!paused) renderer.setAnimationLoop(frame)
+    if (!paused) {
+      // The Vue ready state can reveal the canvas only after a complete first frame.
+      draw(0)
+      renderer.setAnimationLoop(frame)
+    }
   }).catch((error: unknown) => {
     dispose()
     throw error

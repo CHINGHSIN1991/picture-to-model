@@ -24,6 +24,10 @@ img { display: block; max-width: 100%; height: auto; }
 /* Step 14 still: fills the stage like the canvas; portrait keeps the reef at the bottom, as the hero framing does. */
 .stage .still, .stage .still img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .stage .still img { object-fit: cover; object-position: 50% 100%; transform-origin: 50% 85%; }
+.stage .still { z-index: 1; }
+.scene-still-leave-active { transition: opacity .2s ease; }
+.scene-still-leave-to { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .scene-still-leave-active { transition: none; } }
 @media (orientation: landscape) { .stage .still img { object-position: 50% 50%; } }
 /* A CSS-only drift stands in for the scroll-driven camera; it stays off under reduced motion. */
 @supports (animation-timeline: scroll()) {

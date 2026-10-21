@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import concept from '../assets/final-concept-800.jpg'
+import concept from '../assets/final-concept-800.webp'
 </script>
 
 <template>
@@ -7,7 +7,7 @@ import concept from '../assets/final-concept-800.jpg'
     <span class="num" aria-hidden="true">01</span>
     <figure class="prop input">
       <figcaption class="label">輸入 · 概念圖</figcaption>
-      <img :src="concept" width="800" height="600" alt="示範用的珊瑚礁概念圖">
+      <img :src="concept" width="800" height="600" loading="lazy" decoding="async" alt="示範用的珊瑚礁概念圖">
       <span class="arrow" aria-hidden="true" />
     </figure>
     <div class="copy right">

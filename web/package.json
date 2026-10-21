@@ -17,7 +17,11 @@
     "render:fallback": "node scripts/render-fallback.mjs",
     "inspect:fallback": "node scripts/inspect-fallback.mjs",
     "inspect:visibility": "node scripts/inspect-visibility.mjs",
-    "inspect:resolution": "node scripts/inspect-resolution.mjs"
+    "inspect:resolution": "node scripts/inspect-resolution.mjs",
+    "audit:performance": "node scripts/audit-performance.mjs",
+    "audit:lighthouse": "node scripts/audit-lighthouse.mjs",
+    "audit:visual": "node scripts/audit-visual.mjs",
+    "encode:concept": "node scripts/encode-concept.mjs"
   },
   "dependencies": {
     "gsap": "3.15.0",
@@ -30,6 +34,7 @@
     "@types/stats.js": "0.17.4",
     "@types/three": "0.186.0",
     "@vitejs/plugin-vue": "6.0.10",
+    "lighthouse": "13.5.0",
     "lil-gui": "0.21.0",
     "stats.js": "0.17.0",
     "typescript": "5.9.3",

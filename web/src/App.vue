@@ -31,7 +31,9 @@ const sectionComponents = [HeroSection, UploadSection, ModelSection, ControlsSec
 <template>
   <div class="site" :data-state="status" :data-mode="mode" :data-mode-reason="reason">
     <div ref="stage" class="stage" aria-hidden="true">
-      <FallbackStill v-if="mode === 'static'" />
+      <Transition name="scene-still">
+        <FallbackStill v-if="mode === 'static' || status !== 'ready'" />
+      </Transition>
     </div>
     <p v-if="status === 'error'" class="scene-error" role="alert">{{ message }}</p>
     <SiteNav />

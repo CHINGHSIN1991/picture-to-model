@@ -1,0 +1,330 @@
+{
+  "stage": "after",
+  "measuredAt": "2026-10-21T06:28:55.876Z",
+  "baseUrl": "http://127.0.0.1:4180",
+  "browser": "155.0.8059.85",
+  "revision": "5a97163b191155de2d90192efbad18eb1a6f9dd5",
+  "method": "Vite production preview, fresh contexts, unthrottled real GPU; 5-second RAF windows after warmup with actual WebGL draw calls including shadow passes. ResourceTiming includes headers; gzip/Brotli inventory is potential compression, not served compression. Desktop screenshot uses forced live + reduced motion for stable comparisons.",
+  "downloads": [
+    {
+      "mode": "live",
+      "resources": [
+        {
+          "path": "/assets/index-CNx40CZS.css",
+          "transferBytes": 2775,
+          "encodedBytes": 2475,
+          "decodedBytes": 7354
+        },
+        {
+          "path": "/assets/index-D2SkjV4I.js",
+          "transferBytes": 5974,
+          "encodedBytes": 5674,
+          "decodedBytes": 13216
+        },
+        {
+          "path": "/assets/lightingConfig-DsNdu0xf.js",
+          "transferBytes": 28442,
+          "encodedBytes": 28142,
+          "decodedBytes": 72039
+        },
+        {
+          "path": "/fallback/hero-landscape@2x.webp",
+          "transferBytes": 137330,
+          "encodedBytes": 137030,
+          "decodedBytes": 137030
+        },
+        {
+          "path": "/assets/Scene-DEdWSm70.js",
+          "transferBytes": 4849,
+          "encodedBytes": 4549,
+          "decodedBytes": 11217
+        },
+        {
+          "path": "/assets/partGroups-DFzVzHKx.js",
+          "transferBytes": 723,
+          "encodedBytes": 423,
+          "decodedBytes": 423
+        },
+        {
+          "path": "/assets/ScrollController-0iGUfsaD.js",
+          "transferBytes": 45771,
+          "encodedBytes": 45471,
+          "decodedBytes": 117549
+        },
+        {
+          "path": "/assets/framing-BrX4qul-.js",
+          "transferBytes": 157454,
+          "encodedBytes": 157154,
+          "decodedBytes": 625693
+        },
+        {
+          "path": "/assets/final-concept-800-B2l7GP6F.webp",
+          "transferBytes": 79552,
+          "encodedBytes": 79252,
+          "decodedBytes": 79252
+        },
+        {
+          "path": "/models/reef.glb",
+          "transferBytes": 625568,
+          "encodedBytes": 625268,
+          "decodedBytes": 625268
+        }
+      ],
+      "navigation": [
+        {
+          "transferBytes": 1070,
+          "encodedBytes": 770
+        }
+      ],
+      "name": "desktop-live",
+      "threeDRequests": [
+        "/assets/Scene-DEdWSm70.js",
+        "/assets/framing-BrX4qul-.js",
+        "/assets/ScrollController-0iGUfsaD.js",
+        "/models/reef.glb"
+      ],
+      "transferredBytes": 1089508
+    },
+    {
+      "mode": "static",
+      "resources": [
+        {
+          "path": "/assets/index-D2SkjV4I.js",
+          "transferBytes": 5974,
+          "encodedBytes": 5674,
+          "decodedBytes": 13216
+        },
+        {
+          "path": "/assets/index-CNx40CZS.css",
+          "transferBytes": 2775,
+          "encodedBytes": 2475,
+          "decodedBytes": 7354
+        },
+        {
+          "path": "/assets/lightingConfig-DsNdu0xf.js",
+          "transferBytes": 28442,
+          "encodedBytes": 28142,
+          "decodedBytes": 72039
+        },
+        {
+          "path": "/fallback/hero-portrait@2x.webp",
+          "transferBytes": 33734,
+          "encodedBytes": 33434,
+          "decodedBytes": 33434
+        },
+        {
+          "path": "/assets/final-concept-800-B2l7GP6F.webp",
+          "transferBytes": 79552,
+          "encodedBytes": 79252,
+          "decodedBytes": 79252
+        }
+      ],
+      "navigation": [
+        {
+          "transferBytes": 1070,
+          "encodedBytes": 770
+        }
+      ],
+      "image": "http://127.0.0.1:4180/fallback/hero-portrait@2x.webp",
+      "name": "phone-static",
+      "threeDRequests": [],
+      "transferredBytes": 151547
+    },
+    {
+      "mode": "static",
+      "resources": [
+        {
+          "path": "/assets/index-D2SkjV4I.js",
+          "transferBytes": 5974,
+          "encodedBytes": 5674,
+          "decodedBytes": 13216
+        },
+        {
+          "path": "/assets/index-CNx40CZS.css",
+          "transferBytes": 2775,
+          "encodedBytes": 2475,
+          "decodedBytes": 7354
+        },
+        {
+          "path": "/assets/lightingConfig-DsNdu0xf.js",
+          "transferBytes": 28442,
+          "encodedBytes": 28142,
+          "decodedBytes": 72039
+        },
+        {
+          "path": "/fallback/hero-landscape@2x.webp",
+          "transferBytes": 137330,
+          "encodedBytes": 137030,
+          "decodedBytes": 137030
+        },
+        {
+          "path": "/assets/final-concept-800-B2l7GP6F.webp",
+          "transferBytes": 79552,
+          "encodedBytes": 79252,
+          "decodedBytes": 79252
+        }
+      ],
+      "navigation": [
+        {
+          "transferBytes": 1070,
+          "encodedBytes": 770
+        }
+      ],
+      "image": "http://127.0.0.1:4180/fallback/hero-landscape@2x.webp",
+      "name": "desktop-reduced",
+      "threeDRequests": [],
+      "transferredBytes": 255143
+    }
+  ],
+  "rendering": [
+    {
+      "moving": false,
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+      "css": [
+        1440,
+        900
+      ],
+      "buffer": [
+        2160,
+        1350
+      ],
+      "dpr": 1.5,
+      "sampledFrames": 301,
+      "activeFrames": 301,
+      "averageFps": 60.00199342170837,
+      "p95FrameMs": 16.799999999999272,
+      "calls": {
+        "min": 29,
+        "median": 29,
+        "max": 29
+      },
+      "triangles": {
+        "min": 49422,
+        "median": 49422,
+        "max": 49422
+      }
+    },
+    {
+      "moving": true,
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+      "css": [
+        1440,
+        900
+      ],
+      "buffer": [
+        2160,
+        1350
+      ],
+      "dpr": 1.5,
+      "sampledFrames": 301,
+      "activeFrames": 301,
+      "averageFps": 60.00318953831433,
+      "p95FrameMs": 16.700000000000728,
+      "calls": {
+        "min": 46,
+        "median": 56,
+        "max": 56
+      },
+      "triangles": {
+        "min": 87394,
+        "median": 98074,
+        "max": 98074
+      }
+    }
+  ],
+  "inventory": [
+    {
+      "name": "Scene-DEdWSm70.js",
+      "bytes": 11217,
+      "gzipBytes": 4549,
+      "brotliBytes": 4152,
+      "sha256": "fd2a4e03f7da81cde723efbd6877ce25f8087d13d8d13569a371f3259dafec1a"
+    },
+    {
+      "name": "ScrollController-0iGUfsaD.js",
+      "bytes": 117549,
+      "gzipBytes": 45471,
+      "brotliBytes": 40982,
+      "sha256": "a2be6b3a6ff1b07db0f484adc1c9ea1e588e198fb8b6eece5b3811fe88eb1a01"
+    },
+    {
+      "name": "createLightingDebug-CAERbnsN.js",
+      "bytes": 35515,
+      "gzipBytes": 10130,
+      "brotliBytes": 8823,
+      "sha256": "a4199d053e58cf8c68de7089fa4ad381069cba1b7a6a811f1cbf39f8107c8eb4"
+    },
+    {
+      "name": "final-concept-800-B2l7GP6F.webp",
+      "bytes": 79252,
+      "gzipBytes": 79146,
+      "brotliBytes": 79257,
+      "sha256": "485ca59f7302538922c6ac1002248aa86263533e371128b9f0b1c37833be3508"
+    },
+    {
+      "name": "framing-BrX4qul-.js",
+      "bytes": 625693,
+      "gzipBytes": 157154,
+      "brotliBytes": 127863,
+      "sha256": "25110181428ef365f68cbc5fb06b2942383bcf3a8a7b6586c6df22ad6476c50e"
+    },
+    {
+      "name": "index-CNx40CZS.css",
+      "bytes": 7354,
+      "gzipBytes": 2475,
+      "brotliBytes": 2141,
+      "sha256": "8ec177195b97ca0445abf1148cba5368ce03fc4aaa664d720e1db6796decfa69"
+    },
+    {
+      "name": "index-D2SkjV4I.js",
+      "bytes": 13216,
+      "gzipBytes": 5674,
+      "brotliBytes": 4818,
+      "sha256": "b9f65ded24130d84ac7e292700122ea90316fdd0ce9f733461ab7f32f87908f0"
+    },
+    {
+      "name": "lightingConfig-DsNdu0xf.js",
+      "bytes": 72039,
+      "gzipBytes": 28142,
+      "brotliBytes": 25554,
+      "sha256": "bc106d92d417a354e53174895bff668718d3ab8fb7782304ce6b47f6b980341e"
+    },
+    {
+      "name": "partGroups-DFzVzHKx.js",
+      "bytes": 423,
+      "gzipBytes": 261,
+      "brotliBytes": 229,
+      "sha256": "03ce34b4752aaec6503cf5bf8bedd97c182c4c2c18fd1569967d506547fa6c9c"
+    },
+    {
+      "name": "viewer-BgggmcvX.js",
+      "bytes": 23848,
+      "gzipBytes": 6510,
+      "brotliBytes": 5761,
+      "sha256": "f595ae3f4b01f2d15874b210c20c0ea9dbf6858a2f865626c9d921329ae1bf07"
+    },
+    {
+      "name": "viewer-CUn9HMc2.css",
+      "bytes": 1034,
+      "gzipBytes": 538,
+      "brotliBytes": 420,
+      "sha256": "92ba46332061ecbd9d4196d8b6f9afac131b4e81c50753c942a0499838600bba"
+    }
+  ],
+  "glb": {
+    "bytes": 625268,
+    "gzipBytes": 265851,
+    "sha256": "0abac7e125dc80f48b6c6c23b81fe5fe865725f3d6936e78903f6c36380cd2a5",
+    "triangles": 49420,
+    "materials": 1,
+    "textures": [
+      {
+        "mimeType": "image/png",
+        "embeddedBytes": 338,
+        "width": 64,
+        "height": 64
+      }
+    ]
+  },
+  "errors": []
+}
