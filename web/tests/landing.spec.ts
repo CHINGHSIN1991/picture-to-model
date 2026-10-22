@@ -3,12 +3,12 @@ import { createHash } from 'node:crypto'
 
 // mockups/SECTIONS.md: six sections, in order, each with its own component and heading.
 const sections = [
-  { id: 'hero', heading: '一張圖,變成會動的3D 網站' },
-  { id: 'upload', heading: '從一張圖開始' },
-  { id: 'model', heading: '每個零件都是程式碼' },
-  { id: 'controls', heading: '材質、光線、相機,全是設定檔' },
-  { id: 'interaction', heading: '放進網站,就會動' },
-  { id: 'cta', heading: '用你的下一張圖試試看' },
+  { id: 'hero', heading: '潛下去,看見另一個世界' },
+  { id: 'upload', heading: '從一座礁開始' },
+  { id: 'model', heading: '每一趟都照你安排' },
+  { id: 'controls', heading: '從體驗潛,到進階證照' },
+  { id: 'interaction', heading: '下水之後,才是開始' },
+  { id: 'cta', heading: '下一個假期,來潛水' },
 ]
 const checksum = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex')
 
@@ -40,7 +40,7 @@ test('renders every section over one fixed, non-interactive canvas with the mode
     expect((await heading.innerText()).replace(/\s+/g, '')).toBe(section.heading.replace(/\s+/g, ''))
   }
   await expect(page.locator('#upload img')).toBeVisible()
-  await expect(page.locator('#controls .prop.panel')).toContainText('曝光')
+  await expect(page.locator('#controls .prop.panel')).toContainText('Open Water')
   await page.waitForTimeout(500)
   await page.screenshot({ path: testInfo.outputPath('hero.png') })
   const buffer = await page.locator('canvas').evaluate((canvas: HTMLCanvasElement) => [canvas.width, canvas.height])
@@ -52,7 +52,7 @@ test('renders every section over one fixed, non-interactive canvas with the mode
   expect(await page.locator('canvas').evaluate((canvas: HTMLCanvasElement) => [canvas.width, canvas.height])).toEqual(buffer)
   await page.screenshot({ path: testInfo.outputPath('cta.png') })
   // Nav links reach their sections.
-  await page.locator('.nav a', { hasText: '調光' }).click()
+  await page.locator('.nav a', { hasText: '課程' }).click()
   await expect.poll(async () => (await page.locator('#controls').boundingBox())!.y).toBeLessThan(2)
   expect(errors).toEqual([])
   await context.close()

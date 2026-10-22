@@ -94,7 +94,7 @@ test('renders tilt on top of a nonzero section rotation, returns to neutral, and
   await page.mouse.move(1000, 700)
   await page.mouse.wheel(0, 600)
   await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(300)
-  await page.locator('.nav a', { hasText: '調光' }).click()
+  await page.locator('.nav a', { hasText: '課程' }).click()
   await expect.poll(async () => (await page.locator('#controls').boundingBox())!.y).toBeLessThan(2)
 })
 

@@ -1,11 +1,12 @@
 <script setup lang="ts">
+// Highlighted chips are included in every trip; the rest are add-ons.
 const features = [
-  { label: 'scroll 敘事', on: true },
-  { label: '游標跟隨', on: true },
-  { label: '逐件動畫', on: true },
-  { label: '手機 fallback', on: false },
-  { label: '離開畫面暫停', on: false },
-  { label: 'DPR 上限', on: false },
+  { label: '夜潛', on: true },
+  { label: '水下攝影', on: true },
+  { label: '裝備全包', on: true },
+  { label: '自由潛水', on: false },
+  { label: '船宿行程', on: false },
+  { label: '私人教練', on: false },
 ]
 </script>
 
@@ -14,9 +15,9 @@ const features = [
     <span class="num right" aria-hidden="true">04</span>
     <div class="copy">
       <span class="rule" aria-hidden="true" />
-      <p class="eyebrow">04 · 互動</p>
-      <h2 id="interaction-title">放進網站,<br>就會動</h2>
-      <p class="lede">捲動時模型穿過頁面,零件依設定堆起、長出、環繞;游標跟隨、手機靜態 fallback、離開畫面暫停,全部內建。</p>
+      <p class="eyebrow">04 · 體驗</p>
+      <h2 id="interaction-title">下水之後,<br>才是開始</h2>
+      <p class="lede">夜潛看螢光珊瑚、放流潛水跟著洋流走、教練幫你拍水下照片。裝備、保險、船班全包,亮起的項目每趟都有,其餘可加購。</p>
       <ul class="prop chips">
         <li v-for="feature in features" :key="feature.label" :class="{ on: feature.on }">{{ feature.label }}</li>
       </ul>

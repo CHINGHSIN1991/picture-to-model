@@ -3,20 +3,20 @@
     <span class="num right" aria-hidden="true">02</span>
     <div class="copy">
       <span class="rule" aria-hidden="true" />
-      <p class="eyebrow">02 · 建模</p>
-      <h2 id="model-title">每個零件<br>都是程式碼</h2>
-      <p class="lede">模型不是一次性的 .blend,而是能從空場景重建的 Python。說「珊瑚再多一點」,平台改程式、重生成、重新匯出,網頁自動更新。</p>
+      <p class="eyebrow">02 · 行程</p>
+      <h2 id="model-title">每一趟<br>都照你安排</h2>
+      <p class="lede">三天兩夜四潛加夜潛,或單日體驗。告訴我們假期長度與想看的生物,行程、住宿、船班一次排好,出發前只要帶泳衣。</p>
       <dl class="stats">
-        <div><dt>零件</dt><dd>91</dd></div>
-        <div><dt>材質</dt><dd>1</dd></div>
-        <div><dt>GLB</dt><dd>0.6 MB</dd></div>
+        <div><dt>潛點</dt><dd>12</dd></div>
+        <div><dt>教練</dt><dd>6</dd></div>
+        <div><dt>成團</dt><dd>2 人</dd></div>
       </dl>
       <figure class="prop code">
-        <figcaption class="label">model.spec.json</figcaption>
-        <pre><code><span class="k">"corals"</span>: { <span class="k">"count"</span>: <span class="n">35</span>, <span class="k">"variants"</span>: <span class="n">5</span>,
-            <span class="k">"mode"</span>: <span class="s">"grow"</span> },
-<span class="k">"kelp"</span>:   { <span class="k">"count"</span>: <span class="n">16</span>, <span class="k">"mode"</span>: <span class="s">"grow"</span> },
-<span class="k">"palette"</span>: <span class="s">"64x64"</span></code></pre>
+        <figcaption class="label">trip.plan</figcaption>
+        <pre><code><span class="k">"天數"</span>: <span class="n">3</span>, <span class="k">"潛次"</span>: <span class="n">6</span>,
+<span class="k">"夜潛"</span>: <span class="s">"第二晚"</span>,
+<span class="k">"住宿"</span>: <span class="s">"海景民宿"</span>,
+<span class="k">"接送"</span>: <span class="s">"含機場"</span></code></pre>
       </figure>
     </div>
   </section>

@@ -69,7 +69,7 @@ test('supports deep links, resize, reduced motion changes, and scoped cleanup', 
   await expect.poll(async () => (await snapshot(page)).state.rotation[1]).toBeCloseTo(-160, 1)
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await expect(page.locator('.story-hold')).toHaveCount(0)
-  await page.locator('.nav a', { hasText: '建模' }).click()
+  await page.locator('.nav a', { hasText: '行程' }).click()
   await expect.poll(async () => (await snapshot(page)).state).toEqual(sections[2])
   const parts = (await snapshot(page)).parts
   await page.waitForTimeout(200)
